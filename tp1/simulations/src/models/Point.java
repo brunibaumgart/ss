@@ -16,6 +16,11 @@ public class Point {
         return y;
     }
 
+    public Double distanceTo(Point other) {
+        // TODO: Chequear también el radio
+        return Math.sqrt(Math.pow(this.x - other.x, 2) + Math.pow(this.y - other.y, 2));
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

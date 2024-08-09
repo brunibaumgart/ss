@@ -2,17 +2,15 @@ package methods;
 
 import models.Cell;
 import models.particle.IdentifiableParticle;
-import models.particle.Particle;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CellIndexMethod {
     private final Cell[][] grid;
 
     /**
-     * @param M number of cells in the grid
-     * @param L length of the box
+     * @param M         number of cells in the grid
+     * @param L         length of the box
      * @param particles list of particles
      */
     public CellIndexMethod(final Integer M,
@@ -33,8 +31,60 @@ public class CellIndexMethod {
         }
     }
 
-    public Map<Integer, List<Integer>> calculateNeighbors(){
-        return null;
+    public Map<IdentifiableParticle, List<IdentifiableParticle>> calculateNeighbors(final Double rc) {
+        final Map<IdentifiableParticle, List<IdentifiableParticle>> neighbors = new HashMap<>();
+
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                final List<Cell> neighbouringCells = getNeighbouringCells(i, j);
+
+                for (IdentifiableParticle particle : grid[i][j].getParticles()) {
+                    for (Cell cell : neighbouringCells) {
+                        final List<IdentifiableParticle> neighbouringParticles = getNeighbouringParticles(particle, cell, rc);
+                        // TODO: Aca habría que no chequear dos veces en la misma cell si son vecinos
+                        for (IdentifiableParticle neighbourParticle : neighbouringParticles) {
+                            neighbors.computeIfAbsent(particle, k -> new ArrayList<>()).add(neighbourParticle);
+                            neighbors.computeIfAbsent(neighbourParticle, k -> new ArrayList<>()).add(particle);
+                        }
+                    }
+                }
+            }
+        }
+
+        return neighbors;
+    }
+
+    private List<Cell> getNeighbouringCells(int i, int j) {
+        final Cell thisCell = grid[i][j];
+        final Cell topCell = grid[(i + 1) % grid.length][j];
+        final Cell diagonalTopRightCell = grid[(i + 1) % grid.length][(j + 1) % grid[i].length];
+        final Cell rightCell = grid[i][(j + 1) % grid[i].length];
+        final Cell diagonalBottomRightCell = grid[(i - 1 + grid[i].length) % grid.length][(j + 1) % grid[i].length];
+
+
+        final List<Cell> result = new ArrayList<>();
+        result.add(thisCell);
+        result.add(topCell);
+        result.add(diagonalTopRightCell);
+        result.add(rightCell);
+        result.add(diagonalBottomRightCell);
+
+        return Collections.unmodifiableList(result);
+    }
+
+    private List<IdentifiableParticle> getNeighbouringParticles(IdentifiableParticle particle, Cell cell, Double rc) {
+        final List<IdentifiableParticle> result = new ArrayList<>();
+        for (IdentifiableParticle p : cell.getParticles()) {
+            if (p.getId() != particle.getId() && isNeighbour(particle, p, rc)) {
+                result.add(p);
+            }
+        }
+
+        return Collections.unmodifiableList(result);
+    }
+
+    private boolean isNeighbour(IdentifiableParticle particle, IdentifiableParticle neighbourParticle, Double rc) {
+        return particle.getPosition().distanceTo(neighbourParticle.getPosition()) <= rc;
     }
 
     public Cell[][] getGrid() {
