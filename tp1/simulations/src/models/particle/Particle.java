@@ -1,6 +1,8 @@
-package models;
+package models.particle;
 
-public class Particle {
+import models.Point;
+
+public class Particle implements IParticle {
     private final Point position;
 
     private final Double radius;

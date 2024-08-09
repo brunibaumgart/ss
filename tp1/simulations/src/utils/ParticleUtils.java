@@ -1,11 +1,11 @@
 package utils;
 
-import models.Particle;
+import models.particle.IdentifiableParticle;
+import models.particle.Particle;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class ParticleUtils {
     private ParticleUtils() {
@@ -20,8 +20,8 @@ public class ParticleUtils {
      *
      * @return list of particles
      */
-    public static List<Particle> createParticles(final int N, final Double L, final Double r) {
-        final List<Particle> particles = new ArrayList<>();
+    public static List<IdentifiableParticle> createParticles(final int N, final Double L, final Double r) {
+        final List<IdentifiableParticle> particles = new ArrayList<>();
         final Random random = new Random();
 
         for (int i = 0; i < N; i++) {
@@ -29,12 +29,14 @@ public class ParticleUtils {
             double y =  random.nextDouble() * L;
 
             Particle p = new Particle(x, y, r);
-            while (particles.contains(p)) {
+            IdentifiableParticle ip = new IdentifiableParticle(p, i);
+            while (particles.contains(ip)) {
                 x = random.nextDouble() * L;
                 y = random.nextDouble() * L;
-                p = new Particle(x, y, r);
+                ip = new IdentifiableParticle(new Particle(x, y, r), i);
             }
-            particles.add(p);
+
+            particles.add(ip);
         }
 
         return particles;
