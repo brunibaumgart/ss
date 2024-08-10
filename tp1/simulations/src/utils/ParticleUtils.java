@@ -1,7 +1,7 @@
 package utils;
 
-import models.particle.IdentifiableParticle;
-import models.particle.Particle;
+import models.IdentifiableParticle;
+import models.Point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +14,10 @@ public class ParticleUtils {
 
     /**
      * Create particles in the space without overlapping
+     *
      * @param N number of particles
      * @param L length of the box
      * @param r radius of the particles
-     *
      * @return list of particles
      */
     public static List<IdentifiableParticle> createParticles(final int N, final Double L, final Double r) {
@@ -25,15 +25,14 @@ public class ParticleUtils {
         final Random random = new Random();
 
         for (int i = 0; i < N; i++) {
-            double x =  random.nextDouble() * L;
-            double y =  random.nextDouble() * L;
+            double x = random.nextDouble() * L;
+            double y = random.nextDouble() * L;
 
-            Particle p = new Particle(x, y, r);
-            IdentifiableParticle ip = new IdentifiableParticle(p, i);
+            IdentifiableParticle ip = new IdentifiableParticle(i, new Point(x, y), r);
             while (particles.contains(ip)) {
                 x = random.nextDouble() * L;
                 y = random.nextDouble() * L;
-                ip = new IdentifiableParticle(new Particle(x, y, r), i);
+                ip = new IdentifiableParticle(i, new Point(x, y), r);
             }
 
             particles.add(ip);

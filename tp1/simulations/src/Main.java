@@ -1,5 +1,5 @@
 import methods.CellIndexMethod;
-import models.particle.IdentifiableParticle;
+import models.IdentifiableParticle;
 import utils.ParticleUtils;
 
 import java.util.Arrays;
@@ -36,12 +36,12 @@ public class Main {
             }
         }
 
-        Map<IdentifiableParticle, List<IdentifiableParticle>> neighbors =  cim.calculateNeighbors(rc);
+        Map<IdentifiableParticle, List<IdentifiableParticle>> neighbors = cim.calculateNeighbors(rc);
 
         System.out.println("-----------------------------");
         System.out.println("Neighbours: ");
         neighbors.forEach((particle, neighbourParticles) -> {
-            System.out.println("Particle: " + particle.getId());
+            System.out.println("Particle: " + particle.id());
             System.out.println("Neighbours: " + Arrays.toString(neighbourParticles.toArray()));
         });
 

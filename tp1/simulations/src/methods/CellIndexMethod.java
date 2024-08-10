@@ -1,7 +1,7 @@
 package methods;
 
 import models.Cell;
-import models.particle.IdentifiableParticle;
+import models.IdentifiableParticle;
 
 import java.util.*;
 
@@ -25,8 +25,8 @@ public class CellIndexMethod {
         }
 
         for (IdentifiableParticle particle : particles) {
-            final int x = (int) (particle.getPosition().getX() / (L / M));
-            final int y = (int) (particle.getPosition().getY() / (L / M));
+            final int x = (int) (particle.position().getX() / (L / M));
+            final int y = (int) (particle.position().getY() / (L / M));
             this.grid[x][y].addParticle(particle);
         }
     }
@@ -75,7 +75,7 @@ public class CellIndexMethod {
     private List<IdentifiableParticle> getNeighbouringParticles(IdentifiableParticle particle, Cell cell, Double rc) {
         final List<IdentifiableParticle> result = new ArrayList<>();
         for (IdentifiableParticle p : cell.getParticles()) {
-            if (p.getId() != particle.getId() && isNeighbour(particle, p, rc)) {
+            if (p.id() != particle.id() && isNeighbour(particle, p, rc)) {
                 result.add(p);
             }
         }
@@ -84,7 +84,7 @@ public class CellIndexMethod {
     }
 
     private boolean isNeighbour(IdentifiableParticle particle, IdentifiableParticle neighbourParticle, Double rc) {
-        return particle.getPosition().distanceTo(neighbourParticle.getPosition()) <= rc;
+        return particle.position().distanceTo(neighbourParticle.position()) <= rc;
     }
 
     public Cell[][] getGrid() {

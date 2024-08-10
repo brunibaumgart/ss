@@ -1,7 +1,5 @@
 package models;
 
-import models.particle.IdentifiableParticle;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

@@ -1,23 +1,10 @@
-package models.particle;
+package models;
 
-import models.Point;
+public record IdentifiableParticle(int id, Point position, Double radius) {
 
-public class Particle implements IParticle {
-    private final Point position;
-
-    private final Double radius;
-
-    public Particle(Double x, Double y, Double radius) {
-        this.position = new Point(x, y);
-        this.radius = radius;
-    }
-
-    public Point getPosition() {
-        return position;
-    }
-
-    public Double getRadius() {
-        return radius;
+    @Override
+    public int hashCode() {
+        return id;
     }
 
     /**
@@ -32,10 +19,14 @@ public class Particle implements IParticle {
             return false;
         }
 
-        Particle other = (Particle) obj;
-        if(this.position.equals(other.position))
+        IdentifiableParticle other = (IdentifiableParticle) obj;
+        if (this.position.equals(other.position))
             return true;
 
+        return this.collidesWith(other);
+    }
+
+    private boolean collidesWith(IdentifiableParticle other) {
         // Calculamos la distancia entre los centros de las partículas
         double distance = Math.sqrt(Math.pow(this.position.getX() - other.position.getX(), 2)
                 + Math.pow(this.position.getY() - other.position.getY(), 2));
@@ -46,6 +37,6 @@ public class Particle implements IParticle {
 
     @Override
     public String toString() {
-        return String.format("Particle{position=%s, radius=%.2f}", position, radius);
+        return String.format("Particle{id=%s, position=%s, radius=%.2f}", id, position, radius);
     }
 }
