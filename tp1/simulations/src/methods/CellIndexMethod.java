@@ -58,12 +58,16 @@ public class CellIndexMethod {
     }
 
     private List<Cell> getNeighbouringCells(int i, int j) {
-        final Cell thisCell = grid[i][j];
-        final Cell topCell = grid[(i + 1) % grid.length][j];
-        final Cell diagonalTopRightCell = grid[(i + 1) % grid.length][(j + 1) % grid[i].length];
-        final Cell rightCell = grid[i][(j + 1) % grid[i].length];
-        final Cell diagonalBottomRightCell = grid[(i - 1 + grid[i].length) % grid.length][(j + 1) % grid[i].length];
+        // the grid is square so we can use grid.length because it's the same as grid[i].length
+        final int top = (i + 1) % grid.length;
+        final int right = (j + 1) % grid.length;
+        final int bottom = (i - 1 + grid.length) % grid.length;
 
+        final Cell thisCell = grid[i][j];
+        final Cell topCell = grid[top][j];
+        final Cell diagonalTopRightCell = grid[top][right];
+        final Cell rightCell = grid[i][right];
+        final Cell diagonalBottomRightCell = grid[bottom][right];
 
         final List<Cell> result = new ArrayList<>();
         result.add(thisCell);
