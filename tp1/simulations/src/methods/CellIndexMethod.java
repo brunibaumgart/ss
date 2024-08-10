@@ -41,8 +41,11 @@ public class CellIndexMethod {
                 for (IdentifiableParticle particle : grid[i][j].getParticles()) {
                     for (Cell cell : neighbouringCells) {
                         final List<IdentifiableParticle> neighbouringParticles = getNeighbouringParticles(particle, cell, rc);
-                        // TODO: Aca habría que no chequear dos veces en la misma cell si son vecinos
                         for (IdentifiableParticle neighbourParticle : neighbouringParticles) {
+                            if(neighbors.containsKey(particle) && neighbors.get(particle).contains(neighbourParticle)) {
+                                continue;
+                            }
+
                             neighbors.computeIfAbsent(particle, k -> new ArrayList<>()).add(neighbourParticle);
                             neighbors.computeIfAbsent(neighbourParticle, k -> new ArrayList<>()).add(particle);
                         }
