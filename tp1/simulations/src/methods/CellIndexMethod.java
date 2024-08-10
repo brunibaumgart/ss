@@ -25,8 +25,8 @@ public class CellIndexMethod {
         }
 
         for (IdentifiableParticle particle : particles) {
-            final int x = (int) (particle.position().getX() / (L / M));
-            final int y = (int) (particle.position().getY() / (L / M));
+            final int x = (int) (particle.position().x() / (L / M));
+            final int y = (int) (particle.position().y() / (L / M));
             this.grid[x][y].addParticle(particle);
         }
     }

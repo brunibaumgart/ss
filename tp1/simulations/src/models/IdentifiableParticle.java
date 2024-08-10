@@ -28,8 +28,8 @@ public record IdentifiableParticle(int id, Point position, Double radius) {
 
     private boolean collidesWith(IdentifiableParticle other) {
         // Calculamos la distancia entre los centros de las partículas
-        double distance = Math.sqrt(Math.pow(this.position.getX() - other.position.getX(), 2)
-                + Math.pow(this.position.getY() - other.position.getY(), 2));
+        double distance = Math.sqrt(Math.pow(this.position.x() - other.position.x(), 2)
+                + Math.pow(this.position.y() - other.position.y(), 2));
 
         // Verificamos si la distancia es menor o igual a la suma de los radios
         return distance <= (this.radius + other.radius);
