@@ -7,6 +7,19 @@ public record IdentifiableParticle(int id, Point position, Double radius) {
         return this.position().distanceTo(other.position()) - this.radius() - other.radius();
     }
 
+    public double getPeriodicDistanceTo(IdentifiableParticle particle, Double L) {
+        // https://math.stackexchange.com/a/1364646
+        double dx = Math.abs(this.position().x() - particle.position().x());
+        if (dx > L / 2)
+            dx = L - dx;
+
+        double dy = Math.abs(this.position().y() - particle.position().y());
+        if (dy > L / 2)
+            dy = L - dy;
+
+        return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+    }
+
     @Override
     public int hashCode() {
         return id;

@@ -6,6 +6,8 @@ import models.IdentifiableParticle;
 import java.util.*;
 
 public class CellIndexMethod {
+    private final Integer M;
+    private final Double L;
     private final Cell[][] grid;
 
     /**
@@ -17,6 +19,8 @@ public class CellIndexMethod {
                            final Double L,
                            final List<IdentifiableParticle> particles
     ) {
+        this.M = M;
+        this.L = L;
         this.grid = new Cell[M][M];
         for (int i = 0; i < M; i++) {
             for (int j = 0; j < M; j++) {
@@ -91,7 +95,7 @@ public class CellIndexMethod {
     }
 
     private boolean isNeighbour(IdentifiableParticle particle, IdentifiableParticle neighbourParticle, Double rc) {
-        return particle.distanceTo(neighbourParticle) <= rc;
+        return particle.getPeriodicDistanceTo(neighbourParticle, this.L) <= rc;
     }
 
     public Cell[][] getGrid() {
