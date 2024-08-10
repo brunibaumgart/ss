@@ -2,6 +2,11 @@ package models;
 
 public record IdentifiableParticle(int id, Point position, Double radius) {
 
+    public double distanceTo(IdentifiableParticle other) {
+        // https://stackoverflow.com/a/5509234
+        return this.position().distanceTo(other.position()) - this.radius() - other.radius();
+    }
+
     @Override
     public int hashCode() {
         return id;

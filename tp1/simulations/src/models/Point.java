@@ -3,7 +3,6 @@ package models;
 public record Point(Double x, Double y) {
 
     public Double distanceTo(Point other) {
-        // TODO: Chequear también el radio
         return Math.sqrt(Math.pow(this.x - other.x, 2) + Math.pow(this.y - other.y, 2));
     }
 

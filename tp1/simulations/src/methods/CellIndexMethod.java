@@ -91,7 +91,7 @@ public class CellIndexMethod {
     }
 
     private boolean isNeighbour(IdentifiableParticle particle, IdentifiableParticle neighbourParticle, Double rc) {
-        return particle.position().distanceTo(neighbourParticle.position()) <= rc;
+        return particle.distanceTo(neighbourParticle) <= rc;
     }
 
     public Cell[][] getGrid() {
