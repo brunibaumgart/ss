@@ -28,12 +28,11 @@ public class Main {
         // Hacemos el metodo que toque (CIM ó FUERZA BRUTA)
         CellIndexMethod cim = new CellIndexMethod(M, L, particles);
 
-        System.out.println("Grid:");
-        for(int i = 0; i < M; i++) {
-            for(int j = 0; j < M; j++) {
-                System.out.println("Cell: " + i + j);
-                // Print particles with position
-                System.out.println(Arrays.toString(cim.getGrid()[i][j].getParticles().stream().map(p -> p.getId() + " " + p.getPosition()).toArray()));
+        // Imprimir grid
+        System.out.println("Grid: ");
+        for (int i = 0; i < M; i++) {
+            for (int j = 0; j < M; j++) {
+                System.out.println(cim.getGrid()[i][j]);
             }
         }
 

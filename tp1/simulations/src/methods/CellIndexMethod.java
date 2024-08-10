@@ -20,7 +20,7 @@ public class CellIndexMethod {
         this.grid = new Cell[M][M];
         for (int i = 0; i < M; i++) {
             for (int j = 0; j < M; j++) {
-                this.grid[i][j] = new Cell();
+                this.grid[i][j] = new Cell(i, j);
             }
         }
 
