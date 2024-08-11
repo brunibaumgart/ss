@@ -1,54 +1,65 @@
-import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Define parameters
-M = 10  # Size of the grid cells
-L = 7  # Side length of the area (adjust as needed)
+def read_data_file(file_path):
+    particles = []
+    with open(file_path, 'r') as file:
+        next(file)
+        next(file)
 
-# Load data into a DataFrame
-data = {
-    'id': range(30),
-    'x': [1.76, 2.23, 5.83, 3.86, 1.00, 1.67, 6.92, 6.11, 6.81, 0.50,
-          6.20, 2.04, 6.04, 0.07, 0.79, 4.58, 2.40, 5.49, 3.60, 0.98,
-          2.95, 6.71, 4.64, 0.01, 2.47, 5.39, 5.47, 6.31, 3.09, 3.25],
-    'y': [4.21, 6.25, 4.87, 6.24, 2.48, 0.54, 4.88, 6.08, 5.86, 6.03,
-          2.16, 0.97, 3.03, 0.86, 1.35, 6.52, 5.20, 2.32, 4.51, 3.99,
-          3.74, 3.81, 6.98, 5.09, 4.86, 3.30, 5.77, 2.37, 1.27, 3.60],
-    'neighbours': [[], [], [], [], [], [], [23], [], [], [],
-                   [27], [], [12], [], [22], [24], [], [], [], [29],
-                   [], [15], [6], [16], [], [], [], [10], [], [20]]
-}
-df = pd.DataFrame(data)
+        for line in file:
+            particle_id, x, y, neighbours = line.strip().split()
 
-# Plot the points
-plt.figure(figsize=(10, 8))
-plt.scatter(df['x'], df['y'], c='blue', label='Particles')
+            cleaned_str = neighbours.strip('[]').split()
+            neighbours_array = list(map(int, cleaned_str))
 
-# Plot the connections based on neighbors
-for index, row in df.iterrows():
-    x1, y1 = row['x'], row['y']
-    for neighbor_id in row['neighbours']:
-        neighbor = df[df['id'] == neighbor_id].iloc[0]
-        x2, y2 = neighbor['x'], neighbor['y']
-        plt.plot([x1, x2], [y1, y2], 'k--', alpha=0.6)  # dashed line
+            x = x.replace(',', '.')
+            y = y.replace(',', '.')
+            particles.append((int(particle_id), float(x), float(y), neighbours_array))
+    return particles
 
-# Overlay the grid
-size_M = 4
-for i in range(0, size_M, M):
-    plt.axvline(i, color='gray', linestyle='--', linewidth=0.5)
-    plt.axhline(i, color='gray', linestyle='--', linewidth=0.5)
 
-# Set labels and title
-plt.xlabel('X Coordinate')
-plt.ylabel('Y Coordinate')
-plt.title(f'Particle Plot with Neighbors and {M}x{M} Grid')
-plt.legend()
-plt.grid(True)
+def visualize_particles(particles, L, M, selected_particle_id):
 
-# Set axis limits to fit the grid nicely
-plt.xlim(0, L)
-plt.ylim(0, L)
+    neighbours = particles[selected_particle_id][3]
 
-# Display the plot
-plt.show()
+    fig = plt.figure()
+    ax = fig.add_subplot(1, 1, 1)
+
+    major_ticks = np.arange(0, L + 1, L/M)
+
+    ax.set_xticks(major_ticks)
+    ax.set_yticks(major_ticks)
+
+    x_values = [p[1] for p in particles]
+    y_values = [p[2] for p in particles]
+    ids = [p[0] for p in particles]
+
+    ax.set(xlim=(0, L+1), ylim=(0, L+1))
+
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.set_title('Partículas')
+
+    for i, id in enumerate(ids):
+        ax.text(x_values[i], y_values[i], str(id), fontsize=9, ha='right')
+        if id == selected_particle_id:
+            ax.scatter(x_values[i], y_values[i], c="green")
+            #ax.scatter(x_values[i], y_values[i], edgecolor='black', facecolor='none', s=100)
+        elif id in neighbours:
+            ax.scatter(x_values[i], y_values[i], c="red")
+        else:
+            ax.scatter(x_values[i], y_values[i], c="blue")
+
+    ax.grid(True)
+
+    plt.show()
+
+file_path = '../../simulations/src/main/resources/positions.txt'
+
+particles = read_data_file(file_path)
+
+L = 20
+M = 5
+
+visualize_particles(particles, L, M, 9)
