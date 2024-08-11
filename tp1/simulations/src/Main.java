@@ -22,14 +22,14 @@ public class Main {
         int N = 30;
         double L = 7.00;
         double r = 0.1;
-        boolean isPeriodic = false;
+        boolean isPeriodic = true;
 
         // Generar particulas (sin que se pisen)
         final List<Particle> particles = ParticleUtils.createParticles(N, L, r);
 
         // Hacemos el metodo que toque (CIM ó FUERZA BRUTA)
         final CellIndexMethod cim = new CellIndexMethod(M, L, isPeriodic, particles);
-        final BruteForceMethod bfm = new BruteForceMethod(particles);
+        final BruteForceMethod bfm = new BruteForceMethod(L, isPeriodic, particles);
 
         // Calcular vecinos
         final Map<Particle, List<Particle>> neighborsCIM = cim.calculateNeighbors(rc);

@@ -7,7 +7,6 @@ import java.util.*;
 
 public class CellIndexMethod implements IMethod {
     private final boolean isPeriodic;
-    private final Integer M;
     private final Double L;
     private final Cell[][] grid;
 
@@ -21,7 +20,6 @@ public class CellIndexMethod implements IMethod {
                            final boolean isPeriodic,
                            final List<Particle> particles
     ) {
-        this.M = M;
         this.L = L;
         this.isPeriodic = isPeriodic;
         this.grid = new Cell[M][M];
