@@ -42,7 +42,7 @@ public class ParticleUtils {
     }
 
     public static List<Particle> createParticles(final int N, final Double L, List<Double> radius) {
-        if(radius.size() != N)
+        if (radius.size() != N)
             throw new IllegalArgumentException("The number of particles must be the same as the number of radius");
 
         final List<Particle> particles = new ArrayList<>();

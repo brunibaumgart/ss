@@ -1,39 +1,42 @@
 import methods.BruteForceMethod;
 import methods.CellIndexMethod;
+import models.Parameters;
 import models.Particle;
+import utils.ArgumentHandlerUtils;
 import utils.ParticleUtils;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.System.exit;
+
 public class Main {
+    private static final String PARAMETERS_FILE = "cim.json";
+
     public static void main(String[] args) {
-        /*
-        Parsear parametros
-        Parámetros:
-            - N number of Particles
-            - L length of the box
-            - rc cutoff radius
-            - M -> MxM grid
-         */
-        double rc = 0.5;
-        int M = 4;
-        int N = 30;
-        double L = 7.00;
-        double r = 0.1;
-        boolean isPeriodic = true;
+        // Get parameters from cim.json
+        final Parameters parameters;
+        try {
+            parameters = ArgumentHandlerUtils.getParameters(PARAMETERS_FILE);
+        } catch (IOException e) {
+            System.out.println("Error reading parameters file");
+            e.printStackTrace();
+            exit(1);
+            return;
+        }
 
         // Generar particulas (sin que se pisen)
-        final List<Particle> particles = ParticleUtils.createParticles(N, L, r);
+        final List<Particle> particles = ParticleUtils.createParticles(parameters.getN(), parameters.getL(), parameters.getR());
 
         // Hacemos el metodo que toque (CIM ó FUERZA BRUTA)
-        final CellIndexMethod cim = new CellIndexMethod(M, L, isPeriodic, particles);
-        final BruteForceMethod bfm = new BruteForceMethod(L, isPeriodic, particles);
+        final CellIndexMethod cim = new CellIndexMethod(parameters.getM(), parameters.getL(), parameters.isPeriodic(), particles);
+        final BruteForceMethod bfm = new BruteForceMethod(parameters.getL(), parameters.isPeriodic(), particles);
 
         // Calcular vecinos
-        final Map<Particle, List<Particle>> neighborsCIM = cim.calculateNeighbors(rc);
-        final Map<Particle, List<Particle>> neighborsBFM = bfm.calculateNeighbors(rc);
+        final Map<Particle, List<Particle>> neighborsCIM = cim.calculateNeighbors(parameters.getRc());
+        final Map<Particle, List<Particle>> neighborsBFM = bfm.calculateNeighbors(parameters.getRc());
 
         // Imprimir resultados
         System.out.println("--------------");
