@@ -1,3 +1,4 @@
+import methods.BruteForceMethod;
 import methods.CellIndexMethod;
 import models.Particle;
 import utils.ParticleUtils;
@@ -27,25 +28,20 @@ public class Main {
         final List<Particle> particles = ParticleUtils.createParticles(N, L, r);
 
         // Hacemos el metodo que toque (CIM ó FUERZA BRUTA)
-        CellIndexMethod cim = new CellIndexMethod(M, L, isPeriodic, particles);
+        final CellIndexMethod cim = new CellIndexMethod(M, L, isPeriodic, particles);
+        final BruteForceMethod bfm = new BruteForceMethod(particles);
 
-        // Imprimir grid
-        System.out.println("Grid: ");
-        for (int i = 0; i < M; i++) {
-            for (int j = 0; j < M; j++) {
-                System.out.println(cim.getGrid()[i][j]);
-            }
-        }
-
-        Map<Particle, List<Particle>> neighbors = cim.calculateNeighbors(rc);
-
-        System.out.println("-----------------------------");
-        System.out.println("Neighbours: ");
-        neighbors.forEach((particle, neighbourParticles) -> {
-            System.out.println("Particle: " + particle.id());
-            System.out.println("Neighbours: " + Arrays.toString(neighbourParticles.toArray()));
-        });
+        // Calcular vecinos
+        final Map<Particle, List<Particle>> neighborsCIM = cim.calculateNeighbors(rc);
+        final Map<Particle, List<Particle>> neighborsBFM = bfm.calculateNeighbors(rc);
 
         // Imprimir resultados
+        System.out.println("--------------");
+        System.out.println("Neighbors CIM");
+        neighborsCIM.forEach((k, v) -> System.out.println(k.id() + " -> " + Arrays.toString(v.stream().map(Particle::id).toArray())));
+
+        System.out.println("--------------");
+        System.out.println("Neighbors BFM");
+        neighborsBFM.forEach((k, v) -> System.out.println(k.id() + " -> " + Arrays.toString(v.stream().map(Particle::id).toArray())));
     }
 }

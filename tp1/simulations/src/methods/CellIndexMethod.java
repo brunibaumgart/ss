@@ -5,7 +5,7 @@ import models.Particle;
 
 import java.util.*;
 
-public class CellIndexMethod {
+public class CellIndexMethod implements IMethod {
     private final boolean isPeriodic;
     private final Integer M;
     private final Double L;
@@ -49,7 +49,7 @@ public class CellIndexMethod {
                     for (Cell cell : neighbouringCells) {
                         final List<Particle> neighbouringParticles = getNeighbouringParticles(particle, cell, rc);
                         for (Particle neighbourParticle : neighbouringParticles) {
-                            if(neighbors.containsKey(particle) && neighbors.get(particle).contains(neighbourParticle)) {
+                            if (neighbors.containsKey(particle) && neighbors.get(particle).contains(neighbourParticle)) {
                                 continue;
                             }
 
