@@ -7,7 +7,7 @@ public record Particle(int id, Point position, Double radius) {
         return this.position().distanceTo(other.position()) - this.radius() - other.radius();
     }
 
-    public double getPeriodicDistanceTo(Particle particle, Double L) {
+    public double periodicDistanceTo(Particle particle, Double L) {
         // https://math.stackexchange.com/a/1364646
         double dx = Math.abs(this.position().x() - particle.position().x());
         if (dx > L / 2)

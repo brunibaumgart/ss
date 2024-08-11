@@ -21,12 +21,13 @@ public class Main {
         int N = 30;
         double L = 7.00;
         double r = 0.1;
+        boolean isPeriodic = false;
 
         // Generar particulas (sin que se pisen)
         final List<Particle> particles = ParticleUtils.createParticles(N, L, r);
 
         // Hacemos el metodo que toque (CIM ó FUERZA BRUTA)
-        CellIndexMethod cim = new CellIndexMethod(M, L, particles);
+        CellIndexMethod cim = new CellIndexMethod(M, L, isPeriodic, particles);
 
         // Imprimir grid
         System.out.println("Grid: ");
