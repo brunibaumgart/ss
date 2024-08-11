@@ -1,0 +1,9 @@
+{
+  "rc": "double: cutoff radius",
+  "m": "int: number of cells per side",
+  "n": "int: number of particles",
+  "l": "double: box size",
+  "r": "double: particle radius",
+  "periodic": "boolean: periodic boundary conditions",
+  "method": "string: method to use, either 'cim' or 'bfm'"
+}

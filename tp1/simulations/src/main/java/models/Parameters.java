@@ -7,17 +7,19 @@ public class Parameters {
     private int M;
     private double r;
     private boolean isPeriodic;
+    private String method;
 
     public Parameters() {
     }
 
-    public Parameters(int n, double l, double rc, int m, double r, boolean isPeriodic) {
+    public Parameters(int n, double l, double rc, int m, double r, boolean isPeriodic, String method) {
         this.N = n;
         this.L = l;
         this.rc = rc;
         this.M = m;
         this.r = r;
         this.isPeriodic = isPeriodic;
+        this.method = method;
     }
 
     public int getN() {
@@ -66,5 +68,13 @@ public class Parameters {
 
     public void setPeriodic(boolean periodic) {
         isPeriodic = periodic;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
     }
 }

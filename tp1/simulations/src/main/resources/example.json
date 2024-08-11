@@ -4,5 +4,6 @@
   "n": 30,
   "l": 7.0,
   "r": 0.1,
-  "periodic": true
+  "periodic": true,
+  "method": "bfm"
 }

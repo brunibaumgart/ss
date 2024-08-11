@@ -1,22 +1,24 @@
+import constants.FilePaths;
 import methods.BruteForceMethod;
 import methods.CellIndexMethod;
 import models.Parameters;
 import models.Particle;
 import utils.ArgumentHandlerUtils;
+import utils.OutputUtils;
 import utils.ParticleUtils;
 
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import static java.lang.System.exit;
 
 public class Main {
-    private static final String PARAMETERS_FILE = "cim.json";
+    private static final String PARAMETERS_FILE = "example.json";
 
     public static void main(String[] args) {
-        // Get parameters from cim.json
+        // Get parameters from example.json
         final Parameters parameters;
         try {
             parameters = ArgumentHandlerUtils.getParameters(PARAMETERS_FILE);
@@ -27,24 +29,52 @@ public class Main {
             return;
         }
 
-        // Generar particulas (sin que se pisen)
+        // Generate particles without overlapping
         final List<Particle> particles = ParticleUtils.createParticles(parameters.getN(), parameters.getL(), parameters.getR());
 
-        // Hacemos el metodo que toque (CIM ó FUERZA BRUTA)
-        final CellIndexMethod cim = new CellIndexMethod(parameters.getM(), parameters.getL(), parameters.isPeriodic(), particles);
-        final BruteForceMethod bfm = new BruteForceMethod(parameters.getL(), parameters.isPeriodic(), particles);
+        // Execute method (CIM or BFM)
+        final long startTime, endTime;
+        final Map<Particle, List<Particle>> neighbors;
+        if(parameters.getMethod().equalsIgnoreCase("CIM")) {
+            final CellIndexMethod cim = new CellIndexMethod(parameters.getM(), parameters.getL(), parameters.isPeriodic(), particles);
 
-        // Calcular vecinos
-        final Map<Particle, List<Particle>> neighborsCIM = cim.calculateNeighbors(parameters.getRc());
-        final Map<Particle, List<Particle>> neighborsBFM = bfm.calculateNeighbors(parameters.getRc());
+            startTime = System.currentTimeMillis();
+            neighbors = cim.calculateNeighbors(parameters.getRc());
+            endTime = System.currentTimeMillis();
+        } else if (parameters.getMethod().equalsIgnoreCase("BFM")) {
+            final BruteForceMethod bfm = new BruteForceMethod(parameters.getL(), parameters.isPeriodic(), particles);
 
-        // Imprimir resultados
-        System.out.println("--------------");
-        System.out.println("Neighbors CIM");
-        neighborsCIM.forEach((k, v) -> System.out.println(k.id() + " -> " + Arrays.toString(v.stream().map(Particle::id).toArray())));
+            startTime = System.currentTimeMillis();
+            neighbors = bfm.calculateNeighbors(parameters.getRc());
+            endTime = System.currentTimeMillis();
+        } else {
+            throw new IllegalArgumentException("Method must be `cim` or `bfm`");
+        }
 
-        System.out.println("--------------");
-        System.out.println("Neighbors BFM");
-        neighborsBFM.forEach((k, v) -> System.out.println(k.id() + " -> " + Arrays.toString(v.stream().map(Particle::id).toArray())));
+        final long timeElapsed = endTime - startTime;
+
+        // Print results
+        try {
+            final FileWriter idWriter = new FileWriter(FilePaths.OUTPUT_DIR + "output.txt");
+            final FileWriter positionWriter = new FileWriter(FilePaths.OUTPUT_DIR + "positions.txt");
+
+            // output.txt
+            OutputUtils.printTime(idWriter, timeElapsed);
+            OutputUtils.printIdsHeader(idWriter);
+            // positions.txt
+            OutputUtils.printTime(positionWriter, timeElapsed);
+            OutputUtils.printPositionsHeader(positionWriter);
+
+            for(Particle particle : particles) {
+                final List<Particle> pNeighbors = neighbors.get(particle);
+
+                OutputUtils.printIds(idWriter, particle, pNeighbors);
+                OutputUtils.printPositions(positionWriter, particle, pNeighbors);
+            }
+        } catch (IOException e) {
+            System.out.println("Error writing output file");
+            e.printStackTrace();
+            exit(1);
+        }
     }
 }
