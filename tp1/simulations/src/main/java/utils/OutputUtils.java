@@ -53,7 +53,12 @@ public class OutputUtils {
     }
 
     public static void printTime(FileWriter writer, long time) throws IOException {
-        writer.write(String.format("%d ms\n", time));
+        writer.write(String.format("%d\n", time));
+        writer.flush();
+    }
+
+    public static void printTime(FileWriter writer, int N, long time) throws IOException {
+        writer.write(String.format("%d %d\n", N, time));
         writer.flush();
     }
 }

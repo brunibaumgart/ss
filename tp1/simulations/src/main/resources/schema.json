@@ -5,5 +5,7 @@
   "l": "double: box size",
   "r": "double: particle radius",
   "periodic": "boolean: periodic boundary conditions",
-  "method": "string: method to use, either 'cim' or 'bfm'"
+  "method": "string: method to use, either 'cim' or 'bfm'",
+  "runs": "int: number of runs. If it is 1, then we give the positions of particles. If it is greater than 1, we just give the times of the runs and the number of particles is increased by `steps` each time.",
+  "steps": "int: number of particles to increase in each step"
 }

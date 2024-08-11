@@ -8,6 +8,8 @@ public class Parameters {
     private double r;
     private boolean isPeriodic;
     private String method;
+    private int runs;
+    private int steps;
 
     public Parameters() {
     }
@@ -76,5 +78,21 @@ public class Parameters {
 
     public void setMethod(String method) {
         this.method = method;
+    }
+
+    public int getRuns() {
+        return runs;
+    }
+
+    public void setRuns(int runs) {
+        this.runs = runs;
+    }
+
+    public int getSteps() {
+        return steps;
+    }
+
+    public void setSteps(int steps) {
+        this.steps = steps;
     }
 }
