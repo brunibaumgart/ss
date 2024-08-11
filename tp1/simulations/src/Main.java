@@ -1,5 +1,5 @@
 import methods.CellIndexMethod;
-import models.IdentifiableParticle;
+import models.Particle;
 import utils.ParticleUtils;
 
 import java.util.Arrays;
@@ -23,7 +23,7 @@ public class Main {
         double r = 0.1;
 
         // Generar particulas (sin que se pisen)
-        final List<IdentifiableParticle> particles = ParticleUtils.createParticles(N, L, r);
+        final List<Particle> particles = ParticleUtils.createParticles(N, L, r);
 
         // Hacemos el metodo que toque (CIM ó FUERZA BRUTA)
         CellIndexMethod cim = new CellIndexMethod(M, L, particles);
@@ -36,7 +36,7 @@ public class Main {
             }
         }
 
-        Map<IdentifiableParticle, List<IdentifiableParticle>> neighbors = cim.calculateNeighbors(rc);
+        Map<Particle, List<Particle>> neighbors = cim.calculateNeighbors(rc);
 
         System.out.println("-----------------------------");
         System.out.println("Neighbours: ");

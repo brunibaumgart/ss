@@ -1,6 +1,6 @@
 package utils;
 
-import models.IdentifiableParticle;
+import models.Particle;
 import models.Point;
 
 import java.util.ArrayList;
@@ -20,19 +20,19 @@ public class ParticleUtils {
      * @param r radius of the particles
      * @return list of particles
      */
-    public static List<IdentifiableParticle> createParticles(final int N, final Double L, final Double r) {
-        final List<IdentifiableParticle> particles = new ArrayList<>();
+    public static List<Particle> createParticles(final int N, final Double L, final Double r) {
+        final List<Particle> particles = new ArrayList<>();
         final Random random = new Random();
 
         for (int i = 0; i < N; i++) {
             double x = random.nextDouble() * L;
             double y = random.nextDouble() * L;
 
-            IdentifiableParticle ip = new IdentifiableParticle(i, new Point(x, y), r);
+            Particle ip = new Particle(i, new Point(x, y), r);
             while (particles.contains(ip)) {
                 x = random.nextDouble() * L;
                 y = random.nextDouble() * L;
-                ip = new IdentifiableParticle(i, new Point(x, y), r);
+                ip = new Particle(i, new Point(x, y), r);
             }
 
             particles.add(ip);

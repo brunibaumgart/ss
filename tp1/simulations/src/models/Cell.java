@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Cell {
     private final int x, y;
-    private final List<IdentifiableParticle> particles;
+    private final List<Particle> particles;
 
     public Cell(int x, int y) {
         this.x = x;
@@ -14,18 +14,18 @@ public class Cell {
         this.particles = new ArrayList<>();
     }
 
-    public Cell(int x, int y, List<IdentifiableParticle> particles) {
+    public Cell(int x, int y, List<Particle> particles) {
         this.x = x;
         this.y = y;
         this.particles = new ArrayList<>();
         this.particles.addAll(particles);
     }
 
-    public void addParticle(IdentifiableParticle particle) {
+    public void addParticle(Particle particle) {
         this.particles.add(particle);
     }
 
-    public List<IdentifiableParticle> getParticles() {
+    public List<Particle> getParticles() {
         return Collections.unmodifiableList(this.particles);
     }
 

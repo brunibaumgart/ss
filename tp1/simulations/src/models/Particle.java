@@ -1,13 +1,13 @@
 package models;
 
-public record IdentifiableParticle(int id, Point position, Double radius) {
+public record Particle(int id, Point position, Double radius) {
 
-    public double distanceTo(IdentifiableParticle other) {
+    public double distanceTo(Particle other) {
         // https://stackoverflow.com/a/5509234
         return this.position().distanceTo(other.position()) - this.radius() - other.radius();
     }
 
-    public double getPeriodicDistanceTo(IdentifiableParticle particle, Double L) {
+    public double getPeriodicDistanceTo(Particle particle, Double L) {
         // https://math.stackexchange.com/a/1364646
         double dx = Math.abs(this.position().x() - particle.position().x());
         if (dx > L / 2)
@@ -37,14 +37,14 @@ public record IdentifiableParticle(int id, Point position, Double radius) {
             return false;
         }
 
-        IdentifiableParticle other = (IdentifiableParticle) obj;
+        Particle other = (Particle) obj;
         if (this.position.equals(other.position))
             return true;
 
         return this.collidesWith(other);
     }
 
-    private boolean collidesWith(IdentifiableParticle other) {
+    private boolean collidesWith(Particle other) {
         // Calculamos la distancia entre los centros de las partículas
         double distance = Math.sqrt(Math.pow(this.position.x() - other.position.x(), 2)
                 + Math.pow(this.position.y() - other.position.y(), 2));

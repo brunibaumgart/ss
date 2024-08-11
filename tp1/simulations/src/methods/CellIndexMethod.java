@@ -1,7 +1,7 @@
 package methods;
 
 import models.Cell;
-import models.IdentifiableParticle;
+import models.Particle;
 
 import java.util.*;
 
@@ -17,7 +17,7 @@ public class CellIndexMethod {
      */
     public CellIndexMethod(final Integer M,
                            final Double L,
-                           final List<IdentifiableParticle> particles
+                           final List<Particle> particles
     ) {
         this.M = M;
         this.L = L;
@@ -28,24 +28,24 @@ public class CellIndexMethod {
             }
         }
 
-        for (IdentifiableParticle particle : particles) {
+        for (Particle particle : particles) {
             final int x = (int) (particle.position().x() / (L / M));
             final int y = (int) (particle.position().y() / (L / M));
             this.grid[x][y].addParticle(particle);
         }
     }
 
-    public Map<IdentifiableParticle, List<IdentifiableParticle>> calculateNeighbors(final Double rc) {
-        final Map<IdentifiableParticle, List<IdentifiableParticle>> neighbors = new HashMap<>();
+    public Map<Particle, List<Particle>> calculateNeighbors(final Double rc) {
+        final Map<Particle, List<Particle>> neighbors = new HashMap<>();
 
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 final List<Cell> neighbouringCells = getNeighbouringCells(i, j);
 
-                for (IdentifiableParticle particle : grid[i][j].getParticles()) {
+                for (Particle particle : grid[i][j].getParticles()) {
                     for (Cell cell : neighbouringCells) {
-                        final List<IdentifiableParticle> neighbouringParticles = getNeighbouringParticles(particle, cell, rc);
-                        for (IdentifiableParticle neighbourParticle : neighbouringParticles) {
+                        final List<Particle> neighbouringParticles = getNeighbouringParticles(particle, cell, rc);
+                        for (Particle neighbourParticle : neighbouringParticles) {
                             if(neighbors.containsKey(particle) && neighbors.get(particle).contains(neighbourParticle)) {
                                 continue;
                             }
@@ -83,9 +83,9 @@ public class CellIndexMethod {
         return Collections.unmodifiableList(result);
     }
 
-    private List<IdentifiableParticle> getNeighbouringParticles(IdentifiableParticle particle, Cell cell, Double rc) {
-        final List<IdentifiableParticle> result = new ArrayList<>();
-        for (IdentifiableParticle p : cell.getParticles()) {
+    private List<Particle> getNeighbouringParticles(Particle particle, Cell cell, Double rc) {
+        final List<Particle> result = new ArrayList<>();
+        for (Particle p : cell.getParticles()) {
             if (p.id() != particle.id() && isNeighbour(particle, p, rc)) {
                 result.add(p);
             }
@@ -94,7 +94,7 @@ public class CellIndexMethod {
         return Collections.unmodifiableList(result);
     }
 
-    private boolean isNeighbour(IdentifiableParticle particle, IdentifiableParticle neighbourParticle, Double rc) {
+    private boolean isNeighbour(Particle particle, Particle neighbourParticle, Double rc) {
         return particle.getPeriodicDistanceTo(neighbourParticle, this.L) <= rc;
     }
 
