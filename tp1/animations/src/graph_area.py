@@ -52,6 +52,13 @@ def visualize_particles(particles, l, rc, r, m, selected_particle_id):
         if id == selected_particle_id:
             ax.scatter(x_values[i], y_values[i], c="green")
             ax.scatter(x_values[i], y_values[i], edgecolor='black', facecolor='none', s=size)
+            clipped_x = x_values[i]
+            clipped_y = y_values[i]
+            if x_values[i] + rc > l or x_values[i] -rc < 0:
+                clipped_x = np.abs(x_values[i] - np.diff(ax_limits))
+            if y_values[i] + rc > l or y_values[i] -rc < 0:
+                clipped_y = np.abs(y_values[i] - np.diff(ax.get_ylim()))
+            ax.scatter(clipped_x, clipped_y, edgecolor='black', facecolor='none', s=size)
         elif id in neighbours:
             ax.scatter(x_values[i], y_values[i], c="red")
         else:
@@ -70,4 +77,4 @@ rc = 1
 r = 0.25
 m = 5
 
-visualize_particles(particles, l, rc, r, m, 17)
+visualize_particles(particles, l, rc, r, m, 13)
