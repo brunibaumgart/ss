@@ -41,28 +41,35 @@ def visualize_particles(particles, l, rc, r, m, selected_particle_id):
     ax.set_ylabel('y')
     ax.set_title('Partículas')
 
-    area = np.pi * (rc ** 2)
     fig_size = fig.get_size_inches()
     ax_limits = ax.get_xlim()
+    ay_limits = ax.get_ylim()
+
     scale_factor = (fig_size[0] * 72.0 / np.diff(ax_limits)) ** 2
-    size = area * scale_factor
+
+    particle_area = np.pi * (r**2)
+    particle_size = particle_area * scale_factor
+
+    rc_area = np.pi * (rc ** 2)
+    rc_size = rc_area * scale_factor
 
     for i, id in enumerate(ids):
-        ax.text(x_values[i], y_values[i], str(id), fontsize=9, ha='right')
+        ax.text(x_values[i] +r, y_values[i] +r, str(id), fontsize=9, ha='left')
         if id == selected_particle_id:
-            ax.scatter(x_values[i], y_values[i], c="green")
-            ax.scatter(x_values[i], y_values[i], edgecolor='black', facecolor='none', s=size)
+            ax.scatter(x_values[i], y_values[i], c="green", s=particle_size)
+            ax.scatter(x_values[i], y_values[i], edgecolor='black', facecolor='none', s=rc_size)
             clipped_x = x_values[i]
             clipped_y = y_values[i]
             if x_values[i] + rc > l or x_values[i] -rc < 0:
-                clipped_x = np.abs(x_values[i] - np.diff(ax_limits))
+                clipped_x = np.abs(clipped_x - np.diff(ax_limits))
             if y_values[i] + rc > l or y_values[i] -rc < 0:
-                clipped_y = np.abs(y_values[i] - np.diff(ax.get_ylim()))
-            ax.scatter(clipped_x, clipped_y, edgecolor='black', facecolor='none', s=size)
+                clipped_y = np.abs(clipped_y - np.diff(ay_limits))
+            if clipped_x != x_values[i] or clipped_y != y_values[i]:
+                ax.scatter(clipped_x, clipped_y, edgecolor='black', facecolor='none', s=rc_size)
         elif id in neighbours:
-            ax.scatter(x_values[i], y_values[i], c="red")
+            ax.scatter(x_values[i], y_values[i], c="red", s=particle_size)
         else:
-            ax.scatter(x_values[i], y_values[i], c="blue")
+            ax.scatter(x_values[i], y_values[i], c="blue", s=particle_size)
 
     ax.grid(True)
 
@@ -77,4 +84,4 @@ rc = 1
 r = 0.25
 m = 5
 
-visualize_particles(particles, l, rc, r, m, 13)
+visualize_particles(particles, l, rc, r, m, 25)
