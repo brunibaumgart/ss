@@ -8,9 +8,9 @@ def read_data_file(file_path):
         next(file)
 
         for line in file:
-            particle_id, x, y, neighbours = line.strip().split()
+            particle_id, x, y, neighbours = line.split(" ", 3)
 
-            cleaned_str = neighbours.strip('[]').split()
+            cleaned_str = neighbours.strip("[]\n").split()
             neighbours_array = list(map(int, cleaned_str))
 
             x = x.replace(',', '.')
@@ -35,7 +35,7 @@ def visualize_particles(particles, l, rc, r, m, selected_particle_id):
     y_values = [p[2] for p in particles]
     ids = [p[0] for p in particles]
 
-    ax.set(xlim=(0, l+1), ylim=(0, l+1))
+    ax.set(xlim=(0, l), ylim=(0, l))
 
     ax.set_xlabel('x')
     ax.set_ylabel('y')
@@ -60,11 +60,16 @@ def visualize_particles(particles, l, rc, r, m, selected_particle_id):
             ax.scatter(x_values[i], y_values[i], edgecolor='black', facecolor='none', s=rc_size)
             clipped_x = x_values[i]
             clipped_y = y_values[i]
-            if x_values[i] + rc > l or x_values[i] -rc < 0:
-                clipped_x = np.abs(clipped_x - np.diff(ax_limits))
-            if y_values[i] + rc > l or y_values[i] -rc < 0:
-                clipped_y = np.abs(clipped_y - np.diff(ay_limits))
+            if x_values[i] -rc < 0:
+                clipped_x = clipped_x + np.diff(ax_limits)
+            if x_values[i] + rc > l:
+                clipped_x = clipped_x - np.diff(ax_limits)
+            if y_values[i] -rc < 0:
+                clipped_y = clipped_y + np.diff(ay_limits)
+            if y_values[i] + rc > l:
+                clipped_y = clipped_y - np.diff(ay_limits)
             if clipped_x != x_values[i] or clipped_y != y_values[i]:
+                print(clipped_x, clipped_y)
                 ax.scatter(clipped_x, clipped_y, edgecolor='black', facecolor='none', s=rc_size)
         elif id in neighbours:
             ax.scatter(x_values[i], y_values[i], c="red", s=particle_size)
@@ -79,9 +84,9 @@ file_path = '../../simulations/src/main/resources/positions.txt'
 
 particles = read_data_file(file_path)
 
-l = 20
+l = 40
 rc = 1
 r = 0.25
-m = 5
+m = 6
 
-visualize_particles(particles, l, rc, r, m, 25)
+visualize_particles(particles, l, rc, r, m, 33)
