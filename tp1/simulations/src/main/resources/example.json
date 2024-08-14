@@ -3,10 +3,10 @@
   "rc": 1,
   "r": 0.25,
   "m": 6,
-  "n": 50,
+  "n": 1000,
   "periodic": true,
   "method": "bfm",
-  "runs": 40,
+  "runs": 20,
   "steps": 25,
   "plotTimeVsN": true,
   "plotTimeVsM": true
