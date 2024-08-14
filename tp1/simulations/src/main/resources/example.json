@@ -1,11 +1,11 @@
 {
-  "l": 40.0,
-  "rc": 1,
+  "l": 20.0,
+  "rc": 3.33,
   "r": 0.25,
   "m": 6,
   "n": 50,
   "periodic": true,
-  "method": "cim",
-  "runs": 1,
+  "method": "bfm",
+  "runs": 40,
   "steps": 25
 }

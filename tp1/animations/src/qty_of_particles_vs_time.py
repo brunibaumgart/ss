@@ -1,28 +1,34 @@
+import json
+
 import matplotlib.pyplot as plt
-import pandas as pd
 
-from constants import FilePaths
+from constants.FilePaths import FILE_TIMES, FILE_EXAMPLE
 
-# Datos de ejemplo
-N = [10, 50, 100, 500, 1000]  # Número de partículas
-time = [0.5, 1.5, 3.0, 15.0, 30.0]  # Tiempo en segundos
 
-# Read the data from the space-separated file
-data = pd.read_csv(FilePaths.FILE_QTY_PARTICLES_VS_TIME, delimiter=' ', header=None, names=['N', 'time'])
+def read_times_file(file_path):
+    N = []
+    time = []
 
-# Crear la figura y el eje
-fig, ax = plt.subplots()
+    with open(file_path, 'r') as file:
+        for line in file:
+            parts = line.split()
+            N.append(float(parts[0]))
+            time.append(float(parts[1]))
 
-# Graficar los datos
-ax.plot(N, time, marker='o', linestyle='-', color='b')
+    return N, time
 
-# Configurar etiquetas
-ax.set_xlabel('Número de partículas (N)')
-ax.set_ylabel('Tiempo (segundos)')
-ax.set_title('Tiempo vs Número de partículas')
 
-# Mostrar la cuadrícula
-ax.grid(True)
+def plot_data(N, time, method):
+    plt.figure(figsize=(10, 6))
+    plt.plot(N, time, marker='o', linestyle='-', color='b')
+    plt.title('N vs Tiempo (Método ' + method + ')')
+    plt.xlabel('N')
+    plt.ylabel('Tiempo (en ms)')
+    plt.grid(True)
+    plt.show()
 
-# Mostrar la gráfica
-plt.show()
+N, time = read_times_file(FILE_TIMES)
+with open(FILE_EXAMPLE, 'r') as f:
+    config = json.load(f)
+
+plot_data(N, time, config['method'])
