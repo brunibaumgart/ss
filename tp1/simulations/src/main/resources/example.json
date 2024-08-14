@@ -5,7 +5,9 @@
   "m": 6,
   "n": 50,
   "periodic": true,
-  "method": "bfm",
-  "runs": 40,
-  "steps": 25
+  "method": "cim",
+  "runs": 100,
+  "steps": 25,
+  "plotTimeVsN": true,
+  "plotTimeVsM": true
 }

@@ -18,7 +18,7 @@ public class DefaultRun {
         // Execute method (CIM or BFM)
         final long startTime, endTime;
         final Map<Particle, List<Particle>> neighbors;
-        if(parameters.getMethod().equalsIgnoreCase("CIM")) {
+        if (parameters.getMethod().equalsIgnoreCase("CIM")) {
             final CellIndexMethod cim = new CellIndexMethod(parameters.getM(), parameters.getL(), parameters.isPeriodic(), particles);
 
             startTime = System.currentTimeMillis();
@@ -48,7 +48,7 @@ public class DefaultRun {
             OutputUtils.printTime(positionWriter, timeElapsed);
             OutputUtils.printPositionsHeader(positionWriter);
 
-            for(Particle particle : particles) {
+            for (Particle particle : particles) {
                 final List<Particle> pNeighbors = neighbors.get(particle);
 
                 OutputUtils.printIds(idWriter, particle, pNeighbors);

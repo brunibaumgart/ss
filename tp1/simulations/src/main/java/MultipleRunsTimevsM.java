@@ -10,26 +10,25 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-public class MultipleRuns {
-    public static void run(Parameters parameters) throws IOException {
-        // Get parameters from example.json
-        System.out.println("Running multiple runs");
+public class MultipleRunsTimevsM {
+    public static void run(Parameters parameters, String outputFile) throws IOException {
+        final FileWriter timeWriter = new FileWriter(FilePaths.OUTPUT_DIR + outputFile);
+        OutputUtils.printTimeAndMHeader(timeWriter);
 
-        // Generate particles without overlapping
-        final FileWriter timeWriter = new FileWriter(FilePaths.OUTPUT_DIR + "times.txt");
-        for(int i = 0; i < parameters.getRuns(); i++) {
+        for (int i = 0; i < parameters.getRuns(); i++) {
             runSingle(parameters, timeWriter);
 
-            parameters.setN(parameters.getN() + parameters.getSteps());
+            parameters.setM(parameters.getM() + 1);
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private static void runSingle(Parameters parameters, FileWriter timeWriter) throws IOException {
         final List<Particle> particles = ParticleUtils.createParticles(parameters.getN(), parameters.getL(), parameters.getR());
 
         // Execute method (CIM or BFM)
         final long startTime, endTime;
-        if(parameters.getMethod().equalsIgnoreCase("CIM")) {
+        if (parameters.getMethod().equalsIgnoreCase("CIM")) {
             final CellIndexMethod cim = new CellIndexMethod(parameters.getM(), parameters.getL(), parameters.isPeriodic(), particles);
 
             startTime = System.currentTimeMillis();
@@ -48,6 +47,6 @@ public class MultipleRuns {
         final long timeElapsed = endTime - startTime;
 
         // Print results
-        OutputUtils.printTime(timeWriter, parameters.getN(), timeElapsed);
+        OutputUtils.printTime(timeWriter, parameters.getM(), timeElapsed);
     }
 }

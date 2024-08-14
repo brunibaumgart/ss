@@ -1,6 +1,6 @@
 package models;
 
-public class Parameters {
+public class Parameters implements Cloneable {
     private int N;
     private double L;
     private double rc;
@@ -10,11 +10,13 @@ public class Parameters {
     private String method;
     private int runs;
     private int steps;
+    private boolean plotTimeVsN;
+    private boolean plotTimeVsM;
 
     public Parameters() {
     }
 
-    public Parameters(int n, double l, double rc, int m, double r, boolean isPeriodic, String method) {
+    public Parameters(int n, double l, double rc, int m, double r, boolean isPeriodic, String method, int runs, int steps, boolean plotTimeVsN, boolean plotTimeVsM) {
         this.N = n;
         this.L = l;
         this.rc = rc;
@@ -22,6 +24,27 @@ public class Parameters {
         this.r = r;
         this.isPeriodic = isPeriodic;
         this.method = method;
+        this.runs = runs;
+        this.steps = steps;
+        this.plotTimeVsN = plotTimeVsN;
+        this.plotTimeVsM = plotTimeVsM;
+    }
+
+    @Override
+    public Parameters clone() {
+        return new Parameters(
+                this.N,
+                this.L,
+                this.rc,
+                this.M,
+                this.r,
+                this.isPeriodic,
+                this.method,
+                this.runs,
+                this.steps,
+                this.plotTimeVsN,
+                this.plotTimeVsM
+        );
     }
 
     public int getN() {
@@ -94,5 +117,21 @@ public class Parameters {
 
     public void setSteps(int steps) {
         this.steps = steps;
+    }
+
+    public boolean isPlotTimeVsN() {
+        return plotTimeVsN;
+    }
+
+    public void setPlotTimeVsN(boolean plotTimeVsN) {
+        this.plotTimeVsN = plotTimeVsN;
+    }
+
+    public boolean isPlotTimeVsM() {
+        return plotTimeVsM;
+    }
+
+    public void setPlotTimeVsM(boolean plotTimeVsM) {
+        this.plotTimeVsM = plotTimeVsM;
     }
 }

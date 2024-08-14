@@ -18,7 +18,7 @@ public class OutputUtils {
     }
 
     public static void printIds(FileWriter writer, Particle particle, List<Particle> neighbours) throws IOException {
-        if(neighbours == null || neighbours.isEmpty()) {
+        if (neighbours == null || neighbours.isEmpty()) {
             writer.write(String.format("%s []\n", particle.id()));
             writer.flush();
             return;
@@ -38,7 +38,7 @@ public class OutputUtils {
     }
 
     public static void printPositions(FileWriter writer, Particle particle, List<Particle> neighbours) throws IOException {
-        if(neighbours == null || neighbours.isEmpty()) {
+        if (neighbours == null || neighbours.isEmpty()) {
             writer.write(String.format("%s %.2f %.2f []\n", particle.id(), particle.position().x(), particle.position().y()));
             writer.flush();
             return;
@@ -57,8 +57,23 @@ public class OutputUtils {
         writer.flush();
     }
 
-    public static void printTime(FileWriter writer, int N, long time) throws IOException {
-        writer.write(String.format("%d %d\n", N, time));
+    public static void printTimeAndNHeader(FileWriter writer) throws IOException {
+        writer.write("N time\n");
+        writer.flush();
+    }
+
+    public static void printTimeAndMHeader(FileWriter writer) throws IOException {
+        writer.write("M time\n");
+        writer.flush();
+    }
+
+    /**
+     * Print the time and the number of particles or the number of cells
+     *
+     * @param NorM number of particles (N) or number of cells (M)
+     */
+    public static void printTime(FileWriter writer, int NorM, long time) throws IOException {
+        writer.write(String.format("%d %d\n", NorM, time));
         writer.flush();
     }
 }
