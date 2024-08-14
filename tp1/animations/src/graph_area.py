@@ -1,7 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import json
 
-def read_data_file(file_path):
+from constants.FilePaths import FILE_POSITIONS, FILE_EXAMPLE
+
+def read_positions_file(file_path):
     particles = []
     with open(file_path, 'r') as file:
         next(file)
@@ -17,7 +20,6 @@ def read_data_file(file_path):
             y = y.replace(',', '.')
             particles.append((int(particle_id), float(x), float(y), neighbours_array))
     return particles
-
 
 def visualize_particles(particles, l, rc, r, m, selected_particle_id):
 
@@ -69,7 +71,6 @@ def visualize_particles(particles, l, rc, r, m, selected_particle_id):
             if y_values[i] + rc > l:
                 clipped_y = clipped_y - np.diff(ay_limits)
             if clipped_x != x_values[i] or clipped_y != y_values[i]:
-                print(clipped_x, clipped_y)
                 ax.scatter(clipped_x, clipped_y, edgecolor='black', facecolor='none', s=rc_size)
         elif id in neighbours:
             ax.scatter(x_values[i], y_values[i], c="red", s=particle_size)
@@ -80,13 +81,9 @@ def visualize_particles(particles, l, rc, r, m, selected_particle_id):
 
     plt.show()
 
-file_path = '../../simulations/src/main/resources/positions.txt'
+particles = read_positions_file(FILE_POSITIONS)
 
-particles = read_data_file(file_path)
+with open(FILE_EXAMPLE, 'r') as f:
+    config = json.load(f)
 
-l = 40
-rc = 1
-r = 0.25
-m = 6
-
-visualize_particles(particles, l, rc, r, m, 33)
+visualize_particles(particles, config['l'], config['rc'], config['r'], config['m'], 33)
