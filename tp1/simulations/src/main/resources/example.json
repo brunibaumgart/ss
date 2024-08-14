@@ -1,12 +1,12 @@
 {
-  "l": 20.0,
-  "rc": 3.33,
+  "l": 40.0,
+  "rc": 1,
   "r": 0.25,
   "m": 6,
   "n": 50,
   "periodic": true,
-  "method": "cim",
-  "runs": 100,
+  "method": "bfm",
+  "runs": 40,
   "steps": 25,
   "plotTimeVsN": true,
   "plotTimeVsM": true
