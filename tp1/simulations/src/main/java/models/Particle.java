@@ -17,7 +17,7 @@ public record Particle(int id, Point position, Double radius) {
         if (dy > L / 2)
             dy = L - dy;
 
-        return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+        return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2)) - this.radius() - particle.radius();
     }
 
     @Override

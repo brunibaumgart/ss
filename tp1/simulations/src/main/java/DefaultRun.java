@@ -14,10 +14,7 @@ import java.util.Map;
 import static java.lang.System.exit;
 
 public class DefaultRun {
-    public static void run(Parameters parameters) {
-        // Generate particles without overlapping
-        final List<Particle> particles = ParticleUtils.createParticles(parameters.getN(), parameters.getL(), parameters.getR());
-
+    public static void run(Parameters parameters, List<Particle> particles) {
         // Execute method (CIM or BFM)
         final long startTime, endTime;
         final Map<Particle, List<Particle>> neighbors;
@@ -62,5 +59,12 @@ public class DefaultRun {
             e.printStackTrace();
             exit(1);
         }
+    }
+
+    public static void run(Parameters parameters) {
+        // Generate particles without overlapping
+        final List<Particle> particles = ParticleUtils.createParticles(parameters.getN(), parameters.getL(), parameters.getR());
+
+        run(parameters, particles);
     }
 }
