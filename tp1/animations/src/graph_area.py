@@ -4,6 +4,7 @@ import json
 
 from constants.FilePaths import FILE_POSITIONS, FILE_EXAMPLE
 
+
 def read_positions_file(file_path):
     particles = []
     with open(file_path, 'r') as file:
@@ -21,15 +22,14 @@ def read_positions_file(file_path):
             particles.append((int(particle_id), float(x), float(y), neighbours_array))
     return particles
 
-def visualize_particles(particles, l, rc, r, m, method, selected_particle_id):
 
+def visualize_particles(particles, l, rc, r, m, method, selected_particle_id):
     neighbours = particles[selected_particle_id][3]
 
-    fig = plt.figure()
-    ax = fig.add_subplot(1, 1, 1)
+    fig, ax = plt.subplots()
 
-    major_ticks = np.arange(0, l + 1, l/m)
-
+    # Definir los ticks del gráfico
+    major_ticks = np.arange(0, l + 1, 1)
     ax.set_xticks(major_ticks)
     ax.set_yticks(major_ticks)
 
@@ -38,52 +38,52 @@ def visualize_particles(particles, l, rc, r, m, method, selected_particle_id):
     ids = [p[0] for p in particles]
 
     ax.set(xlim=(0, l), ylim=(0, l))
-
     ax.set_xlabel('x')
     ax.set_ylabel('y')
     ax.set_title('Partículas (Método ' + method + ')')
 
-    fig_size = fig.get_size_inches()
-    ax_limits = ax.get_xlim()
-    ay_limits = ax.get_ylim()
-
-    scale_factor = (fig_size[0] * 72.0 / np.diff(ax_limits)) ** 2
-
-    particle_area = np.pi * (r**2)
-    particle_size = particle_area * scale_factor
-
-    rc_area = np.pi * (rc ** 2)
-    rc_size = rc_area * scale_factor
-
     for i, id in enumerate(ids):
-        ax.text(x_values[i] +r, y_values[i] +r, str(id), fontsize=9, ha='left')
+        ax.text(x_values[i] + r, y_values[i] + r, str(id), fontsize=9, ha='left')
         if id == selected_particle_id:
-            ax.scatter(x_values[i], y_values[i], c="green", s=particle_size)
-            ax.scatter(x_values[i], y_values[i], edgecolor='black', facecolor='none', s=rc_size)
+            # Dibujar el círculo que representa la partícula seleccionada
+            particle_circle = plt.Circle((x_values[i], y_values[i]), r, color="green", fill=True)
+            ax.add_patch(particle_circle)
+
+            # Dibujar el círculo que representa el radio de interacción (rc)
+            interaction_circle = plt.Circle((x_values[i], y_values[i]), rc, edgecolor='black', facecolor='none',
+                                            linestyle='--')
+            ax.add_patch(interaction_circle)
+
             clipped_x = x_values[i]
             clipped_y = y_values[i]
-            if x_values[i] -rc < 0:
-                clipped_x = clipped_x + np.diff(ax_limits)
+            if x_values[i] - rc < 0:
+                clipped_x += l
             if x_values[i] + rc > l:
-                clipped_x = clipped_x - np.diff(ax_limits)
-            if y_values[i] -rc < 0:
-                clipped_y = clipped_y + np.diff(ay_limits)
+                clipped_x -= l
+            if y_values[i] - rc < 0:
+                clipped_y += l
             if y_values[i] + rc > l:
-                clipped_y = clipped_y - np.diff(ay_limits)
+                clipped_y -= l
             if clipped_x != x_values[i] or clipped_y != y_values[i]:
-                ax.scatter(clipped_x, clipped_y, edgecolor='black', facecolor='none', s=rc_size)
+                clipped_interaction_circle = plt.Circle((clipped_x, clipped_y), rc, edgecolor='black', facecolor='none',
+                                                        linestyle='--')
+                ax.add_patch(clipped_interaction_circle)
         elif id in neighbours:
-            ax.scatter(x_values[i], y_values[i], c="red", s=particle_size)
+            # Dibujar el círculo que representa un vecino
+            neighbour_circle = plt.Circle((x_values[i], y_values[i]), r, color="red", fill=True)
+            ax.add_patch(neighbour_circle)
         else:
-            ax.scatter(x_values[i], y_values[i], c="blue", s=particle_size)
+            # Dibujar el círculo que representa una partícula no vecina
+            particle_circle = plt.Circle((x_values[i], y_values[i]), r, color="blue", fill=True)
+            ax.add_patch(particle_circle)
 
     ax.grid(True)
-
     plt.show()
+
 
 particles = read_positions_file(FILE_POSITIONS)
 
 with open(FILE_EXAMPLE, 'r') as f:
     config = json.load(f)
 
-visualize_particles(particles, config['l'], config['rc'], config['r'], config['m'], config['method'], 33)
+visualize_particles(particles, config['l'], config['rc'], config['r'], config['m'], config['method'], 17)
