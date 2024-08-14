@@ -19,13 +19,14 @@ def read_times_file(file_path):
     return N, time
 
 
-def plot_data(N, time_cim, time_bfm, method):
+def plot_data(N, time_cim, time_bfm, l):
     plt.figure(figsize=(10, 6))
-    plt.plot(N, time_cim, marker='o', linestyle='-', color='b')
-    plt.plot(N, time_bfm, marker='o', linestyle='-', color='r')
-    plt.title('N vs Tiempo')
+    plt.plot(N, time_cim, marker='o', linestyle='-', color='b', label='cim')
+    plt.plot(N, time_bfm, marker='o', linestyle='-', color='r', label='bfm')
+    plt.title('N vs Tiempo (L = '+ str(l) + ')')
     plt.xlabel('N')
     plt.ylabel('Tiempo (en ms)')
+    plt.legend(loc="upper right")
     plt.grid(True)
     plt.show()
 
@@ -35,4 +36,4 @@ N, time_bfm = read_times_file(FILE_BFM_TIMES_VS_N)
 with open(FILE_EXAMPLE, 'r') as f:
     config = json.load(f)
 
-plot_data(N, time_cim, time_bfm, config['method'])
+plot_data(N, time_cim, time_bfm, config['l'])
