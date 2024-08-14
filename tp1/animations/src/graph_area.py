@@ -21,7 +21,7 @@ def read_positions_file(file_path):
             particles.append((int(particle_id), float(x), float(y), neighbours_array))
     return particles
 
-def visualize_particles(particles, l, rc, r, m, selected_particle_id):
+def visualize_particles(particles, l, rc, r, m, method, selected_particle_id):
 
     neighbours = particles[selected_particle_id][3]
 
@@ -41,7 +41,7 @@ def visualize_particles(particles, l, rc, r, m, selected_particle_id):
 
     ax.set_xlabel('x')
     ax.set_ylabel('y')
-    ax.set_title('Partículas')
+    ax.set_title('Partículas (Método ' + method + ')')
 
     fig_size = fig.get_size_inches()
     ax_limits = ax.get_xlim()
@@ -86,4 +86,4 @@ particles = read_positions_file(FILE_POSITIONS)
 with open(FILE_EXAMPLE, 'r') as f:
     config = json.load(f)
 
-visualize_particles(particles, config['l'], config['rc'], config['r'], config['m'], 33)
+visualize_particles(particles, config['l'], config['rc'], config['r'], config['m'], config['method'], 33)
