@@ -76,6 +76,9 @@ public class Parameters implements Cloneable {
     }
 
     public void setM(int m) {
+        if(this.L / m < this.rc + this.r)
+            throw new IllegalArgumentException("The cutoff radius + radius of particles must be smaller than L/M, M was " + m);
+
         M = m;
     }
 

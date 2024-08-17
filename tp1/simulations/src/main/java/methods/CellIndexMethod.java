@@ -97,9 +97,9 @@ public class CellIndexMethod implements IMethod {
 
     private boolean isNeighbour(Particle particle, Particle neighbourParticle, Double rc) {
         if (isPeriodic)
-            return particle.periodicDistanceTo(neighbourParticle, this.L) <= rc - particle.radius();
+            return particle.periodicDistanceTo(neighbourParticle, this.L) <= rc;
 
-        return particle.distanceTo(neighbourParticle) <= rc - particle.radius();
+        return particle.distanceTo(neighbourParticle) <= rc;
     }
 
     public Cell[][] getGrid() {

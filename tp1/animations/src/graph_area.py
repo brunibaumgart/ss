@@ -50,7 +50,7 @@ def visualize_particles(particles, l, rc, r, m, method, selected_particle_id):
             ax.add_patch(particle_circle)
 
             # Dibujar el círculo que representa el radio de interacción (rc)
-            interaction_circle = plt.Circle((x_values[i], y_values[i]), rc, edgecolor='black', facecolor='none',
+            interaction_circle = plt.Circle((x_values[i], y_values[i]), rc + r, edgecolor='black', facecolor='none',
                                             linestyle='--')
             ax.add_patch(interaction_circle)
 
@@ -65,7 +65,7 @@ def visualize_particles(particles, l, rc, r, m, method, selected_particle_id):
             if y_values[i] + rc > l:
                 clipped_y -= l
             if clipped_x != x_values[i] or clipped_y != y_values[i]:
-                clipped_interaction_circle = plt.Circle((clipped_x, clipped_y), rc, edgecolor='black', facecolor='none',
+                clipped_interaction_circle = plt.Circle((clipped_x, clipped_y), rc + r, edgecolor='black', facecolor='none',
                                                         linestyle='--')
                 ax.add_patch(clipped_interaction_circle)
         elif id in neighbours:
