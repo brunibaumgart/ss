@@ -1,0 +1,13 @@
+{
+  "l": 40.0,
+  "rc": 1,
+  "r": 0.25,
+  "m": 6,
+  "n": 1000,
+  "periodic": true,
+  "method": "bfm",
+  "runs": 20,
+  "steps": 25,
+  "plotTimeVsN": true,
+  "plotTimeVsM": true
+}
