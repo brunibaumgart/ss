@@ -14,10 +14,6 @@ public class Main {
             DefaultRun.run(parameters);
         } else {
             if (parameters.isPlotTimeVsM()) {
-                final Parameters bfm = parameters.clone();
-                bfm.setMethod("BFM");
-                MultipleRunsTimevsM.run(bfm, "bfm_times_vs_m.txt");
-
                 final Parameters cim = parameters.clone();
                 parameters.setMethod("CIM");
                 MultipleRunsTimevsM.run(cim, "cim_times_vs_m.txt");
