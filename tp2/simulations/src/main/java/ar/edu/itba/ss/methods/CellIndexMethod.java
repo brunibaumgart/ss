@@ -18,7 +18,7 @@ public class CellIndexMethod implements IMethod {
     public CellIndexMethod(final Integer M,
                            final Double L,
                            final boolean isPeriodic,
-                           final List<Particle> particles
+                           final List<? extends Particle> particles
     ) {
         this.L = L;
         this.isPeriodic = isPeriodic;

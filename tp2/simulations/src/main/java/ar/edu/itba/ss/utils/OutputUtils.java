@@ -1,6 +1,8 @@
 package ar.edu.itba.ss.utils;
 
 
+import ar.edu.itba.ss.models.MovingParticle;
+import ar.edu.itba.ss.models.Parameters;
 import ar.edu.itba.ss.models.Particle;
 
 import java.io.FileWriter;
@@ -13,34 +15,26 @@ public class OutputUtils {
         throw new IllegalStateException("Utility class");
     }
 
-    public static void printIdsHeader(FileWriter writer) throws IOException {
-        writer.write("id neighbours\n");
-        writer.flush();
-    }
-
-    public static void printIds(FileWriter writer, Particle particle, List<Particle> neighbours) throws IOException {
-        if (neighbours == null || neighbours.isEmpty()) {
-            writer.write(String.format("%s []\n", particle.id()));
+    public static void printParameters(FileWriter writer, Parameters parameters) {
+        try {
+            writer.write(String.format("N = %d\n", parameters.getN()));
+            writer.write(String.format("L = %.2f\n", parameters.getL()));
+            writer.write(String.format("R = %.2f\n", parameters.getR()));
+            writer.write(String.format("V = %.2f\n", parameters.getV()));
+            writer.write(String.format("RC = %.2f\n", parameters.getRc()));
+            writer.write(String.format("Etha = %.2f\n", parameters.getEtha()));
+            writer.write(String.format("M = %d\n", parameters.getM()));
+            writer.write(String.format("Iterations = %d\n", parameters.getIterations()));
+            writer.write(String.format("Dt = %d\n", parameters.getDt()));
             writer.flush();
-            return;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        String neighbourIds = neighbours.stream()
-                .map(Particle::id)
-                .map(String::valueOf)
-                .collect(Collectors.joining(" "));
-        writer.write(String.format("%s [%s]\n", particle.id(), neighbourIds));
-        writer.flush();
     }
 
-    public static void printPositionsHeader(FileWriter writer) throws IOException {
-        writer.write("id x y neighbours\n");
-        writer.flush();
-    }
-
-    public static void printPositions(FileWriter writer, Particle particle, List<Particle> neighbours) throws IOException {
+    public static void printParticleData(FileWriter writer, MovingParticle particle, List<MovingParticle> neighbours) throws IOException {
         if (neighbours == null || neighbours.isEmpty()) {
-            writer.write(String.format("%s %.2f %.2f []\n", particle.id(), particle.position().x(), particle.position().y()));
+            writer.write(String.format("%s %.2f %.2f %.2f %.2f []\n", particle.id(), particle.position().x(), particle.position().y(), particle.velocity().x(), particle.velocity().y()));
             writer.flush();
             return;
         }
@@ -49,32 +43,7 @@ public class OutputUtils {
                 .map(Particle::id)
                 .map(String::valueOf)
                 .collect(Collectors.joining(" "));
-        writer.write(String.format("%s %.2f %.2f [%s]\n", particle.id(), particle.position().x(), particle.position().y(), neighboursIds));
-        writer.flush();
-    }
-
-    public static void printTime(FileWriter writer, long time) throws IOException {
-        writer.write(String.format("%d\n", time));
-        writer.flush();
-    }
-
-    public static void printTimeAndNHeader(FileWriter writer) throws IOException {
-        writer.write("N time\n");
-        writer.flush();
-    }
-
-    public static void printTimeAndMHeader(FileWriter writer) throws IOException {
-        writer.write("M time\n");
-        writer.flush();
-    }
-
-    /**
-     * Print the time and the number of particles or the number of cells
-     *
-     * @param NorM number of particles (N) or number of cells (M)
-     */
-    public static void printTime(FileWriter writer, int NorM, long time) throws IOException {
-        writer.write(String.format("%d %d\n", NorM, time));
+        writer.write(String.format("%s %.2f %.2f %.2f %.2f [%s]\n", particle.id(), particle.position().x(), particle.position().y(), particle.velocity().x(), particle.velocity().y(), neighboursIds));
         writer.flush();
     }
 }

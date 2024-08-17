@@ -12,24 +12,7 @@ public class Main {
         // Get parameters from example.json
         final Parameters parameters = ArgumentHandlerUtils.getParameters(PARAMETERS_FILE);
 
-        if (parameters.getRuns() == 1) {
-            DefaultRun.run(parameters);
-        } else {
-            if (parameters.isPlotTimeVsM()) {
-                final Parameters cim = parameters.clone();
-                parameters.setMethod("CIM");
-                MultipleRunsTimevsM.run(cim, "cim_times_vs_m.txt");
-            }
+        DefaultRun.run(parameters);
 
-            if (parameters.isPlotTimeVsN()) {
-                final Parameters bfm = parameters.clone();
-                bfm.setMethod("BFM");
-                MultipleRunsTimevsN.run(bfm, "bfm_times_vs_n.txt");
-
-                final Parameters cim = parameters.clone();
-                parameters.setMethod("CIM");
-                MultipleRunsTimevsN.run(cim, "cim_times_vs_n.txt");
-            }
-        }
     }
 }

@@ -4,10 +4,8 @@
   "r": 0.25,
   "m": 6,
   "n": 1000,
-  "periodic": true,
-  "method": "bfm",
-  "runs": 20,
-  "steps": 25,
-  "plotTimeVsN": true,
-  "plotTimeVsM": true
+  "v": 2,
+  "dt": 1,
+  "etha": 1,
+  "iterations": 100
 }

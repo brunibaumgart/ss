@@ -10,17 +10,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Parameters implements Cloneable {
-    private int N;
     private double L;
     private double rc;
-    private int M;
     private double r;
-    private boolean isPeriodic;
-    private String method;
-    private int runs;
-    private int steps;
-    private boolean plotTimeVsN;
-    private boolean plotTimeVsM;
+    private int M;
+    private int N;
+    private double v;
+    private int dt;
+    private double etha;
+    private int iterations;
 
     @Override
     public Parameters clone() {
