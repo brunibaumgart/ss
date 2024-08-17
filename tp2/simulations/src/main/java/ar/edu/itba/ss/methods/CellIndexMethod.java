@@ -101,10 +101,6 @@ public class CellIndexMethod implements IMethod {
 
         return particle.distanceTo(neighbourParticle) <= rc;
     }
-
-    public Cell[][] getGrid() {
-        return grid;
-    }
 }
 
 

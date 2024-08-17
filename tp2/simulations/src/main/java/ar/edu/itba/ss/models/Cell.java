@@ -1,11 +1,17 @@
 package ar.edu.itba.ss.models;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Cell {
-    private final int x, y;
+    @Getter
+    private final int x;
+    @Getter
+    private final int y;
+
     private final List<Particle> particles;
 
     public Cell(int x, int y) {
@@ -27,14 +33,6 @@ public class Cell {
 
     public List<Particle> getParticles() {
         return Collections.unmodifiableList(this.particles);
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
     }
 
     @Override

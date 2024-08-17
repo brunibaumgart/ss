@@ -5,23 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="67fabd57-47a4-4d82-8c66-2905d8185633" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/DefaultRun.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/MultipleRunsTimevsM.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/MultipleRunsTimevsN.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/constants/FilePaths.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/methods/BruteForceMethod.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/methods/CellIndexMethod.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/methods/IMethod.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/models/Cell.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/models/Parameters.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/utils/ArgumentHandlerUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/utils/OutputUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/utils/ParticleUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/App.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/models/Cell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/models/Cell.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/models/Parameters.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/models/Parameters.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +27,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.Main.executor": "Run",
     "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
@@ -80,7 +67,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1723918380429</updated>
-      <workItem from="1723918381491" duration="1048000" />
+      <workItem from="1723918381491" duration="3240000" />
     </task>
     <servers />
   </component>
