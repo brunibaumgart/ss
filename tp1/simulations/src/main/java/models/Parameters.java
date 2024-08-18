@@ -13,10 +13,13 @@ public class Parameters implements Cloneable {
     private boolean plotTimeVsN;
     private boolean plotTimeVsM;
 
+    private int plotTimeVsMIterations;
+
     public Parameters() {
     }
 
-    public Parameters(int n, double l, double rc, int m, double r, boolean isPeriodic, String method, int runs, int steps, boolean plotTimeVsN, boolean plotTimeVsM) {
+    public Parameters(int n, double l, double rc, int m, double r, boolean isPeriodic, String method, int runs, int steps, boolean plotTimeVsN, boolean plotTimeVsM
+    , int plotTimeVsMIterations) {
         this.N = n;
         this.L = l;
         this.rc = rc;
@@ -28,6 +31,7 @@ public class Parameters implements Cloneable {
         this.steps = steps;
         this.plotTimeVsN = plotTimeVsN;
         this.plotTimeVsM = plotTimeVsM;
+        this.plotTimeVsMIterations = plotTimeVsMIterations;
     }
 
     @Override
@@ -43,7 +47,8 @@ public class Parameters implements Cloneable {
                 this.runs,
                 this.steps,
                 this.plotTimeVsN,
-                this.plotTimeVsM
+                this.plotTimeVsM,
+                this.plotTimeVsMIterations
         );
     }
 
@@ -136,5 +141,13 @@ public class Parameters implements Cloneable {
 
     public void setPlotTimeVsM(boolean plotTimeVsM) {
         this.plotTimeVsM = plotTimeVsM;
+    }
+
+    public int getPlotTimeVsMIterations() {
+        return plotTimeVsMIterations;
+    }
+
+    public void setPlotTimeVsMIterations(int plotTimeVsMIterations) {
+        this.plotTimeVsMIterations = plotTimeVsMIterations;
     }
 }

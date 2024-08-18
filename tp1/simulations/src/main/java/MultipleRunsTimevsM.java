@@ -6,19 +6,32 @@ import models.Particle;
 import utils.OutputUtils;
 import utils.ParticleUtils;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+
 public class MultipleRunsTimevsM {
     public static void run(Parameters parameters, String outputFile) throws IOException {
-        final FileWriter timeWriter = new FileWriter(FilePaths.OUTPUT_DIR + outputFile);
-        OutputUtils.printTimeAndMHeader(timeWriter);
+        final int M = parameters.getM();
+        String filePath;
+        if (parameters.getMethod().equalsIgnoreCase("CIM")) {
+            filePath = "cim_times_vs_m/";
+        } else if (parameters.getMethod().equalsIgnoreCase("BFM")) {
+            filePath = "bfm_times_vs_m/";
+        } else {
+            throw new IllegalArgumentException("Method must be `cim` or `bfm`");
+        }
+        for (int i = 0; i < parameters.getPlotTimeVsMIterations(); i++){
+            final FileWriter timeWriter = new FileWriter(FilePaths.OUTPUT_DIR + filePath + "output_" + i + ".txt");
+            OutputUtils.printTimeAndMHeader(timeWriter);
+            parameters.setM(M);
+            for (int j = 0; j < parameters.getRuns(); j++) {
+                runSingle(parameters, timeWriter);
 
-        for (int i = 0; i < parameters.getRuns(); i++) {
-            runSingle(parameters, timeWriter);
-
-            parameters.setM(parameters.getM() + 1);
+                parameters.setM(parameters.getM() + 1);
+            }
         }
     }
 

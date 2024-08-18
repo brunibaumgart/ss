@@ -5,9 +5,10 @@
   "m": 6,
   "n": 1000,
   "periodic": true,
-  "method": "bfm",
-  "runs": 20,
-  "steps": 25,
-  "plotTimeVsN": true,
-  "plotTimeVsM": true
+  "method": "cim",
+  "runs": 25,
+  "steps": 1,
+  "plotTimeVsN": false,
+  "plotTimeVsM": true,
+  "plotTimeVsMIterations": 40
 }

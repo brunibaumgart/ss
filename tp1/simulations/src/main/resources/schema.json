@@ -9,5 +9,6 @@
   "runs": "int: number of runs. If it is 1, then we give the positions of particles. If it is greater than 1, we just give the times of the runs and the number of particles is increased by `steps` each time.",
   "steps": "int: number of particles to increase in each step. Only valid if runs > 1",
   "plotTimeVsN": "boolean: plot time vs number of particles. Only valid if runs > 1, AND it ignores the method as it executes both",
-  "plotTimeVsM": "boolean: plot time vs number of cells. Only valid if runs > 1, AND it ignores the method as it executes both"
+  "plotTimeVsM": "boolean: plot time vs number of cells. Only valid if runs > 1, AND it ignores the method as it executes both",
+  "plotTimeVsMIterations": "int: number of iterations of m plot"
 }
