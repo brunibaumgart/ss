@@ -24,7 +24,7 @@ public class OutputUtils {
             writer.write(String.format(LOCALE, "N %d\n", parameters.getCim().getN()));
             writer.write(String.format(LOCALE, "L %.2f\n", parameters.getCim().getL()));
             writer.write(String.format(LOCALE, "R %.2f\n", parameters.getCim().getR()));
-            writer.write(String.format(LOCALE, "V %.2f\n", parameters.getV()));
+            writer.write(String.format(LOCALE, "V %.2f\n", parameters.getSpeed()));
             writer.write(String.format(LOCALE, "RC %.2f\n", parameters.getCim().getRc()));
             writer.write(String.format(LOCALE, "Etha %.2f\n", parameters.getEtha()));
             writer.write(String.format(LOCALE, "M %d\n", parameters.getCim().getM()));
@@ -47,7 +47,7 @@ public class OutputUtils {
 
     public static void printParticleData(FileWriter writer, MovingParticle particle, List<? extends Particle> neighbours) throws IOException {
         if (neighbours == null || neighbours.isEmpty()) {
-            writer.write(String.format(LOCALE, "%s %.2f %.2f %.2f %.2f []\n", particle.id(), particle.position().x(), particle.position().y(), particle.velocity().x(), particle.velocity().y()));
+            writer.write(String.format(LOCALE, "%s %.2f %.2f %.2f %.2f []\n", particle.id(), particle.position().x(), particle.position().y(), particle.speed().x(), particle.speed().y()));
             writer.flush();
             return;
         }
@@ -56,7 +56,7 @@ public class OutputUtils {
                 .map(Particle::id)
                 .map(String::valueOf)
                 .collect(Collectors.joining(" "));
-        writer.write(String.format(LOCALE, "%s %.2f %.2f %.2f %.2f [%s]\n", particle.id(), particle.position().x(), particle.position().y(), particle.velocity().x(), particle.velocity().y(), neighboursIds));
+        writer.write(String.format(LOCALE, "%s %.2f %.2f %.2f %.2f [%s]\n", particle.id(), particle.position().x(), particle.position().y(), particle.speed().x(), particle.speed().y(), neighboursIds));
         writer.flush();
     }
 }

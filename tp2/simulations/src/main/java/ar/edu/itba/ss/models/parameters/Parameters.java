@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class Parameters implements Cloneable {
     private CimParameters cim;
-    private double v;
+    private double speed;
     private int dt;
     private double etha;
     private int iterations;

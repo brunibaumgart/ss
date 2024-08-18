@@ -8,10 +8,10 @@ import lombok.experimental.Accessors;
 @Getter
 @Accessors(fluent = true)
 public class MovingParticle extends Particle {
-    private final Vector velocity;
+    private final Vector speed;
 
-    public MovingParticle(int id, Double radius, Vector postition, Vector velocity) {
+    public MovingParticle(int id, Double radius, Vector postition, Vector speed) {
         super(id, radius, postition);
-        this.velocity = velocity;
+        this.speed = speed;
     }
 }
