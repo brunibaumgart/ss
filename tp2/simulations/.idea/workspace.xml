@@ -5,15 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="67fabd57-47a4-4d82-8c66-2905d8185633" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/outputs/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/DefaultRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/DefaultRun.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/MultipleRunsTimevsM.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/MultipleRunsTimevsN.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/methods/CellIndexMethod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/methods/CellIndexMethod.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/methods/OffLaticeMethod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/methods/OffLaticeMethod.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/utils/OutputUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/utils/OutputUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/example.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/example.json" afterDir="false" />
     </list>
@@ -105,7 +96,7 @@
       <updated>1723918380429</updated>
       <workItem from="1723918381491" duration="6783000" />
       <workItem from="1723926102657" duration="5547000" />
-      <workItem from="1724002762626" duration="1732000" />
+      <workItem from="1724002762626" duration="1992000" />
     </task>
     <servers />
   </component>
