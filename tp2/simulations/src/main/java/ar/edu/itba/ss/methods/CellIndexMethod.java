@@ -101,6 +101,10 @@ public class CellIndexMethod implements IMethod {
 
         return particle.distanceTo(neighbourParticle) <= rc;
     }
+
+    public Double L() {
+        return L;
+    }
 }
 
 

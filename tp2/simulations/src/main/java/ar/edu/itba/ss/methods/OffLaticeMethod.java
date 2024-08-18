@@ -3,7 +3,10 @@ package ar.edu.itba.ss.methods;
 import ar.edu.itba.ss.models.MovingParticle;
 import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.models.Vector;
+import ar.edu.itba.ss.utils.OutputUtils;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,8 +23,7 @@ public class OffLaticeMethod {
         this.deltaTheta = createDeltaTheta(etha);
     }
 
-    public List<MovingParticle> runIteration(CellIndexMethod cim, Integer deltaT) {
-        // Una run sería: (tiene las posiciones)
+    public List<MovingParticle> runIteration(CellIndexMethod cim, Integer deltaT, FileWriter writer) throws IOException {
         // Calculamos los vecinos
         final Map<Particle, List<Particle>> particles = cim.calculateNeighbors(this.rc);
         final List<MovingParticle> newParticles = new ArrayList<>();
@@ -38,9 +40,15 @@ public class OffLaticeMethod {
             final Vector newVelocity = Vector.fromPolar(this.speed, newAngle);
 
             // Calcular las posiciones en t+1
-            final Vector newPosition = particle.position().add(newVelocity.multiply(deltaT));
+            final Vector newPosition = applyPeriodicBoundaryConditions(
+                    particle.position().add(newVelocity.multiply(deltaT)),
+                    cim.L()
+            );
 
-            newParticles.add(new MovingParticle(particle.id(), particle.radius(), newPosition, newVelocity));
+            final MovingParticle updatedParticle = new MovingParticle(particle.id(), particle.radius(), newPosition, newVelocity);
+            newParticles.add(updatedParticle);
+
+            OutputUtils.printParticleData(writer, updatedParticle, neighbours);
         }
 
         return newParticles;
@@ -52,6 +60,13 @@ public class OffLaticeMethod {
         final double min = -max;
 
         return min + (max - min) * random.nextDouble();
+    }
+
+    private Vector applyPeriodicBoundaryConditions(Vector position, Double L) {
+        final double x = position.x() % L;
+        final double y = position.y() % L;
+
+        return new Vector(x, y);
     }
 
     private Double calculateNewAngle(final List<Particle> neighbours) {
