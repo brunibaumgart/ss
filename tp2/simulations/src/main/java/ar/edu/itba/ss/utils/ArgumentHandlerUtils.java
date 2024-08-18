@@ -1,7 +1,7 @@
 package ar.edu.itba.ss.utils;
 
 import ar.edu.itba.ss.constants.FilePaths;
-import ar.edu.itba.ss.models.Parameters;
+import ar.edu.itba.ss.models.parameters.Parameters;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;

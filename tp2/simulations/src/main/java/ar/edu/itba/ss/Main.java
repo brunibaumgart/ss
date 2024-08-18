@@ -1,7 +1,7 @@
 package ar.edu.itba.ss;
 
 import ar.edu.itba.ss.constants.FilePaths;
-import ar.edu.itba.ss.models.Parameters;
+import ar.edu.itba.ss.models.parameters.Parameters;
 import ar.edu.itba.ss.utils.ArgumentHandlerUtils;
 import ar.edu.itba.ss.utils.OutputUtils;
 

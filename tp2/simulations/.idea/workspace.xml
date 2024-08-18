@@ -5,13 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="67fabd57-47a4-4d82-8c66-2905d8185633" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../animations/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../animations/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../animations/src/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../animations/src/constants/FilePaths.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../animations/src/constants/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../animations/src/default_animation.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/models/parameters/CimParameters.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/DefaultRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/DefaultRun.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/models/Parameters.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/models/parameters/Parameters.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/utils/ArgumentHandlerUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/utils/ArgumentHandlerUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/utils/OutputUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/utils/OutputUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/example.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/example.json" afterDir="false" />
     </list>
     <list id="4c37064d-9989-45b6-b3e9-62c84d5d8f58" name="Changes by burda" comment="" />
@@ -102,22 +102,11 @@
       <updated>1723918380429</updated>
       <workItem from="1723918381491" duration="6783000" />
       <workItem from="1723926102657" duration="5547000" />
-      <workItem from="1724002762626" duration="4252000" />
+      <workItem from="1724002762626" duration="5921000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/utils/ParticleUtils.java</url>
-          <line>30</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

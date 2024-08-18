@@ -2,7 +2,7 @@ package ar.edu.itba.ss.utils;
 
 
 import ar.edu.itba.ss.models.MovingParticle;
-import ar.edu.itba.ss.models.Parameters;
+import ar.edu.itba.ss.models.parameters.Parameters;
 import ar.edu.itba.ss.models.Particle;
 
 import java.io.FileWriter;
@@ -21,13 +21,13 @@ public class OutputUtils {
 
     public static void printParameters(FileWriter writer, Parameters parameters) {
         try {
-            writer.write(String.format(LOCALE, "N %d\n", parameters.getN()));
-            writer.write(String.format(LOCALE, "L %.2f\n", parameters.getL()));
-            writer.write(String.format(LOCALE, "R %.2f\n", parameters.getR()));
+            writer.write(String.format(LOCALE, "N %d\n", parameters.getCim().getN()));
+            writer.write(String.format(LOCALE, "L %.2f\n", parameters.getCim().getL()));
+            writer.write(String.format(LOCALE, "R %.2f\n", parameters.getCim().getR()));
             writer.write(String.format(LOCALE, "V %.2f\n", parameters.getV()));
-            writer.write(String.format(LOCALE, "RC %.2f\n", parameters.getRc()));
+            writer.write(String.format(LOCALE, "RC %.2f\n", parameters.getCim().getRc()));
             writer.write(String.format(LOCALE, "Etha %.2f\n", parameters.getEtha()));
-            writer.write(String.format(LOCALE, "M %d\n", parameters.getM()));
+            writer.write(String.format(LOCALE, "M %d\n", parameters.getCim().getM()));
             writer.write(String.format(LOCALE, "Iterations %d\n", parameters.getIterations()));
             writer.write(String.format(LOCALE, "Dt %d\n", parameters.getDt()));
             writer.flush();
