@@ -63,8 +63,11 @@ public class OffLaticeMethod {
     }
 
     private Vector applyPeriodicBoundaryConditions(Vector position, Double L) {
-        final double x = position.x() % L;
-        final double y = position.y() % L;
+        double x = position.x() % L;
+        double y = position.y() % L;
+
+        if (x < 0) x += L;
+        if (y < 0) y += L;
 
         return new Vector(x, y);
     }
