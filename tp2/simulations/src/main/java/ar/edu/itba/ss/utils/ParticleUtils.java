@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@SuppressWarnings("Duplicates")
 public class ParticleUtils {
     private ParticleUtils() {
         throw new IllegalStateException("Utility class");
@@ -22,7 +23,8 @@ public class ParticleUtils {
             double y = random.nextDouble() * L;
 
             Particle p = new Particle(i, r, new Vector(x, y));
-            while (particles.contains(p)) {
+            // check particles do not overlap
+            while (collidesWithAny(p, particles)) {
                 x = random.nextDouble() * L;
                 y = random.nextDouble() * L;
                 p = new Particle(i, r, new Vector(x, y));
@@ -51,7 +53,7 @@ public class ParticleUtils {
             double y = random.nextDouble() * L;
 
             Particle p = new Particle(i, r, new Vector(x, y));
-            while (particles.contains(p)) {
+            while (collidesWithAny(p, particles)) {
                 x = random.nextDouble() * L;
                 y = random.nextDouble() * L;
                 p = new Particle(i, r, new Vector(x, y));
@@ -75,7 +77,7 @@ public class ParticleUtils {
             double y = random.nextDouble() * L;
 
             Particle p = new Particle(i, radius.get(i), new Vector(x, y));
-            while (particles.contains(p)) {
+            while (collidesWithAny(p, particles)) {
                 x = random.nextDouble() * L;
                 y = random.nextDouble() * L;
                 p = new Particle(i, radius.get(i), new Vector(x, y));
@@ -85,5 +87,9 @@ public class ParticleUtils {
         }
 
         return particles;
+    }
+
+    private static boolean collidesWithAny(final Particle particle, final List<? extends Particle> particles) {
+        return particles.stream().anyMatch(particle::collidesWith);
     }
 }

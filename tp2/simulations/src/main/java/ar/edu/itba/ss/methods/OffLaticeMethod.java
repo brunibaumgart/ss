@@ -15,54 +15,51 @@ import java.util.Random;
 public class OffLaticeMethod {
     private final Double speed;
     private final Double rc;
-    private final Double deltaTheta;
+    private final Double etha;
+    private final Random random;
 
     public OffLaticeMethod(Double rc, Double speed, Double etha) {
         this.speed = speed;
         this.rc = rc;
-        this.deltaTheta = createDeltaTheta(etha);
+        this.etha = etha;
+        this.random = new Random();
     }
 
-    public List<MovingParticle> runIteration(CellIndexMethod cim, Integer deltaT, FileWriter writer) throws IOException {
+    public List<MovingParticle> runIteration(CellIndexMethod cim, Integer deltaT, List<MovingParticle> particles, FileWriter writer) throws IOException {
         // Calculamos los vecinos
-        final Map<Particle, List<Particle>> particles = cim.calculateNeighbors(this.rc);
-        final List<MovingParticle> newParticles = new ArrayList<>();
+        final Map<Particle, List<Particle>> neighborMap = cim.calculateNeighbors(this.rc);
+        final List<MovingParticle> result = new ArrayList<>();
 
-        for (Map.Entry<Particle, List<Particle>> entry : particles.entrySet()) {
-            final Particle particle = entry.getKey();
-            final List<Particle> neighbours = entry.getValue();
+        for(MovingParticle particle : particles) {
+            final List<Particle> neighbours = neighborMap.getOrDefault(particle, new ArrayList<>());
+            neighbours.add(particle);
 
             // Calculamos los angulos en t+1
-            final Double newAngleAverage = calculateNewAngle(neighbours);
-            final Double newAngle = newAngleAverage + this.deltaTheta;
+            final double newAngle = calculateNewAngle(neighbours) + getDeltaTheta();
+
+            // Calcular las posiciones en t+1
+            final Vector newPosition = OffLaticeMethod.applyPeriodicBoundaryConditions(
+                    particle.position().add(particle.speed().multiply(deltaT)),
+                    cim.L()
+            );
 
             // Calculamos las velocidades en t+1
             final Vector newVelocity = Vector.fromPolar(this.speed, newAngle);
 
-            // Calcular las posiciones en t+1
-            final Vector newPosition = applyPeriodicBoundaryConditions(
-                    particle.position().add(newVelocity.multiply(deltaT)),
-                    cim.L()
-            );
-
             final MovingParticle updatedParticle = new MovingParticle(particle.id(), particle.radius(), newPosition, newVelocity);
-            newParticles.add(updatedParticle);
+            result.add(updatedParticle);
 
             OutputUtils.printParticleData(writer, updatedParticle, neighbours);
         }
 
-        return newParticles;
+        return result;
     }
 
-    public static Double createDeltaTheta(Double etha) {
-        final Random random = new Random();
-        final double max = etha / 2;
-        final double min = -max;
-
-        return min + (max - min) * random.nextDouble();
+    public Double getDeltaTheta() {
+        return this.etha * (this.random.nextDouble() - 0.5);
     }
 
-    private Vector applyPeriodicBoundaryConditions(Vector position, Double L) {
+    private static Vector applyPeriodicBoundaryConditions(Vector position, Double L) {
         double x = position.x() % L;
         double y = position.y() % L;
 

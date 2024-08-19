@@ -11,21 +11,25 @@ import ar.edu.itba.ss.utils.ParticleUtils;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
+
 
 public class DefaultRun {
     public static void run(Parameters parameters) throws IOException {
         final List<MovingParticle> particles = ParticleUtils.createMovingParticles(parameters.getCim().getN(), parameters.getCim().getL(), parameters.getCim().getR(), parameters.getSpeed());
 
-        CellIndexMethod cim = new CellIndexMethod(parameters.getCim().getM(), parameters.getCim().getL(), true, particles);
         final OffLaticeMethod ofm = new OffLaticeMethod(parameters.getSpeed(), parameters.getCim().getRc(), parameters.getEtha());
+        CellIndexMethod cim = new CellIndexMethod(parameters.getCim().getM(), parameters.getCim().getL(), true, particles);
+        List<MovingParticle> updatedParticles = Collections.unmodifiableList(particles);
 
         for (int i = 0; i < parameters.getIterations(); i++) {
             final FileWriter writer = new FileWriter(FilePaths.OUTPUT_DIR + "outputs/output_" + i + ".txt");
             OutputUtils.printParticleDataHeader(writer);
 
-            final List<MovingParticle> newParticles = ofm.runIteration(cim, parameters.getDt(), writer);
-            cim = new CellIndexMethod(parameters.getCim().getM(), parameters.getCim().getL(), true, newParticles);
+            updatedParticles = ofm.runIteration(cim, parameters.getDt(), updatedParticles, writer);
+
+            cim = new CellIndexMethod(parameters.getCim().getM(), parameters.getCim().getL(), true, updatedParticles);
         }
     }
 }

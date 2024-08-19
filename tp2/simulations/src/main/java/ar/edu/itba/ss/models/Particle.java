@@ -43,21 +43,14 @@ public class Particle {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
 
         Particle other = (Particle) obj;
-        if (this.position().equals(other.position()))
-            return true;
-
-        return this.collidesWith(other);
+        return this.id == other.id;
     }
 
-    private boolean collidesWith(Particle other) {
+    public boolean collidesWith(Particle other) {
         // Calculamos la distancia entre los centros de las partículas
         double distance = Math.sqrt(Math.pow(this.position().x() - other.position().x(), 2)
                 + Math.pow(this.position().y() - other.position().y(), 2));
