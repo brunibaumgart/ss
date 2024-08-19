@@ -37,42 +37,67 @@ def load_output_files(output_dir, iterations):
     return data
 
 
+def interpolate_color(angle):
+    """Interpolates between predefined colors based on the angle."""
+    if angle < 90:
+        # Interpolar entre rojo (0°) y verde (90°)
+        r = int(255 * (1 - angle / 90))
+        g = int(255 * (angle / 90))
+        b = 0
+    elif angle < 180:
+        # Interpolar entre verde (90°) y amarillo (180°)
+        r = 0
+        g = int(255 * (1 - (angle - 90) / 90))
+        b = int(255 * ((angle - 90) / 90))
+    elif angle < 270:
+        # Interpolar entre amarillo (180°) y azul (270°)
+        r = int(255 * ((angle - 180) / 90))
+        g = 0
+        b = int(255 * (1 - (angle - 180) / 90))
+    else:
+        # Interpolar entre azul (270°) y rojo (360°)
+        r = int(255 * (1 - (angle - 270) / 90))
+        g = 0
+        b = int(255 * ((angle - 270) / 90))
+
+    return (r, g, b)
 # Step 3: Create animation video
 def create_animation_video(sim_params, data, output_video):
     L = sim_params['L']
     R = sim_params['R']
-    V = sim_params['V']
-    N = int(sim_params['N'])
     iterations = len(data)
 
-    scale = 500 / L  # Scaling factor for visualization
+    scale = 500 / L  # Escala para la visualización
     radius = int(R * scale)
 
-    # Define colors
-    particle_color = (255, 0, 0)  # Red
-
-    # Set up video writer
-    fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Codec for .mp4
+    # Configurar el video writer
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Codec para .mp4
     video_writer = cv2.VideoWriter(output_video, fourcc, 10, (500, 500))
 
     for i in range(iterations):
-        frame = np.ones((500, 500, 3), dtype=np.uint8) * 255  # White background
+        frame = np.ones((500, 500, 3), dtype=np.uint8) * 255  # Fondo blanco
 
         for particle in data[i]:
-            id_, x, y, vx, vy, _ = particle  # Ignore neighbors
+            id_, x, y, vx, vy, _ = particle  # Ignorar vecinos
             cx, cy = int(x * scale), int(y * scale)
 
-            # Draw particle
+            # Calcular el ángulo en grados
+            angle = np.degrees(np.arctan2(vy, vx)) % 360
+
+            # Obtener el color basado en el ángulo
+            particle_color = interpolate_color(angle)
+            #particle_color = (255,0,0)
+            # Dibujar la partícula
             cv2.circle(frame, (cx, cy), radius, particle_color, -1)
 
-            # Draw velocity vector
+            # Dibujar el vector de velocidad
             end_point = (int(cx + vx * scale), int(cy + vy * scale))
             cv2.arrowedLine(frame, (cx, cy), end_point, particle_color, 1)
 
-        # Write frame to video
+        # Escribir el frame en el video
         video_writer.write(frame)
 
-    video_writer.release()  # Finalize the video
+    video_writer.release()  # Finalizar el video
 
 
 # Main function to run the simulation
