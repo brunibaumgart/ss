@@ -62,6 +62,7 @@ def interpolate_color(angle):
 
     return r, g, b
 
+
 # Step 3: Create animation video
 def create_animation_video(sim_params, data, output_video):
     L = sim_params['L']
@@ -104,7 +105,6 @@ def create_animation_video(sim_params, data, output_video):
         video_writer.write(frame)
 
     video_writer.release()  # Finalizar el video
-
 
 
 # Main function to run the simulation

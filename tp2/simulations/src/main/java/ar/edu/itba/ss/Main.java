@@ -5,7 +5,6 @@ import ar.edu.itba.ss.models.parameters.Parameters;
 import ar.edu.itba.ss.utils.ArgumentHandlerUtils;
 import ar.edu.itba.ss.utils.OutputUtils;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -20,12 +19,12 @@ public class Main {
         OutputUtils.printDefaultParameters(parametersWriter, parameters);
         OutputUtils.printCimParameters(parametersWriter, parameters.getCim());
 
-        if(parameters.getPlots().getVideo().isEnabled()) {
+        if (parameters.getPlots().getVideo().isEnabled()) {
 
             DefaultRun.run(parameters);
         }
 
-        if(parameters.getPlots().getTimeVsVa().isEnabled()) {
+        if (parameters.getPlots().getTimeVsVa().isEnabled()) {
             TimeVsVaRun.run(parameters);
         }
     }

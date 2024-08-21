@@ -2,9 +2,9 @@ package ar.edu.itba.ss.utils;
 
 
 import ar.edu.itba.ss.models.MovingParticle;
+import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.models.parameters.CimParameters;
 import ar.edu.itba.ss.models.parameters.Parameters;
-import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.models.parameters.TimeVsVaParameters;
 
 import java.io.FileWriter;

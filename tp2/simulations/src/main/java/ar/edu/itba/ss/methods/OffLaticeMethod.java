@@ -25,12 +25,34 @@ public class OffLaticeMethod {
         this.random = new Random();
     }
 
+    public static Double calculateVa(List<MovingParticle> particles) {
+        if (particles.isEmpty())
+            return 0.0;
+
+        final Vector sum = particles.stream()
+                .map(MovingParticle::speed)
+                .reduce(Vector::add)
+                .orElse(new Vector(0, 0));
+
+        return sum.magnitude() / (particles.size());
+    }
+
+    private static Vector applyPeriodicBoundaryConditions(Vector position, Double L) {
+        double x = position.x() % L;
+        double y = position.y() % L;
+
+        if (x < 0) x += L;
+        if (y < 0) y += L;
+
+        return new Vector(x, y);
+    }
+
     public List<MovingParticle> runIteration(CellIndexMethod cim, Integer deltaT, List<MovingParticle> particles, FileWriter writer) throws IOException {
         // Calculamos los vecinos
         final Map<Particle, List<Particle>> neighborMap = cim.calculateNeighbors(this.rc);
         final List<MovingParticle> result = new ArrayList<>();
 
-        for(MovingParticle particle : particles) {
+        for (MovingParticle particle : particles) {
             final List<Particle> neighbours = neighborMap.getOrDefault(particle, new ArrayList<>());
             neighbours.add(particle);
 
@@ -60,7 +82,7 @@ public class OffLaticeMethod {
         final Map<Particle, List<Particle>> neighborMap = cim.calculateNeighbors(this.rc);
         final List<MovingParticle> result = new ArrayList<>();
 
-        for(MovingParticle particle : particles) {
+        for (MovingParticle particle : particles) {
             final List<Particle> neighbours = neighborMap.getOrDefault(particle, new ArrayList<>());
             neighbours.add(particle);
 
@@ -85,28 +107,6 @@ public class OffLaticeMethod {
 
     public Double getDeltaTheta() {
         return this.etha * (this.random.nextDouble() - 0.5);
-    }
-
-    public static Double calculateVa(List<MovingParticle> particles) {
-        if(particles.isEmpty())
-            return 0.0;
-
-        final Vector sum = particles.stream()
-                .map(MovingParticle::speed)
-                .reduce(Vector::add)
-                .orElse(new Vector(0, 0));
-
-        return sum.magnitude() / (particles.size());
-    }
-
-    private static Vector applyPeriodicBoundaryConditions(Vector position, Double L) {
-        double x = position.x() % L;
-        double y = position.y() % L;
-
-        if (x < 0) x += L;
-        if (y < 0) y += L;
-
-        return new Vector(x, y);
     }
 
     private Double calculateNewAngle(final List<Particle> neighbours) {

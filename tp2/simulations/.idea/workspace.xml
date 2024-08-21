@@ -4,19 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="67fabd57-47a4-4d82-8c66-2905d8185633" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../animations/src/time_vs_etha.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/TimeVsVaRun.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/models/parameters/TimeVsVaParameters.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/DefaultRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/DefaultRun.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/constants/FilePaths.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/constants/FilePaths.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/methods/OffLaticeMethod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/methods/OffLaticeMethod.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/models/parameters/PlotsParameters.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/models/parameters/PlotsParameters.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/utils/OutputUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/utils/OutputUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/example.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/example.json" afterDir="false" />
-    </list>
+    <list default="true" id="67fabd57-47a4-4d82-8c66-2905d8185633" name="Changes" comment="" />
     <list id="4c37064d-9989-45b6-b3e9-62c84d5d8f58" name="Changes by burda" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
