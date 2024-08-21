@@ -10,7 +10,7 @@
   },
   "plots": {
     "video": {
-      "enabled": true,
+      "enabled": false,
       "iterations": 100,
       "etha": 0.1
     },
@@ -18,6 +18,13 @@
       "enabled": false,
       "iterations": 500,
       "etha": 0.1
+    },
+    "va_vs_etha": {
+      "enabled": true,
+      "initial_iterations": 5000,
+      "etha": 0.1,
+      "steps": 10,
+      "repeat_per_etha": 10
     }
   }
 }

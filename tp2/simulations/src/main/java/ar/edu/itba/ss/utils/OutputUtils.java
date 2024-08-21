@@ -6,6 +6,7 @@ import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.models.parameters.CimParameters;
 import ar.edu.itba.ss.models.parameters.Parameters;
 import ar.edu.itba.ss.models.parameters.TimeVsVaParameters;
+import ar.edu.itba.ss.models.parameters.VaVsEthaParameters;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -102,6 +103,31 @@ public class OutputUtils {
 
     public static void printTimeVsVa(FileWriter writer, int time, double va) throws IOException {
         writer.write(String.format(LOCALE, "%d %.2f\n", time, va));
+        writer.flush();
+    }
+
+    /* VA VS. ETHA */
+    public static void printVaVsEthaParameters(FileWriter writer, VaVsEthaParameters parameters) {
+        // TODO: complete this
+        try {
+            writer.write(String.format(LOCALE, "Etha %.2f\n", parameters.getEtha()));
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void printVaVsEthaHeader(FileWriter writer) {
+        try {
+            writer.write("va etha\n");
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void printVaVsEtha(FileWriter writer, double va, double etha) throws IOException {
+        writer.write(String.format(LOCALE, "%.2f %.2f\n", va, etha));
         writer.flush();
     }
 }

@@ -27,5 +27,9 @@ public class Main {
         if (parameters.getPlots().getTimeVsVa().isEnabled()) {
             TimeVsVaRun.run(parameters);
         }
+
+        if (parameters.getPlots().getVaVsEtha().isEnabled()){
+            VaVsEthaRun.run(parameters);
+        }
     }
 }

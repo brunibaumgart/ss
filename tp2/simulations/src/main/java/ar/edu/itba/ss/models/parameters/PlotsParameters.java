@@ -14,4 +14,6 @@ public class PlotsParameters {
     private VideoParameters video;
     @JsonProperty("time_vs_va")
     private TimeVsVaParameters timeVsVa;
+    @JsonProperty("va_vs_etha")
+    private VaVsEthaParameters vaVsEtha;
 }
