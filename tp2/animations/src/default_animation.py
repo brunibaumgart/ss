@@ -60,22 +60,24 @@ def interpolate_color(angle):
         g = 0
         b = int(255 * ((angle - 270) / 90))
 
-    return (r, g, b)
+    return r, g, b
+
 # Step 3: Create animation video
 def create_animation_video(sim_params, data, output_video):
     L = sim_params['L']
     R = sim_params['R']
     iterations = len(data)
 
-    scale = 500 / L  # Escala para la visualización
+    resolution = 1080  # Resolución para la visualización (puedes ajustar este valor)
+    scale = resolution / L
     radius = int(R * scale)
 
     # Configurar el video writer
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Codec para .mp4
-    video_writer = cv2.VideoWriter(output_video, fourcc, 10, (500, 500))
+    video_writer = cv2.VideoWriter(output_video, fourcc, 10, (resolution, resolution))
 
     for i in range(iterations):
-        frame = np.ones((500, 500, 3), dtype=np.uint8) * 255  # Fondo blanco
+        frame = np.ones((resolution, resolution, 3), dtype=np.uint8) * 255  # Fondo blanco
 
         for particle in data[i]:
             id_, x, y, vx, vy, _ = particle  # Ignorar vecinos
@@ -86,18 +88,23 @@ def create_animation_video(sim_params, data, output_video):
 
             # Obtener el color basado en el ángulo
             particle_color = interpolate_color(angle)
-            #particle_color = (255,0,0)
+
             # Dibujar la partícula
             cv2.circle(frame, (cx, cy), radius, particle_color, -1)
 
             # Dibujar el vector de velocidad
-            end_point = (int(cx + vx * scale), int(cy + vy * scale))
+            if R == 0:
+                arrow_length = scale * 0.5
+            else:
+                arrow_length = max(R * scale, scale * 0.5)  # Ajusta este factor para cambiar el tamaño de las flechas
+            end_point = (int(cx + vx * arrow_length), int(cy + vy * arrow_length))  # Escalar para mejor visibilidad
             cv2.arrowedLine(frame, (cx, cy), end_point, particle_color, 1)
 
         # Escribir el frame en el video
         video_writer.write(frame)
 
     video_writer.release()  # Finalizar el video
+
 
 
 # Main function to run the simulation
