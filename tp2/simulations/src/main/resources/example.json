@@ -1,13 +1,18 @@
 {
-  "cim": {
-    "l": 5,
-    "rc": 0.5,
-    "r": 0,
-    "m": 10,
-    "n": 300
-  },
-  "speed": 0.03,
   "dt": 1,
-  "etha": 0.1,
-  "iterations": 750
+  "cim": {
+    "l": 20,
+    "rc": 1,
+    "r": 0.75,
+    "m": 6,
+    "n": 100
+  },
+  "plots": {
+    "video": {
+      "enabled": true,
+      "iterations": 250,
+      "etha": 1,
+      "speed": 0.03
+    }
+  }
 }
