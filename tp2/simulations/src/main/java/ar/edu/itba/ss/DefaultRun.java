@@ -19,9 +19,9 @@ import java.util.List;
 public class DefaultRun {
     public static void run(Parameters parameters) throws IOException {
         final VideoParameters videoParameters = parameters.getPlots().getVideo();
-        final List<MovingParticle> particles = ParticleUtils.createMovingParticles(parameters.getCim().getN(), parameters.getCim().getL(), parameters.getCim().getR(), videoParameters.getSpeed());
+        final List<MovingParticle> particles = ParticleUtils.createMovingParticles(parameters.getCim().getN(), parameters.getCim().getL(), parameters.getCim().getR(), parameters.getSpeed());
 
-        final OffLaticeMethod ofm = new OffLaticeMethod(videoParameters.getSpeed(), parameters.getCim().getRc(), videoParameters.getEtha());
+        final OffLaticeMethod ofm = new OffLaticeMethod(parameters.getSpeed(), parameters.getCim().getRc(), videoParameters.getEtha());
         CellIndexMethod cim = new CellIndexMethod(parameters.getCim().getM(), parameters.getCim().getL(), true, particles);
         List<MovingParticle> updatedParticles = Collections.unmodifiableList(particles);
 

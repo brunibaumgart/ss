@@ -1,5 +1,6 @@
 {
   "dt": 1,
+  "speed": 0.03,
   "cim": {
     "l": 20,
     "rc": 1,
@@ -11,8 +12,7 @@
     "video": {
       "enabled": true,
       "iterations": 250,
-      "etha": 1,
-      "speed": 0.03
+      "etha": 1
     }
   }
 }

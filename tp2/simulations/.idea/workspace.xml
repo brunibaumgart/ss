@@ -5,11 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="67fabd57-47a4-4d82-8c66-2905d8185633" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/models/parameters/PlotsParameters.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/models/parameters/VideoParameters.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/DefaultRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/DefaultRun.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/models/parameters/Parameters.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/models/parameters/Parameters.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/models/parameters/VideoParameters.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/models/parameters/VideoParameters.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/utils/OutputUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/edu/itba/ss/utils/OutputUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/example.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/example.json" afterDir="false" />
     </list>

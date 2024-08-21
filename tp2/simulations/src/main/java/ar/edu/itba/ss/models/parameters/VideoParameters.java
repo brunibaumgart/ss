@@ -14,5 +14,4 @@ public class VideoParameters {
     private boolean enabled;
     private int iterations;
     private double etha;
-    private double speed;
 }

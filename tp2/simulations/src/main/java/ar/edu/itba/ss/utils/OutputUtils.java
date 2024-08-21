@@ -24,7 +24,7 @@ public class OutputUtils {
             writer.write(String.format(LOCALE, "N %d\n", parameters.getCim().getN()));
             writer.write(String.format(LOCALE, "L %.2f\n", parameters.getCim().getL()));
             writer.write(String.format(LOCALE, "R %.2f\n", parameters.getCim().getR()));
-            writer.write(String.format(LOCALE, "V %.2f\n", parameters.getPlots().getVideo().getSpeed()));
+            writer.write(String.format(LOCALE, "V %.2f\n", parameters.getSpeed()));
             writer.write(String.format(LOCALE, "RC %.2f\n", parameters.getCim().getRc()));
             writer.write(String.format(LOCALE, "Etha %.2f\n", parameters.getPlots().getVideo().getEtha()));
             writer.write(String.format(LOCALE, "M %d\n", parameters.getCim().getM()));

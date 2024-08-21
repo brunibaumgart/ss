@@ -12,6 +12,7 @@ import lombok.Setter;
 public class Parameters implements Cloneable {
     private CimParameters cim;
     private PlotsParameters plots;
+    private double speed;
     private int dt;
 
     @Override
