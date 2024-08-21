@@ -4,15 +4,20 @@
   "cim": {
     "l": 20,
     "rc": 1,
-    "r": 0.75,
+    "r": 0.25,
     "m": 6,
-    "n": 100
+    "n": 400
   },
   "plots": {
     "video": {
       "enabled": true,
-      "iterations": 250,
-      "etha": 1
+      "iterations": 500,
+      "etha": 0.1
+    },
+    "time_vs_va": {
+      "enabled": true,
+      "iterations": 500,
+      "etha": 0.1
     }
   }
 }

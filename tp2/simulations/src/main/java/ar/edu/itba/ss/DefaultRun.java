@@ -19,6 +19,9 @@ import java.util.List;
 public class DefaultRun {
     public static void run(Parameters parameters) throws IOException {
         final VideoParameters videoParameters = parameters.getPlots().getVideo();
+        final FileWriter videoWriter = new FileWriter(FilePaths.OUTPUT_DIR + "video_parameters.txt");
+        OutputUtils.printVideoParameters(videoWriter, videoParameters.getEtha(), videoParameters.getIterations());
+
         final List<MovingParticle> particles = ParticleUtils.createMovingParticles(parameters.getCim().getN(), parameters.getCim().getL(), parameters.getCim().getR(), parameters.getSpeed());
 
         final OffLaticeMethod ofm = new OffLaticeMethod(parameters.getSpeed(), parameters.getCim().getRc(), videoParameters.getEtha());

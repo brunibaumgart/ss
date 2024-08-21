@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 
 from src.constants.FilePaths import PARAMETERS_FILE, DEFAULT_SIMULATION_DIR, \
-    OUTPUT_DEFAULT_VIDEO
+    OUTPUT_DEFAULT_VIDEO, VIDEO_PARAMETERS_FILE
 
 
 # Step 1: Load simulation parameters
@@ -110,7 +110,8 @@ def create_animation_video(sim_params, data, output_video):
 # Main function to run the simulation
 def main():
     sim_params = load_simulation_parameters(PARAMETERS_FILE)
-    output_data = load_output_files(DEFAULT_SIMULATION_DIR, int(sim_params['Iterations']))
+    video_params = load_simulation_parameters(VIDEO_PARAMETERS_FILE)
+    output_data = load_output_files(DEFAULT_SIMULATION_DIR, int(video_params['Iterations']))
     create_animation_video(sim_params, output_data, OUTPUT_DEFAULT_VIDEO)
 
 

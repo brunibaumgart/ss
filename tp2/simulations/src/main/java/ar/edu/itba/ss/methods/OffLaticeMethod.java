@@ -55,8 +55,48 @@ public class OffLaticeMethod {
         return result;
     }
 
+    public List<MovingParticle> runIterationNoPrints(CellIndexMethod cim, Integer deltaT, List<MovingParticle> particles) {
+        // Calculamos los vecinos
+        final Map<Particle, List<Particle>> neighborMap = cim.calculateNeighbors(this.rc);
+        final List<MovingParticle> result = new ArrayList<>();
+
+        for(MovingParticle particle : particles) {
+            final List<Particle> neighbours = neighborMap.getOrDefault(particle, new ArrayList<>());
+            neighbours.add(particle);
+
+            // Calculamos los angulos en t+1
+            final double newAngle = calculateNewAngle(neighbours) + getDeltaTheta();
+
+            // Calcular las posiciones en t+1
+            final Vector newPosition = OffLaticeMethod.applyPeriodicBoundaryConditions(
+                    particle.position().add(particle.speed().multiply(deltaT)),
+                    cim.L()
+            );
+
+            // Calculamos las velocidades en t+1
+            final Vector newVelocity = Vector.fromPolar(this.speed, newAngle);
+
+            final MovingParticle updatedParticle = new MovingParticle(particle.id(), particle.radius(), newPosition, newVelocity);
+            result.add(updatedParticle);
+        }
+
+        return result;
+    }
+
     public Double getDeltaTheta() {
         return this.etha * (this.random.nextDouble() - 0.5);
+    }
+
+    public static Double calculateVa(List<MovingParticle> particles) {
+        if(particles.isEmpty())
+            return 0.0;
+
+        final Vector sum = particles.stream()
+                .map(MovingParticle::speed)
+                .reduce(Vector::add)
+                .orElse(new Vector(0, 0));
+
+        return sum.magnitude() / (particles.size());
     }
 
     private static Vector applyPeriodicBoundaryConditions(Vector position, Double L) {

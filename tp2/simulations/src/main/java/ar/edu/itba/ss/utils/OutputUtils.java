@@ -2,8 +2,10 @@ package ar.edu.itba.ss.utils;
 
 
 import ar.edu.itba.ss.models.MovingParticle;
+import ar.edu.itba.ss.models.parameters.CimParameters;
 import ar.edu.itba.ss.models.parameters.Parameters;
 import ar.edu.itba.ss.models.Particle;
+import ar.edu.itba.ss.models.parameters.TimeVsVaParameters;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,17 +21,35 @@ public class OutputUtils {
         throw new IllegalStateException("Utility class");
     }
 
-    public static void printParameters(FileWriter writer, Parameters parameters) {
+    /* PARAMETERS */
+    public static void printCimParameters(FileWriter writer, CimParameters parameters) {
         try {
-            writer.write(String.format(LOCALE, "N %d\n", parameters.getCim().getN()));
-            writer.write(String.format(LOCALE, "L %.2f\n", parameters.getCim().getL()));
-            writer.write(String.format(LOCALE, "R %.2f\n", parameters.getCim().getR()));
-            writer.write(String.format(LOCALE, "V %.2f\n", parameters.getSpeed()));
-            writer.write(String.format(LOCALE, "RC %.2f\n", parameters.getCim().getRc()));
-            writer.write(String.format(LOCALE, "Etha %.2f\n", parameters.getPlots().getVideo().getEtha()));
-            writer.write(String.format(LOCALE, "M %d\n", parameters.getCim().getM()));
-            writer.write(String.format(LOCALE, "Iterations %d\n", parameters.getPlots().getVideo().getIterations()));
+            writer.write(String.format(LOCALE, "N %d\n", parameters.getN()));
+            writer.write(String.format(LOCALE, "L %.2f\n", parameters.getL()));
+            writer.write(String.format(LOCALE, "M %d\n", parameters.getM()));
+            writer.write(String.format(LOCALE, "R %.2f\n", parameters.getR()));
+            writer.write(String.format(LOCALE, "RC %.2f\n", parameters.getRc()));
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void printDefaultParameters(FileWriter writer, Parameters parameters) {
+        try {
+            writer.write(String.format(LOCALE, "Speed %.2f\n", parameters.getSpeed()));
             writer.write(String.format(LOCALE, "Dt %d\n", parameters.getDt()));
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /* PARTICLE DATA (for video) */
+    public static void printVideoParameters(FileWriter writer, double etha, int iterations) {
+        try {
+            writer.write(String.format(LOCALE, "Etha %.2f\n", etha));
+            writer.write(String.format(LOCALE, "Iterations %d\n", iterations));
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -57,6 +77,31 @@ public class OutputUtils {
                 .map(String::valueOf)
                 .collect(Collectors.joining(" "));
         writer.write(String.format(LOCALE, "%s %.2f %.2f %.2f %.2f [%s]\n", particle.id(), particle.position().x(), particle.position().y(), particle.speed().x(), particle.speed().y(), neighboursIds));
+        writer.flush();
+    }
+
+    /* TIME VS. VA */
+    public static void printTimeVsVaParameters(FileWriter writer, TimeVsVaParameters parameters) {
+        try {
+            writer.write(String.format(LOCALE, "Etha %.2f\n", parameters.getEtha()));
+            writer.write(String.format(LOCALE, "Iterations %d\n", parameters.getIterations()));
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void printTimeVsVaHeader(FileWriter writer) {
+        try {
+            writer.write("time va\n");
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void printTimeVsVa(FileWriter writer, int time, double va) throws IOException {
+        writer.write(String.format(LOCALE, "%d %.2f\n", time, va));
         writer.flush();
     }
 }
