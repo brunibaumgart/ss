@@ -1,5 +1,5 @@
 SIMULATIONS_DIR = "../../simulations/src/main/resources/"
-DEFAULT_SIMULATION_DIR = SIMULATIONS_DIR + "outputs/"
+VIDEO_FRAMES_DIR = SIMULATIONS_DIR + "video_frames/"
 
 PARAMETERS_FILE = SIMULATIONS_DIR + "parameters.txt"
 VIDEO_PARAMETERS_FILE = SIMULATIONS_DIR + "video_parameters.txt"

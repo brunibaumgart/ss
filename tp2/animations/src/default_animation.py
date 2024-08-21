@@ -3,7 +3,7 @@ import os
 import cv2
 import numpy as np
 
-from src.constants.FilePaths import PARAMETERS_FILE, DEFAULT_SIMULATION_DIR, \
+from src.constants.FilePaths import PARAMETERS_FILE, VIDEO_FRAMES_DIR, \
     OUTPUT_DEFAULT_VIDEO, VIDEO_PARAMETERS_FILE
 
 
@@ -21,7 +21,7 @@ def load_simulation_parameters(filename):
 def load_output_files(output_dir, iterations):
     data = []
     for i in range(iterations):
-        filename = os.path.join(output_dir, f"output_{i}.txt")
+        filename = os.path.join(output_dir, f"frame_{i}.txt")
         with open(filename, 'r') as f:
             particles = []
             for line in f:
@@ -111,7 +111,7 @@ def create_animation_video(sim_params, data, output_video):
 def main():
     sim_params = load_simulation_parameters(PARAMETERS_FILE)
     video_params = load_simulation_parameters(VIDEO_PARAMETERS_FILE)
-    output_data = load_output_files(DEFAULT_SIMULATION_DIR, int(video_params['Iterations']))
+    output_data = load_output_files(VIDEO_FRAMES_DIR, int(video_params['Iterations']))
     create_animation_video(sim_params, output_data, OUTPUT_DEFAULT_VIDEO)
 
 

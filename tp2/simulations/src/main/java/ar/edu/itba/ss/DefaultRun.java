@@ -29,7 +29,7 @@ public class DefaultRun {
         List<MovingParticle> updatedParticles = Collections.unmodifiableList(particles);
 
         for (int i = 0; i < videoParameters.getIterations(); i++) {
-            final FileWriter writer = new FileWriter(FilePaths.OUTPUT_DIR + "outputs/output_" + i + ".txt");
+            final FileWriter writer = new FileWriter(FilePaths.OUTPUT_DIR + "video_frames/frame_" + i + ".txt");
             OutputUtils.printParticleDataHeader(writer);
 
             updatedParticles = ofm.runIteration(cim, parameters.getDt(), updatedParticles, writer);

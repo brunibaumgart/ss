@@ -11,11 +11,11 @@
   "plots": {
     "video": {
       "enabled": true,
-      "iterations": 500,
+      "iterations": 100,
       "etha": 0.1
     },
     "time_vs_va": {
-      "enabled": true,
+      "enabled": false,
       "iterations": 500,
       "etha": 0.1
     }
