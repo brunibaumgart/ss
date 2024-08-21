@@ -74,8 +74,9 @@ public class OffLaticeMethod {
         final List<Double> cosAngles = new ArrayList<>();
 
         for (Particle neighbour : neighbours) {
-            sinAngles.add(Math.sin(neighbour.position().angle()));
-            cosAngles.add(Math.cos(neighbour.position().angle()));
+            MovingParticle movingNeighbour = (MovingParticle) neighbour;
+            sinAngles.add(Math.sin(movingNeighbour.speed().angle()));
+            cosAngles.add(Math.cos(movingNeighbour.speed().angle()));
         }
 
         return Math.atan2(getAverage(sinAngles), getAverage(cosAngles));
