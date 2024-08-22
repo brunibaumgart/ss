@@ -4,9 +4,9 @@ from src.constants.FilePaths import SIMULATIONS_DIR
 
 # Lista de archivos
 archivos = [
-    SIMULATIONS_DIR + 'time_vs_va/n_40__l_3_1/time_vs_va_0.txt',
-    SIMULATIONS_DIR + 'time_vs_va/n_40__l_3_1/time_vs_va_025.txt',
-    SIMULATIONS_DIR + 'time_vs_va/n_40__l_3_1/time_vs_va_05.txt',
+    SIMULATIONS_DIR + 'time_vs_va/n_400__l_10/time_vs_va_0.txt',
+    SIMULATIONS_DIR + 'time_vs_va/n_400__l_10/time_vs_va_2.txt',
+    SIMULATIONS_DIR + 'time_vs_va/n_400__l_10/time_vs_va_4.txt',
 ]
 colores = ['b', 'g', 'r', 'c']  # Colores para las curvas
 

@@ -71,7 +71,7 @@ def create_animation_video(sim_params, data, output_video):
 
     resolution = 1080  # Resolución para la visualización (puedes ajustar este valor)
     scale = resolution / L
-    radius = int(R * scale)
+    radius = int(R * scale * 1.5)
 
     # Configurar el video writer
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Codec para .mp4
@@ -94,12 +94,9 @@ def create_animation_video(sim_params, data, output_video):
             cv2.circle(frame, (cx, cy), radius, particle_color, -1)
 
             # Dibujar el vector de velocidad
-            if R == 0:
-                arrow_length = scale * 0.5
-            else:
-                arrow_length = max(R * scale, scale * 0.5)  # Ajusta este factor para cambiar el tamaño de las flechas
+            arrow_length = max(R * scale * 2, scale * 2)
             end_point = (int(cx + vx * arrow_length), int(cy + vy * arrow_length))  # Escalar para mejor visibilidad
-            cv2.arrowedLine(frame, (cx, cy), end_point, particle_color, 1)
+            cv2.arrowedLine(frame, (cx, cy), end_point, particle_color, 2)
 
         # Escribir el frame en el video
         video_writer.write(frame)
