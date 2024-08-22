@@ -22,7 +22,7 @@ public class TimeVsVaRun {
 
         final List<MovingParticle> particles = ParticleUtils.createMovingParticles(cimParameters.getN(), cimParameters.getL(), cimParameters.getR(), parameters.getSpeed());
 
-        final OffLaticeMethod ofm = new OffLaticeMethod(parameters.getSpeed(), parameters.getCim().getRc(), timeVsVaParameters.getEtha());
+        final OffLaticeMethod ofm = new OffLaticeMethod(cimParameters.getRc(), parameters.getSpeed(), timeVsVaParameters.getEtha());
         CellIndexMethod cim = new CellIndexMethod(parameters.getCim().getM(), parameters.getCim().getL(), true, particles);
         List<MovingParticle> updatedParticles = Collections.unmodifiableList(particles);
 
@@ -32,7 +32,7 @@ public class TimeVsVaRun {
         OutputUtils.printTimeVsVaHeader(writer);
 
         for (int i = 0; i < timeVsVaParameters.getIterations(); i++) {
-            OutputUtils.printTimeVsVa(writer, i, OffLaticeMethod.calculateVa(updatedParticles));
+            OutputUtils.printTimeVsVa(writer, i, OffLaticeMethod.calculateVa(updatedParticles, parameters.getSpeed()));
 
             updatedParticles = ofm.runIterationNoPrints(cim, parameters.getDt(), updatedParticles);
 

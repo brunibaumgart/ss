@@ -24,7 +24,7 @@ public class Vector {
     }
 
     public double magnitude() {
-        return Math.sqrt(x * x + y * y);
+        return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }
 
     public Vector add(Vector other) {

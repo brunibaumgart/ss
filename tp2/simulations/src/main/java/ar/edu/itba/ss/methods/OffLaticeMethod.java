@@ -25,7 +25,7 @@ public class OffLaticeMethod {
         this.random = new Random();
     }
 
-    public static Double calculateVa(List<MovingParticle> particles) {
+    public static Double calculateVa(List<MovingParticle> particles, Double speed) {
         if (particles.isEmpty())
             return 0.0;
 
@@ -34,7 +34,7 @@ public class OffLaticeMethod {
                 .reduce(Vector::add)
                 .orElse(new Vector(0, 0));
 
-        return sum.magnitude() / (particles.size());
+        return sum.magnitude() / (particles.size() * speed);
     }
 
     private static Vector applyPeriodicBoundaryConditions(Vector position, Double L) {
