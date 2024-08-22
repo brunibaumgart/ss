@@ -6,7 +6,6 @@ import ar.edu.itba.ss.methods.OffLaticeMethod;
 import ar.edu.itba.ss.models.MovingParticle;
 import ar.edu.itba.ss.models.parameters.CimParameters;
 import ar.edu.itba.ss.models.parameters.Parameters;
-import ar.edu.itba.ss.models.parameters.TimeVsVaParameters;
 import ar.edu.itba.ss.models.parameters.VaVsEthaParameters;
 import ar.edu.itba.ss.utils.OutputUtils;
 import ar.edu.itba.ss.utils.ParticleUtils;
@@ -33,7 +32,7 @@ public class VaVsEthaRun {
         for (int i = 0; i < vaVsEthaParameters.getInitialIterations() && !isFinished; i++) {
 
             updatedParticles = ofm.runIterationNoPrints(cim, parameters.getDt(), updatedParticles);
-            if (OffLaticeMethod.calculateVa(updatedParticles) > 0.99){
+            if (OffLaticeMethod.calculateVa(updatedParticles, parameters.getSpeed()) > 0.99){
                 cutoffIterations =  i;
                 isFinished = true;
             }
@@ -60,7 +59,7 @@ public class VaVsEthaRun {
                     updatedPlotParticles = plotOfm.runIterationNoPrints(cim, parameters.getDt(), updatedPlotParticles);
                     cim = new CellIndexMethod(parameters.getCim().getM(), parameters.getCim().getL(), true, updatedPlotParticles);
                 }
-                OutputUtils.printVaVsEtha(writer, OffLaticeMethod.calculateVa(updatedPlotParticles), etha);
+                OutputUtils.printVaVsEtha(writer, OffLaticeMethod.calculateVa(updatedPlotParticles, parameters.getSpeed()), etha);
                 etha += vaVsEthaParameters.getEtha();
             }
         }
