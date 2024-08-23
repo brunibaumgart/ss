@@ -12,10 +12,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class VaVsEthaParameters {
     private boolean enabled;
-    @JsonProperty("initial_iterations")
-    private int initialIterations;
+    @JsonProperty("stationary_iterations")
+    private int stationaryIterations;
+    @JsonProperty("total_iterations")
+    private int totalIterations;
     private double etha;
     private int steps;
-    @JsonProperty("repeat_per_etha")
-    private int repeatPerEtha;
 }

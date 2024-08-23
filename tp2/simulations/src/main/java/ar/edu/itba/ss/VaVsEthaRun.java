@@ -12,56 +12,50 @@ import ar.edu.itba.ss.utils.ParticleUtils;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class VaVsEthaRun {
     public static void run(Parameters parameters) throws IOException {
-        // Find out t value for given initial etha so that va = 1
+
+        // Create file
+        final FileWriter writer = new FileWriter(FilePaths.OUTPUT_DIR + "va_vs_etha.txt");
+        OutputUtils.printVaVsEthaHeader(writer);
+
+        // Get parameters
         final CimParameters cimParameters = parameters.getCim();
         final VaVsEthaParameters vaVsEthaParameters = parameters.getPlots().getVaVsEtha();
+        Double etha = vaVsEthaParameters.getEtha();
 
-        final OffLaticeMethod ofm = new OffLaticeMethod(parameters.getSpeed(), parameters.getCim().getRc(), vaVsEthaParameters.getEtha());
+        for (int i=0; i < vaVsEthaParameters.getSteps(); i++){
+            // Find out va mean and std for given etha
+            final List<MovingParticle> particles = ParticleUtils.createMovingParticles(cimParameters.getN(), cimParameters.getL(), cimParameters.getR(), parameters.getSpeed());
+            List<MovingParticle> updatedParticles = Collections.unmodifiableList(particles);
+            final OffLaticeMethod ofm = new OffLaticeMethod(parameters.getCim().getRc(), parameters.getSpeed(), etha);
+            CellIndexMethod cim = new CellIndexMethod(parameters.getCim().getM(), parameters.getCim().getL(), true, particles);
 
-        final List<MovingParticle> particles = ParticleUtils.createMovingParticles(cimParameters.getN(), cimParameters.getL(), cimParameters.getR(), parameters.getSpeed());
-        CellIndexMethod cim = new CellIndexMethod(parameters.getCim().getM(), parameters.getCim().getL(), true, particles);
-        List<MovingParticle> updatedParticles = Collections.unmodifiableList(particles);
+            List<Double> va = new ArrayList<>();
+            for (int j = 0; j < vaVsEthaParameters.getTotalIterations(); j++) {
 
-        int cutoffIterations = 0;
-        boolean isFinished = false;
-        for (int i = 0; i < vaVsEthaParameters.getInitialIterations() && !isFinished; i++) {
-
-            updatedParticles = ofm.runIterationNoPrints(cim, parameters.getDt(), updatedParticles);
-            if (OffLaticeMethod.calculateVa(updatedParticles, parameters.getSpeed()) > 0.99){
-                cutoffIterations =  i;
-                isFinished = true;
-            }
-
-            cim = new CellIndexMethod(parameters.getCim().getM(), parameters.getCim().getL(), true, updatedParticles);
-        }
-
-        // Write plot data in files
-        for (int j=0; j < vaVsEthaParameters.getRepeatPerEtha(); j++) {
-
-            final FileWriter writer = new FileWriter(FilePaths.OUTPUT_DIR + "va_vs_etha/" +
-                    "va_vs_etha_" + j + ".txt");
-
-            OutputUtils.printVaVsEthaHeader(writer);
-
-            Double etha = vaVsEthaParameters.getEtha();
-            for (int i = 0; i < vaVsEthaParameters.getSteps(); i++) {
-
-                final OffLaticeMethod plotOfm = new OffLaticeMethod(parameters.getSpeed(), parameters.getCim().getRc(), etha);
-                final List<MovingParticle> plotParticles = ParticleUtils.createMovingParticles(cimParameters.getN(), cimParameters.getL(), cimParameters.getR(), parameters.getSpeed());
-                List<MovingParticle> updatedPlotParticles = Collections.unmodifiableList(plotParticles);
-
-                for (int k = 0; k < cutoffIterations; k++) {
-                    updatedPlotParticles = plotOfm.runIterationNoPrints(cim, parameters.getDt(), updatedPlotParticles);
-                    cim = new CellIndexMethod(parameters.getCim().getM(), parameters.getCim().getL(), true, updatedPlotParticles);
+                updatedParticles = ofm.runIterationNoPrints(cim, parameters.getDt(), updatedParticles);
+                if (j >= vaVsEthaParameters.getStationaryIterations()){
+                    va.add(OffLaticeMethod.calculateVa(updatedParticles, parameters.getSpeed()));
                 }
-                OutputUtils.printVaVsEtha(writer, OffLaticeMethod.calculateVa(updatedPlotParticles, parameters.getSpeed()), etha);
-                etha += vaVsEthaParameters.getEtha();
+                cim = new CellIndexMethod(parameters.getCim().getM(), parameters.getCim().getL(), true, updatedParticles);
             }
+
+            System.out.println(va);
+            final Double mean = va.stream()
+                    .mapToDouble(Double::doubleValue).average().orElse(0);
+            final Double std = Math.sqrt(va.stream()
+                    .mapToDouble(num -> Math.pow(num - mean, 2))
+                    .average()
+                    .orElse(0.0));
+
+            OutputUtils.printVaVsEtha(writer, etha, mean, std);
+
+            etha += vaVsEthaParameters.getEtha();
         }
     }
 }

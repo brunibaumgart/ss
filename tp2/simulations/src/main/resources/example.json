@@ -4,7 +4,7 @@
   "cim": {
     "l": 20,
     "rc": 1,
-    "r": 0.25,
+    "r": 0,
     "m": 6,
     "n": 400
   },
@@ -21,10 +21,10 @@
     },
     "va_vs_etha": {
       "enabled": true,
-      "initial_iterations": 5000,
-      "etha": 0.1,
-      "steps": 10,
-      "repeat_per_etha": 10
+      "stationary_iterations": 2000,
+      "total_iterations": 5000,
+      "etha": 1,
+      "steps": 10
     }
   }
 }

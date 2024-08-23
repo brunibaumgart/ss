@@ -119,15 +119,15 @@ public class OutputUtils {
 
     public static void printVaVsEthaHeader(FileWriter writer) {
         try {
-            writer.write("va etha\n");
+            writer.write("etha mean_va std_va\n");
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void printVaVsEtha(FileWriter writer, double va, double etha) throws IOException {
-        writer.write(String.format(LOCALE, "%.2f %.2f\n", va, etha));
+    public static void printVaVsEtha(FileWriter writer, double etha, double meanVa, double stdVa) throws IOException {
+        writer.write(String.format(LOCALE, "%.2f %.2f %.2f\n", etha, meanVa, stdVa));
         writer.flush();
     }
 }
