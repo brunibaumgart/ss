@@ -2,10 +2,10 @@
   "dt": 1,
   "speed": 0.03,
   "cim": {
-    "l": 20,
+    "l": 10,
     "rc": 1,
     "r": 0,
-    "m": 6,
+    "m": 10,
     "n": 400
   },
   "plots": {
@@ -20,12 +20,21 @@
       "etha": 0.1
     },
     "va_vs_etha": {
-      "enabled": true,
+      "enabled": false,
       "stationary_iterations": 1500,
       "total_iterations": 3000,
       "etha": 0,
       "etha_step": 0.2,
       "steps": 20
+    },
+    "va_vs_rho": {
+      "enabled": true,
+      "stationary_iterations": 1500,
+      "total_iterations": 3000,
+      "initial_n": 50,
+      "steps": 12,
+      "n_step": 50,
+      "etha": 1
     }
   }
 }
