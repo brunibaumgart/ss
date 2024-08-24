@@ -31,5 +31,8 @@ public class Main {
         if (parameters.getPlots().getVaVsEtha().isEnabled()){
             VaVsEthaRun.run(parameters);
         }
+
+        if(parameters.getPlots().getVaVsRho().isEnabled())
+            VaVsRhoRun.run(parameters);
     }
 }
