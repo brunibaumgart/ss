@@ -130,4 +130,18 @@ public class OutputUtils {
         writer.write(String.format(LOCALE, "%.2f %.2f %.2f\n", etha, meanVa, stdVa));
         writer.flush();
     }
+
+    public static void printVaVsRhoHeader(FileWriter writer) {
+        try {
+            writer.write("rho mean_va std_va\n");
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void printVaVsRho(FileWriter writer, double rho, double meanVa, double stdVa) throws IOException {
+        writer.write(String.format(LOCALE, "%.2f %.2f %.2f\n", rho, meanVa, stdVa));
+        writer.flush();
+    }
 }
