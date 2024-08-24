@@ -21,10 +21,11 @@
     },
     "va_vs_etha": {
       "enabled": true,
-      "stationary_iterations": 2000,
-      "total_iterations": 5000,
-      "etha": 1,
-      "steps": 10
+      "stationary_iterations": 1500,
+      "total_iterations": 3000,
+      "etha": 0,
+      "etha_step": 0.2,
+      "steps": 20
     }
   }
 }

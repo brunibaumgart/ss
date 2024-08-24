@@ -18,4 +18,6 @@ public class VaVsEthaParameters {
     private int totalIterations;
     private double etha;
     private int steps;
+    @JsonProperty("etha_step")
+    private Double ethaStep;
 }

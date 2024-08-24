@@ -55,7 +55,7 @@ public class VaVsEthaRun {
 
             OutputUtils.printVaVsEtha(writer, etha, mean, std);
 
-            etha += vaVsEthaParameters.getEtha();
+            etha += vaVsEthaParameters.getEthaStep();
         }
     }
 }
