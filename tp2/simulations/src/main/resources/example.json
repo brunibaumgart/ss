@@ -25,7 +25,7 @@
       "total_iterations": 3000,
       "etha": 0,
       "etha_step": 0.2,
-      "steps": 20
+      "steps": 21
     },
     "va_vs_rho": {
       "enabled": true,

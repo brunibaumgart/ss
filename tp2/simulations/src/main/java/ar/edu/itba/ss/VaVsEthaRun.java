@@ -44,8 +44,7 @@ public class VaVsEthaRun {
                 }
                 cim = new CellIndexMethod(parameters.getCim().getM(), parameters.getCim().getL(), true, updatedParticles);
             }
-
-            System.out.println(va);
+            
             final Double mean = va.stream()
                     .mapToDouble(Double::doubleValue).average().orElse(0);
             final Double std = Math.sqrt(va.stream()
