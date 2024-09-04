@@ -9,12 +9,12 @@ import java.util.List;
 public class MolecularDynamicsMethod {
 
 
-    public static List<Particle> runIteration(List<Particle> particles){
+    public static List<Particle> runIteration(List<Particle> particles) {
         double minorCollisionTime = 0;
         List<Particle> newParticles = new ArrayList<>();
 
         // 2. Se calcula el tiempo hasta el primer choque
-        for (Particle particle: particles){
+        for (Particle particle : particles) {
 
             // 2.a Calculo partículas vecinas (con las que podría chocar)
             final List<Particle> collisionParticles = calculateCollisionParticles(particles, particle);
@@ -22,9 +22,9 @@ public class MolecularDynamicsMethod {
             // 2.b Calculo tc para la particula seleccionada respecto a las paredes
 
             // 2.c Calculo tc para la partícula seleccionada respecto a otras partículas
-            for (Particle collisionParticle: collisionParticles){
+            for (Particle collisionParticle : collisionParticles) {
                 final double collisionTime = calculateCollisionTime(particle, collisionParticle);
-                if (collisionTime < minorCollisionTime){
+                if (collisionTime < minorCollisionTime) {
                     minorCollisionTime = collisionTime;
                 }
             }
@@ -35,37 +35,34 @@ public class MolecularDynamicsMethod {
         return newParticles;
     }
 
-    private static List<Particle> calculateCollisionParticles(List<Particle> particles, Particle particle){
-        List<Particle> collisionParticles = new ArrayList<>();
+    private static List<Particle> calculateCollisionParticles(List<Particle> particles, Particle particle) {
+        final List<Particle> collisionParticles = new ArrayList<>();
         final double angle = particle.position().angle();
         final double x = particle.position().x();
         final double y = particle.position().y();
 
         // TODO: check border cases (angle = 90, for example)
-        if (angle < 90){
-            for (Particle potentialParticle: particles){
-                if (potentialParticle.position().x() > x && potentialParticle.position().y() > y){
+        if (angle < 90) {
+            for (Particle potentialParticle : particles) {
+                if (potentialParticle.position().x() > x && potentialParticle.position().y() > y) {
                     collisionParticles.add(potentialParticle);
                 }
             }
-        }
-        else if (angle < 180){
-            for (Particle potentialParticle: particles){
-                if (potentialParticle.position().x() < x && potentialParticle.position().y() > y){
+        } else if (angle < 180) {
+            for (Particle potentialParticle : particles) {
+                if (potentialParticle.position().x() < x && potentialParticle.position().y() > y) {
                     collisionParticles.add(potentialParticle);
                 }
             }
-        }
-        else if (angle < 270){
-            for (Particle potentialParticle: particles){
-                if (potentialParticle.position().x() < x && potentialParticle.position().y() < y){
+        } else if (angle < 270) {
+            for (Particle potentialParticle : particles) {
+                if (potentialParticle.position().x() < x && potentialParticle.position().y() < y) {
                     collisionParticles.add(potentialParticle);
                 }
             }
-        }
-        else {
-            for (Particle potentialParticle: particles){
-                if (potentialParticle.position().x() > x && potentialParticle.position().y() < y){
+        } else {
+            for (Particle potentialParticle : particles) {
+                if (potentialParticle.position().x() > x && potentialParticle.position().y() < y) {
                     collisionParticles.add(potentialParticle);
                 }
             }
@@ -73,32 +70,25 @@ public class MolecularDynamicsMethod {
         return collisionParticles;
     }
 
-    private static double calculateCollisionTime(Particle particle, Particle otherParticle){
-        final double particleX = particle.position().x();
-        final double particleY = particle.position().y();
-        final double otherParticleX = otherParticle.position().x();
-        final double otherParticleY = otherParticle.position().y();
-
-        final double speed = particle.speed().magnitude();
-
+    private static double calculateCollisionTime(Particle particle, Particle otherParticle) {
         final double sigma = particle.radius() + otherParticle.radius();
-        final Vector deltaR = new Vector(otherParticleX - particleX, otherParticleY - particleY);
-        final Vector deltaV = new Vector(speed*(otherParticleX - particleX), speed*(otherParticleY - particleY));
+        final Vector deltaR = otherParticle.position().subtract(particle.position());
+        final Vector deltaV = deltaR.multiply(particle.speed().magnitude());
 
         final double deltaRDotDeltaR = deltaR.dot(deltaR);
         final double deltaVDotDeltaV = deltaV.dot(deltaV);
         final double deltaVDotDeltaR = deltaV.dot(deltaR);
 
-        if (deltaVDotDeltaR >= 0){
+        if (deltaVDotDeltaR >= 0) {
             return Double.POSITIVE_INFINITY; // TODO: check this
         }
 
-        final double d = Math.pow(deltaVDotDeltaR, 2) - (deltaVDotDeltaV)*(deltaRDotDeltaR - Math.pow(sigma,2));
+        final double d = Math.pow(deltaVDotDeltaR, 2) - (deltaVDotDeltaV) * (deltaRDotDeltaR - Math.pow(sigma, 2));
 
-        if (d < 0){
+        if (d < 0) {
             return Double.POSITIVE_INFINITY; // TODO: check this
         }
 
-        return -((deltaVDotDeltaR + Math.sqrt(d))/deltaVDotDeltaV);
+        return -((deltaVDotDeltaR + Math.sqrt(d)) / deltaVDotDeltaV);
     }
 }

@@ -5,10 +5,8 @@ import ar.edu.itba.ss.models.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
-@SuppressWarnings("Duplicates")
 public class ParticleUtils {
     private ParticleUtils() {
         throw new IllegalStateException("Utility class");
@@ -21,7 +19,7 @@ public class ParticleUtils {
      * @param L     length of the box
      * @param r     radius of the particles
      * @param speed speed of particles
-     * @param mass mass of particles
+     * @param mass  mass of particles
      * @return list of particles
      */
     public static List<Particle> createMovingParticles(final int N, final double L, final double r, final double speed, final double mass) {
@@ -48,6 +46,6 @@ public class ParticleUtils {
     }
 
     private static boolean collidesWithAny(final Particle particle, final List<Particle> particles) {
-        return particles.stream().anyMatch(particle::collidesWith);
+        return particles.parallelStream().anyMatch(particle::collidesWith);
     }
 }
