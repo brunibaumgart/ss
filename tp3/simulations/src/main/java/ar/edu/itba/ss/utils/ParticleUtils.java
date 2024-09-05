@@ -15,15 +15,23 @@ public class ParticleUtils {
     /**
      * Create particles in the space without overlapping
      *
-     * @param N     number of particles
-     * @param L     length of the box
-     * @param r     radius of the particles
-     * @param speed speed of particles
-     * @param mass  mass of particles
-     * @return list of particles
+     * @param particles list of particles. not modified
+     * @param N         number of particles
+     * @param L         length of the box
+     * @param r         radius of the particles
+     * @param speed     speed of particles
+     * @param mass      mass of particles
+     * @return a new list of particles containing the old ones and the new ones
      */
-    public static List<Particle> createMovingParticles(final int N, final double L, final double r, final double speed, final double mass) {
-        final List<Particle> particles = new ArrayList<>();
+    public static List<Particle> createMovingParticles(
+            final List<Particle> particles,
+            final int N,
+            final double L,
+            final double r,
+            final double speed,
+            final double mass
+    ) {
+        final List<Particle> result = new ArrayList<>(particles);
         final Random random = new Random();
 
         for (int i = 0; i < N; i++) {
@@ -33,16 +41,16 @@ public class ParticleUtils {
 
             Particle p = new Particle(i, r, new Vector(x, y), Vector.fromPolar(speed, angle), mass);
             // check particles do not overlap
-            while (ParticleUtils.collidesWithAny(p, particles)) {
+            while (ParticleUtils.collidesWithAny(p, result)) {
                 x = random.nextDouble() * L;
                 y = random.nextDouble() * L;
                 p = new Particle(i, r, new Vector(x, y), Vector.fromPolar(speed, angle), mass);
             }
 
-            particles.add(p);
+            result.add(p);
         }
 
-        return particles;
+        return result;
     }
 
     private static boolean collidesWithAny(final Particle particle, final List<Particle> particles) {

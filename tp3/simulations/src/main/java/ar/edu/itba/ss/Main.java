@@ -7,6 +7,7 @@ import ar.edu.itba.ss.utils.ArgumentHandlerUtils;
 import ar.edu.itba.ss.utils.ParticleUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,9 +30,12 @@ public class Main
                 Vector.fromPolar(0, 0),
                 parameters.isMovable()? parameters.getMassB() : Double.POSITIVE_INFINITY
         );
+        final List<Particle> aux = new ArrayList<>();
+        aux.add(brownianParticle);
 
         // 1.b. Se definen las posiciones y velocidades iniciales, los radios y tamaño de la caja
         final List<Particle> particles = ParticleUtils.createMovingParticles(
+                aux,
                 parameters.getN(),
                 parameters.getL(),
                 parameters.getRp(),
