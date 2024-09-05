@@ -3,6 +3,7 @@ package ar.edu.itba.ss.utils;
 import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.models.Quadrant;
 import ar.edu.itba.ss.models.Vector;
+import ar.edu.itba.ss.models.Wall;
 
 import java.util.List;
 import java.util.PriorityQueue;
@@ -15,7 +16,38 @@ public class CollisionUtils {
         throw new IllegalStateException("Utility class");
     }
 
-    public static Queue<Double> calculateCollisionTimes(final Particle particle, final List<Particle> particles) {
+    public static Double calculateTcWithWall(final Particle particle, final Wall wall) {
+        final double x = particle.position().x();
+        final double y = particle.position().y();
+        final double vx = particle.speed().x();
+        final double vy = particle.speed().y();
+        final double r = particle.radius();
+
+        return switch (wall.type()) {
+            case TOP -> {
+                if (vy < 0)
+                    yield Double.POSITIVE_INFINITY;
+                yield (wall.position().y() - r - y) / vy;
+            }
+            case BOTTOM -> {
+                if (vy > 0)
+                    yield Double.POSITIVE_INFINITY;
+                yield (wall.position().y() + r - y) / vy;
+            }
+            case LEFT -> {
+                if (vx > 0)
+                    yield Double.POSITIVE_INFINITY;
+                yield (wall.position().x() + r - x) / vx;
+            }
+            case RIGHT -> {
+                if (vx < 0)
+                    yield Double.POSITIVE_INFINITY;
+                yield (wall.position().x() - r - x) / vx;
+            }
+        };
+    }
+
+    public static Queue<Double> calculateTcWithParticles(final Particle particle, final List<Particle> particles) {
         final double angle = Math.toDegrees(particle.speed().angle());
         final double x = particle.position().x();
         final double y = particle.position().y();
@@ -29,7 +61,7 @@ public class CollisionUtils {
 
                     return quadrants.parallelStream()
                             .filter(q -> q.isInQuadrant(x, y, otherX, otherY))
-                            .map(q -> calculateCollisionTime(particle, p))
+                            .map(q -> calculateTcWithParticle(particle, p))
                             .findFirst()
                             .orElse(Double.POSITIVE_INFINITY);
                 })
@@ -38,10 +70,10 @@ public class CollisionUtils {
     }
 
 
-    private static double calculateCollisionTime(Particle particle, Particle otherParticle) {
+    private static double calculateTcWithParticle(final Particle particle, final Particle otherParticle) {
         final double sigma = particle.radius() + otherParticle.radius();
         final Vector deltaR = otherParticle.position().subtract(particle.position());
-        final Vector deltaV = deltaR.multiply(particle.speed().magnitude());
+        final Vector deltaV = otherParticle.speed().subtract(particle.speed());
 
         final double deltaRDotDeltaR = deltaR.dot(deltaR);
         final double deltaVDotDeltaV = deltaV.dot(deltaV);

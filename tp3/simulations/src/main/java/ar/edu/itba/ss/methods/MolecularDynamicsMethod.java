@@ -73,7 +73,7 @@ public class MolecularDynamicsMethod {
     private static double calculateCollisionTime(Particle particle, Particle otherParticle) {
         final double sigma = particle.radius() + otherParticle.radius();
         final Vector deltaR = otherParticle.position().subtract(particle.position());
-        final Vector deltaV = deltaR.multiply(particle.speed().magnitude());
+        final Vector deltaV = otherParticle.speed().subtract(particle.speed());
 
         final double deltaRDotDeltaR = deltaR.dot(deltaR);
         final double deltaVDotDeltaV = deltaV.dot(deltaV);
