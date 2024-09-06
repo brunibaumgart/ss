@@ -4,11 +4,10 @@ import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.models.Quadrant;
 import ar.edu.itba.ss.models.Vector;
 import ar.edu.itba.ss.models.Wall;
+import ar.edu.itba.ss.models.events.ParticleCollision;
+import ar.edu.itba.ss.models.events.WallCollision;
 
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CollisionUtils {
@@ -16,7 +15,22 @@ public class CollisionUtils {
         throw new IllegalStateException("Utility class");
     }
 
-    public static Double calculateTcWithWall(final Particle particle, final Wall wall) {
+    public static PriorityQueue<WallCollision> calculateTcWithWalls(final Particle particle, final double L) {
+        final List<Wall> walls = List.of(
+                new Wall(Wall.WallType.TOP, L),
+                new Wall(Wall.WallType.BOTTOM, L),
+                new Wall(Wall.WallType.LEFT, L),
+                new Wall(Wall.WallType.RIGHT, L)
+        );
+
+        return walls.parallelStream()
+                .map(wall -> calculateTcWithWall(particle, wall))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toCollection(PriorityQueue::new));
+    }
+
+    public static Optional<WallCollision> calculateTcWithWall(final Particle particle, final Wall wall) {
         final double x = particle.position().x();
         final double y = particle.position().y();
         final double vx = particle.speed().x();
@@ -26,28 +40,28 @@ public class CollisionUtils {
         return switch (wall.type()) {
             case TOP -> {
                 if (vy < 0)
-                    yield Double.POSITIVE_INFINITY;
-                yield (wall.position().y() - r - y) / vy;
+                    yield Optional.empty();
+                yield Optional.of(new WallCollision((wall.position().y() - r - y) / vy, particle, wall));
             }
             case BOTTOM -> {
                 if (vy > 0)
-                    yield Double.POSITIVE_INFINITY;
-                yield (wall.position().y() + r - y) / vy;
+                    yield Optional.empty();
+                yield Optional.of(new WallCollision((wall.position().y() + r - y) / vy, particle, wall));
             }
             case LEFT -> {
                 if (vx > 0)
-                    yield Double.POSITIVE_INFINITY;
-                yield (wall.position().x() + r - x) / vx;
+                    yield Optional.empty();
+                yield Optional.of(new WallCollision((wall.position().y() + r - x) / vx, particle, wall));
             }
             case RIGHT -> {
                 if (vx < 0)
-                    yield Double.POSITIVE_INFINITY;
-                yield (wall.position().x() - r - x) / vx;
+                    yield Optional.empty();
+                yield Optional.of(new WallCollision((wall.position().y() - r - x) / vx, particle, wall));
             }
         };
     }
 
-    public static Queue<Double> calculateTcWithParticles(final Particle particle, final List<Particle> particles) {
+    public static PriorityQueue<ParticleCollision> calculateTcWithParticles(final Particle particle, final List<Particle> particles) {
         final double angle = Math.toDegrees(particle.speed().angle());
         final double x = particle.position().x();
         final double y = particle.position().y();
@@ -55,22 +69,22 @@ public class CollisionUtils {
         final Set<Quadrant> quadrants = Quadrant.getQuadrant(angle).getAdjacentQuadrants();
 
         return particles.parallelStream()
-                .map(p -> {
+                .flatMap(p -> {
                     final double otherX = p.position().x();
                     final double otherY = p.position().y();
 
                     return quadrants.parallelStream()
                             .filter(q -> q.isInQuadrant(x, y, otherX, otherY))
-                            .map(q -> calculateTcWithParticle(particle, p))
-                            .findFirst()
-                            .orElse(Double.POSITIVE_INFINITY);
+                            .map(op -> calculateTcWithParticle(particle, p))
+                            .filter(Optional::isPresent)
+                            .map(Optional::get)
+                            .map(time -> new ParticleCollision(time, particle, p));
                 })
-                .filter(time -> time != Double.POSITIVE_INFINITY)
                 .collect(Collectors.toCollection(PriorityQueue::new));
     }
 
 
-    private static double calculateTcWithParticle(final Particle particle, final Particle otherParticle) {
+    private static Optional<Double> calculateTcWithParticle(final Particle particle, final Particle otherParticle) {
         final double sigma = particle.radius() + otherParticle.radius();
         final Vector deltaR = otherParticle.position().subtract(particle.position());
         final Vector deltaV = otherParticle.speed().subtract(particle.speed());
@@ -79,12 +93,12 @@ public class CollisionUtils {
         final double deltaVDotDeltaV = deltaV.dot(deltaV);
         final double deltaVDotDeltaR = deltaV.dot(deltaR);
         if (deltaVDotDeltaR >= 0)
-            return Double.POSITIVE_INFINITY;
+            return Optional.empty();
 
         final double d = Math.pow(deltaVDotDeltaR, 2) - (deltaVDotDeltaV) * (deltaRDotDeltaR - Math.pow(sigma, 2));
         if (d < 0)
-            return Double.POSITIVE_INFINITY;
+            return Optional.empty();
 
-        return -((deltaVDotDeltaR + Math.sqrt(d)) / deltaVDotDeltaV);
+        return Optional.of(-((deltaVDotDeltaR + Math.sqrt(d)) / deltaVDotDeltaV));
     }
 }
