@@ -4,6 +4,7 @@ import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.models.Quadrant;
 import ar.edu.itba.ss.models.Vector;
 import ar.edu.itba.ss.models.Wall;
+import ar.edu.itba.ss.models.events.Event;
 import ar.edu.itba.ss.models.events.ParticleCollision;
 import ar.edu.itba.ss.models.events.WallCollision;
 
@@ -81,6 +82,17 @@ public class CollisionUtils {
                             .map(time -> new ParticleCollision(time, particle, p));
                 })
                 .collect(Collectors.toCollection(PriorityQueue::new));
+    }
+
+    public static PriorityQueue<Event> calculateAllCollisions(final Particle particle, final List<Particle> particles, final double L){
+        final PriorityQueue<ParticleCollision> particleCollisions = CollisionUtils.calculateTcWithParticles(particle, particles);
+        final PriorityQueue<WallCollision> wallCollisions = CollisionUtils.calculateTcWithWalls(particle, L);
+
+        final PriorityQueue<Event> collisions = new PriorityQueue<>();
+        collisions.addAll(particleCollisions);
+        collisions.addAll(wallCollisions);
+
+        return collisions;
     }
 
 
