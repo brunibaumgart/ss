@@ -42,22 +42,22 @@ public class CollisionUtils {
         return switch (wall.type()) {
             case TOP -> {
                 if (vy > 0)
-                    yield Optional.of(new WallCollisionEvent((wall.position().y() - r - y) / vy, particle, wall));
+                    yield Optional.of(new WallCollisionEvent(Math.max(0, (wall.position().y() - r - y) / vy), particle, wall));
                 yield Optional.empty();
             }
             case BOTTOM -> {
                 if (vy < 0)
-                    yield Optional.of(new WallCollisionEvent((wall.position().y() + r - y) / vy, particle, wall));
+                    yield Optional.of(new WallCollisionEvent(Math.max(0, (wall.position().y() + r - y) / vy), particle, wall));
                 yield Optional.empty();
             }
             case LEFT -> {
                 if (vx < 0)
-                    yield Optional.of(new WallCollisionEvent((wall.position().x() + r - x) / vx, particle, wall));
+                    yield Optional.of(new WallCollisionEvent(Math.max(0, (wall.position().x() + r - x) / vx), particle, wall));
                 yield Optional.empty();
             }
             case RIGHT -> {
                 if (vx > 0)
-                    yield Optional.of(new WallCollisionEvent((wall.position().x() - r - x) / vx, particle, wall));
+                    yield Optional.of(new WallCollisionEvent(Math.max(0, (wall.position().x() - r - x) / vx), particle, wall));
                 yield Optional.empty();
             }
         };
@@ -91,16 +91,11 @@ public class CollisionUtils {
         final PriorityQueue<WallCollisionEvent> wallCollisions = CollisionUtils.calculateTcWithWalls(particle, L);
 
         final PriorityQueue<CollisionEvent> collisions = new PriorityQueue<>();
-        for (CollisionEvent particleCollision: particleCollisions) {
-            collisions.add(particleCollision);
-        }
-        for (CollisionEvent wallCollision: wallCollisions){
-            collisions.add(wallCollision);
-        }
+        collisions.addAll(particleCollisions);
+        collisions.addAll(wallCollisions);
 
         return collisions;
     }
-
 
     private static Optional<Double> calculateTcWithParticle(final Particle particle, final Particle otherParticle) {
         final double sigma = particle.radius() + otherParticle.radius();

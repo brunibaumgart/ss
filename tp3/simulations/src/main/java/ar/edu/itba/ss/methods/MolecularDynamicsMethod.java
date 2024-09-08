@@ -17,7 +17,7 @@ public class MolecularDynamicsMethod {
     public static BoxState runIteration(BoxState boxState) {
         final List<Particle> particles = boxState.particles();
 
-        // 1. Si es la primera iteración, calculo los tiempos minimos de todas las partículas
+        // 1. Si es la primera iteración, calculo tc para todas las particulas
         if (boxState.iteration() == 0){
             for (Particle particle : particles) {
                 final PriorityQueue<CollisionEvent> collisions = CollisionUtils.calculateAllCollisions(particle, particles, boxState.L());
@@ -31,51 +31,49 @@ public class MolecularDynamicsMethod {
         if (nextEvent == null)
             throw new IllegalStateException("No event for next iteration");
 
-        final double minimumCollisionTime = nextEvent.getTime();
+        final double minTc = nextEvent.getTime();
         final List<Particle> nextEventParticles = nextEvent.getParticles();
 
-        // 3. Recalculo todas las posiciones segun mi tc
-        final List<Particle> newParticles = ParticleUtils.updateParticlesPosition(particles, minimumCollisionTime);
+        // 3. Recalculo todas las posiciones
+        final List<Particle> newParticles = ParticleUtils.updateParticlesPosition(particles, minTc);
 
-        // 4. Recalculo velocidades de mis particulas involucradas
+        // 4. Recalculo velocidades de las particulas involucradas
         if (nextEvent.getType() == CollisionEvent.EventType.PARTICLES_COLLISION) {
-            ParticleCollisionEvent particleCollisionEvent = (ParticleCollisionEvent) nextEvent;
-            final Particle p1 = particleCollisionEvent.p1();
-            final Particle p2 = particleCollisionEvent.p2();
+            final ParticleCollisionEvent event = (ParticleCollisionEvent) nextEvent;
+            final Particle p1 = event.p1();
+            final Particle p2 = event.p2();
 
             final Pair<Vector, Vector> speeds = NoGravityOperator.collide(p1, p2);
 
-            int i=0;
-            for (Particle particle : nextEventParticles) {
+            for (int i = 0; i < 2; i++) {
+                final Particle particle = i == 0 ? p1 : p2;
+
                 final Optional<Particle> newParticle = newParticles.stream().filter(p -> p.equals(particle)).findFirst();
-                newParticle.ifPresent(newParticles::remove);
-
-                Vector speed;
-                if ( i == 0){
-                    speed = speeds.first();
-                }
-                else{
-                    speed = speeds.second();
-                }
-                final Particle updatedSpeedParticle = new Particle(particle.id(), particle.radius(), particle.position(), speed, particle.mass());
-
                 if(newParticle.isEmpty())
                     throw new IllegalStateException("Error updating particles");
+                newParticle.ifPresent(newParticles::remove);
 
-                newParticles.add(updatedSpeedParticle);
+                final Particle updatedParticle = new Particle(
+                        particle.id(),
+                        particle.radius(),
+                        particle.position(),
+                        i == 0 ? speeds.first() : speeds.second(),
+                        particle.mass()
+                );
 
-                i++;
+                newParticles.add(updatedParticle);
             }
-
         }
         else {
-            WallCollisionEvent particleCollisionEvent = (WallCollisionEvent) nextEvent;
-            final Particle p1 = particleCollisionEvent.p();
-            final Wall wall = particleCollisionEvent.wall();
+            final WallCollisionEvent event = (WallCollisionEvent) nextEvent;
+            final Particle p1 = event.p();
+            final Wall wall = event.wall();
 
             final Vector speed = NoGravityOperator.collideWithWall(p1, wall);
 
             final Optional<Particle> newParticle = newParticles.stream().filter(p -> p.equals(p1)).findFirst();
+            if (newParticle.isEmpty())
+                throw new IllegalStateException("Error updating particles");
             newParticle.ifPresent(newParticles::remove);
 
             final Particle updatedSpeedParticle = new Particle(p1.id(), p1.radius(), p1.position(), speed, p1.mass());
@@ -87,7 +85,7 @@ public class MolecularDynamicsMethod {
 
         for (CollisionEvent event : boxState.events()){
             if (!event.containsParticles(nextEventParticles)){
-                event.setTime(event.getTime()-minimumCollisionTime);
+                event.setTime(event.getTime() - minTc);
                 newEvents.add(event);
             }
         }
@@ -108,4 +106,5 @@ public class MolecularDynamicsMethod {
 
         return boxState;
     }
+
 }
