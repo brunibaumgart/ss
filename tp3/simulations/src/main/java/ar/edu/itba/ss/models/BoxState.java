@@ -13,13 +13,13 @@ import java.util.PriorityQueue;
 public class BoxState {
 
     @Setter
-    List<Particle> particles;
+    private List<Particle> particles;
     @Setter
-    PriorityQueue<CollisionEvent> events;
-    int iteration;
-    final Double L;
+    private PriorityQueue<CollisionEvent> events;
+    private int iteration;
+    private final Double L;
 
-    public BoxState(List<Particle> particles, double L) {
+    public BoxState(final List<Particle> particles, final double L) {
         this.particles = particles;
         this.events = new PriorityQueue<>();
         this.iteration = 0;
