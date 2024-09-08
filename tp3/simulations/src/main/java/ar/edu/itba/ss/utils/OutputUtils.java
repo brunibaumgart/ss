@@ -28,6 +28,7 @@ public class OutputUtils {
                 .forEach(s -> {
                     try {
                         writer.write(s);
+                        writer.flush();
                     } catch (final Exception e) {
                         e.printStackTrace();
                     }
