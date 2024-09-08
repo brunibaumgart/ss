@@ -5,6 +5,9 @@ import ar.edu.itba.ss.models.Wall;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Accessors(fluent = true)
 public class WallCollision extends Event {
@@ -15,5 +18,17 @@ public class WallCollision extends Event {
         super(time, EventType.WALL_COLLISION);
         this.p = p;
         this.wall = wall;
+    }
+
+    @Override
+    public List<Particle> getParticles() {
+        final List<Particle> particles = new ArrayList<>();
+        particles.add(p);
+        return particles;
+    }
+
+    @Override
+    public boolean containsParticles(List<Particle> particles) {
+        return particles.contains(p);
     }
 }
