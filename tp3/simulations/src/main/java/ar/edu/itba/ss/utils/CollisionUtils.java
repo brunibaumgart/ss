@@ -24,7 +24,7 @@ public class CollisionUtils {
                 new Wall(Wall.WallType.RIGHT, L)
         );
 
-        return walls.parallelStream()
+        return walls.stream()
                 .map(wall -> calculateTcWithWall(particle, wall))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
@@ -41,24 +41,24 @@ public class CollisionUtils {
 
         return switch (wall.type()) {
             case TOP -> {
-                if (vy < 0)
-                    yield Optional.empty();
-                yield Optional.of(new WallCollisionEvent((wall.position().y() - r - y) / vy, particle, wall));
+                if (vy > 0)
+                    yield Optional.of(new WallCollisionEvent((wall.position().y() - r - y) / vy, particle, wall));
+                yield Optional.empty();
             }
             case BOTTOM -> {
-                if (vy > 0)
-                    yield Optional.empty();
-                yield Optional.of(new WallCollisionEvent((wall.position().y() + r - y) / vy, particle, wall));
+                if (vy < 0)
+                    yield Optional.of(new WallCollisionEvent((wall.position().y() + r - y) / vy, particle, wall));
+                yield Optional.empty();
             }
             case LEFT -> {
-                if (vx > 0)
-                    yield Optional.empty();
-                yield Optional.of(new WallCollisionEvent((wall.position().y() + r - x) / vx, particle, wall));
+                if (vx < 0)
+                    yield Optional.of(new WallCollisionEvent((wall.position().x() + r - x) / vx, particle, wall));
+                yield Optional.empty();
             }
             case RIGHT -> {
-                if (vx < 0)
-                    yield Optional.empty();
-                yield Optional.of(new WallCollisionEvent((wall.position().y() - r - x) / vx, particle, wall));
+                if (vx > 0)
+                    yield Optional.of(new WallCollisionEvent((wall.position().x() - r - x) / vx, particle, wall));
+                yield Optional.empty();
             }
         };
     }
@@ -70,12 +70,12 @@ public class CollisionUtils {
 
         final Set<Quadrant> quadrants = Quadrant.getQuadrant(angle).getAdjacentQuadrants();
 
-        return particles.parallelStream()
+        return particles.stream()
                 .flatMap(p -> {
                     final double otherX = p.position().x();
                     final double otherY = p.position().y();
 
-                    return quadrants.parallelStream()
+                    return quadrants.stream()
                             .filter(q -> q.isInQuadrant(x, y, otherX, otherY))
                             .map(op -> calculateTcWithParticle(particle, p))
                             .filter(Optional::isPresent)
@@ -91,8 +91,12 @@ public class CollisionUtils {
         final PriorityQueue<WallCollisionEvent> wallCollisions = CollisionUtils.calculateTcWithWalls(particle, L);
 
         final PriorityQueue<CollisionEvent> collisions = new PriorityQueue<>();
-        collisions.addAll(particleCollisions);
-        collisions.addAll(wallCollisions);
+        for (CollisionEvent particleCollision: particleCollisions) {
+            collisions.add(particleCollision);
+        }
+        for (CollisionEvent wallCollision: wallCollisions){
+            collisions.add(wallCollision);
+        }
 
         return collisions;
     }

@@ -54,7 +54,7 @@ public class ParticleUtils {
 
     public static List<Particle> updateParticlesPosition(List<Particle> particles, double minimumCollisionTime){
         // TODO: check this
-        return particles.parallelStream()
+        return particles.stream()
                 .map(particle-> updateParticlePosition(particle, minimumCollisionTime))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
@@ -68,6 +68,6 @@ public class ParticleUtils {
     }
 
     private static boolean collidesWithAny(final Particle particle, final List<Particle> particles) {
-        return particles.parallelStream().anyMatch(particle::collidesWith);
+        return particles.stream().anyMatch(particle::collidesWith);
     }
 }

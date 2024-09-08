@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @Accessors(fluent = true)
-public class ParticleCollisionEvent extends CollisionEvent {
+public class ParticleCollisionEvent extends CollisionEvent implements Comparable<CollisionEvent> {
     private final Particle p1;
     private final Particle p2;
 

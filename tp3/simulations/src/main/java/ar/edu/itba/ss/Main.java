@@ -40,7 +40,7 @@ public class Main
 
         // 1.b. Se definen las posiciones y velocidades iniciales, los radios y tamaño de la caja
         final List<Particle> particles = ParticleUtils.createMovingParticles(
-                aux,
+                new ArrayList<>(),
                 parameters.getN(),
                 parameters.getL(),
                 parameters.getRp(),

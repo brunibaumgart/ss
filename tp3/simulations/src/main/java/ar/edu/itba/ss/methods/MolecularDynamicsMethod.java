@@ -47,7 +47,7 @@ public class MolecularDynamicsMethod {
 
             int i=0;
             for (Particle particle : nextEventParticles) {
-                final Optional<Particle> newParticle = newParticles.parallelStream().filter(p -> p.equals(particle)).findFirst();
+                final Optional<Particle> newParticle = newParticles.stream().filter(p -> p.equals(particle)).findFirst();
                 newParticle.ifPresent(newParticles::remove);
 
                 Vector speed;
@@ -75,7 +75,7 @@ public class MolecularDynamicsMethod {
 
             final Vector speed = NoGravityOperator.collideWithWall(p1, wall);
 
-            final Optional<Particle> newParticle = newParticles.parallelStream().filter(p -> p.equals(p1)).findFirst();
+            final Optional<Particle> newParticle = newParticles.stream().filter(p -> p.equals(p1)).findFirst();
             newParticle.ifPresent(newParticles::remove);
 
             final Particle updatedSpeedParticle = new Particle(p1.id(), p1.radius(), p1.position(), speed, p1.mass());
@@ -93,9 +93,10 @@ public class MolecularDynamicsMethod {
         }
 
         for (Particle particle: nextEventParticles) {
-            final Optional<Particle> updatedParticle = newParticles.parallelStream().filter(p -> p.equals(particle)).findFirst();
+            final Optional<Particle> updatedParticle = newParticles.stream().filter(p -> p.equals(particle)).findFirst();
             if(updatedParticle.isEmpty())
                 throw new IllegalStateException("Error updating particles");
+
             final PriorityQueue<CollisionEvent> collisions = CollisionUtils.calculateAllCollisions(updatedParticle.get(), newParticles, boxState.L());
             newEvents.add(collisions.peek());
         }

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Getter
 @Accessors(fluent = true)
-public class WallCollisionEvent extends CollisionEvent {
+public class WallCollisionEvent extends CollisionEvent implements Comparable<CollisionEvent> {
     private final Particle p;
     private final Wall wall;
 

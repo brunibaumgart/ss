@@ -11,12 +11,12 @@ import java.util.List;
 @AllArgsConstructor
 public abstract class CollisionEvent implements Comparable<CollisionEvent> {
     @Setter
-    double time;
+    private double time;
     private final EventType type;
 
     @Override
     public int compareTo(CollisionEvent o) {
-        return Double.compare(o.time, time);
+        return Double.compare(time, o.time);
     }
 
     public enum EventType {
