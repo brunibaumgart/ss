@@ -1,38 +1,62 @@
 package ar.edu.itba.ss.methods;
 
+import ar.edu.itba.ss.models.BoxState;
 import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.models.Vector;
+import ar.edu.itba.ss.models.events.Event;
+import ar.edu.itba.ss.utils.CollisionUtils;
+import ar.edu.itba.ss.utils.ParticleUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
 
 public class MolecularDynamicsMethod {
 
+    public static BoxState runIteration(BoxState boxState) {
+        final List<Particle> particles = boxState.particles();
 
-    public static List<Particle> runIteration(List<Particle> particles) {
-        double minorCollisionTime = 0;
-        List<Particle> newParticles = new ArrayList<>();
-
-        // 2. Se calcula el tiempo hasta el primer choque
-        for (Particle particle : particles) {
-
-            // 2.a Calculo partículas vecinas (con las que podría chocar)
-            final List<Particle> collisionParticles = calculateCollisionParticles(particles, particle);
-
-            // 2.b Calculo tc para la particula seleccionada respecto a las paredes
-
-            // 2.c Calculo tc para la partícula seleccionada respecto a otras partículas
-            for (Particle collisionParticle : collisionParticles) {
-                final double collisionTime = calculateCollisionTime(particle, collisionParticle);
-                if (collisionTime < minorCollisionTime) {
-                    minorCollisionTime = collisionTime;
-                }
+        // 1. Si es la primera iteración, calculo los tiempos minimos de todas las partículas
+        if (boxState.iteration() == 0){
+            for (Particle particle : particles) {
+                final PriorityQueue<Event> collisions = CollisionUtils.calculateAllCollisions(particle, particles, boxState.L());
+                boxState.events().add(collisions.peek());
             }
-
         }
-        // 3. Se evolucionan todas las partículas según sus ecuaciones de movimiento hasta tc
 
-        return newParticles;
+        // 2. Obtengo el evento con menor tiempo (tc)
+        final Event nextEvent = boxState.events().poll();
+        if (nextEvent == null){
+            throw new IllegalStateException("No event for next iteration");
+        }
+        final double minimumCollisionTime = nextEvent.getTime();
+
+        // 3. Recalculo todas las posiciones segun mi tc
+        List<Particle> newParticles = ParticleUtils.updateParticlesPosition(particles, minimumCollisionTime);
+        boxState.particles(newParticles);
+
+        // 4. Recalculo todos los eventos segun mi tc
+        List<Particle> nextEventParticles = nextEvent.getParticles();
+        final PriorityQueue<Event> newEvents= new PriorityQueue<>();
+
+        for (Event event: boxState.events()){
+            if (!event.containsParticles(nextEventParticles)){
+                event.setTime(event.getTime()-minimumCollisionTime);
+                newEvents.add(event);
+            }
+        }
+
+        for (Particle particle: nextEventParticles){
+            final PriorityQueue<Event> particleCollisions = CollisionUtils.calculateAllCollisions(particle, particles, boxState.L());
+            newEvents.add(particleCollisions.peek());
+        }
+
+        boxState.events(newEvents);
+
+        // 5. Incremento la iteración
+        boxState.incrementIteration();
+
+        return boxState;
     }
 
     private static List<Particle> calculateCollisionParticles(List<Particle> particles, Particle particle) {
