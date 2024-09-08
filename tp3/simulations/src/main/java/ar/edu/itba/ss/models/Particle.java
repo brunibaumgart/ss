@@ -1,9 +1,6 @@
 package ar.edu.itba.ss.models;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 @AllArgsConstructor
@@ -12,7 +9,6 @@ import lombok.experimental.Accessors;
 @Accessors(fluent = true)
 @EqualsAndHashCode
 public class Particle {
-
     @EqualsAndHashCode.Include
     private final int id;
     @EqualsAndHashCode.Exclude

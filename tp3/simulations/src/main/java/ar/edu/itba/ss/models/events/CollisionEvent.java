@@ -16,7 +16,7 @@ public abstract class CollisionEvent implements Comparable<CollisionEvent> {
 
     @Override
     public int compareTo(CollisionEvent o) {
-        return Double.compare(time, o.time);
+        return Double.compare(o.time, time);
     }
 
     public enum EventType {

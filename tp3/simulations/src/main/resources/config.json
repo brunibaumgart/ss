@@ -1,0 +1,11 @@
+{
+  "rb": 0.005,
+  "l": 0.1,
+  "n": 100,
+  "speed": 1,
+  "mass_p": 1,
+  "mass_b": 1,
+  "rp": 0.001,
+  "iterations": 400,
+  "movable": false
+}

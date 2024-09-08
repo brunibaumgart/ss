@@ -28,6 +28,7 @@ public class CollisionUtils {
                 .map(wall -> calculateTcWithWall(particle, wall))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
+                .filter(e -> e.getTime() != Double.POSITIVE_INFINITY && e.getTime() != Double.NEGATIVE_INFINITY)
                 .collect(Collectors.toCollection(PriorityQueue::new));
     }
 
@@ -81,6 +82,7 @@ public class CollisionUtils {
                             .map(Optional::get)
                             .map(time -> new ParticleCollisionEvent(time, particle, p));
                 })
+                .filter(e -> e.getTime() != Double.POSITIVE_INFINITY && e.getTime() != Double.NEGATIVE_INFINITY)
                 .collect(Collectors.toCollection(PriorityQueue::new));
     }
 

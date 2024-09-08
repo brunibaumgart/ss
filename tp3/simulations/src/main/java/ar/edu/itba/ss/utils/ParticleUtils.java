@@ -62,9 +62,9 @@ public class ParticleUtils {
     private static Particle updateParticlePosition(Particle particle, double minimumCollisionTime){
         final Vector position = particle.position();
         final Vector speed = particle.speed();
-        final Vector newPosition = new Vector(position.x() + speed.x()*minimumCollisionTime,
-                particle.position().y() + speed.y()*minimumCollisionTime);
-        return new Particle(particle.id(),particle.radius(), newPosition, speed, particle.mass());
+        final Vector newPos = position.add(speed.multiply(minimumCollisionTime));
+
+        return new Particle(particle.id(),particle.radius(), newPos, speed, particle.mass());
     }
 
     private static boolean collidesWithAny(final Particle particle, final List<Particle> particles) {

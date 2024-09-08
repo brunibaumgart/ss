@@ -1,11 +1,16 @@
 package ar.edu.itba.ss;
 
+import ar.edu.itba.ss.constants.FilePaths;
+import ar.edu.itba.ss.methods.MolecularDynamicsMethod;
+import ar.edu.itba.ss.models.BoxState;
 import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.models.Vector;
 import ar.edu.itba.ss.models.parameters.Parameters;
 import ar.edu.itba.ss.utils.ArgumentHandlerUtils;
+import ar.edu.itba.ss.utils.OutputUtils;
 import ar.edu.itba.ss.utils.ParticleUtils;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,9 +49,19 @@ public class Main
         );
 
         // Creamos una clase estatica, le pasamos las particulas y te hace una iteración
+        final FileWriter frame0Writer = new FileWriter(FilePaths.OUTPUT_DIR + "video_frames/frame_0.txt");
+        OutputUtils.printVideoFrameHeader(frame0Writer);
+        OutputUtils.printVideoFrame(frame0Writer, particles);
+        frame0Writer.close();
 
-        // 4. Se guarda el estado del sistema (posiciones y velocidades) en t = tc
-        // 5. Con el "operador de colisión" se determinan las nuevas velocidades después del choque, solo para las
-        // partículas que chocaron
+        BoxState boxState = new BoxState(particles, parameters.getL());
+        for(int i = 0; i < parameters.getIterations(); i++){
+            final FileWriter writer = new FileWriter(FilePaths.OUTPUT_DIR + "video_frames/frame_" + (i + 1) + ".txt");
+            OutputUtils.printVideoFrameHeader(writer);
+
+            MolecularDynamicsMethod.runIteration(boxState);
+
+            OutputUtils.printVideoFrame(writer, boxState.particles());
+        }
     }
 }
