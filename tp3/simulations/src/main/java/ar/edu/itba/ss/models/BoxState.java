@@ -1,23 +1,33 @@
 package ar.edu.itba.ss.models;
 
+import ar.edu.itba.ss.models.events.Event;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.util.List;
+import java.util.PriorityQueue;
 
 @Getter
-@Setter
+@Accessors(fluent = true)
 public class BoxState {
 
-    final List<Particle> particles;
-    // PriorityQueue queue for finding out next tc in list.
-    final double minimumCollisionTime;
-    final int iteration;
+    @Setter
+    List<Particle> particles;
+    @Setter
+    PriorityQueue<Event> events;
+    int iteration;
+    final Double L;
 
-    public BoxState(List<Particle> particles) {
+    public BoxState(List<Particle> particles, double L) {
         this.particles = particles;
-        this.minimumCollisionTime = 0;
+        this.events = new PriorityQueue<>();
         this.iteration = 0;
+        this.L = L;
+    }
+
+    public void incrementIteration(){
+        this.iteration++;
     }
 
 }
