@@ -1,7 +1,6 @@
 package ar.edu.itba.ss.models.events;
 
 import ar.edu.itba.ss.models.Particle;
-import ar.edu.itba.ss.models.Wall;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,13 +9,13 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public abstract class Event implements Comparable<Event> {
+public abstract class CollisionEvent implements Comparable<CollisionEvent> {
     @Setter
     double time;
     private final EventType type;
 
     @Override
-    public int compareTo(Event o) {
+    public int compareTo(CollisionEvent o) {
         return Double.compare(time, o.time);
     }
 

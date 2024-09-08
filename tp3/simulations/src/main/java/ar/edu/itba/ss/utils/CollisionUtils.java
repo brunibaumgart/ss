@@ -4,9 +4,9 @@ import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.models.Quadrant;
 import ar.edu.itba.ss.models.Vector;
 import ar.edu.itba.ss.models.Wall;
-import ar.edu.itba.ss.models.events.Event;
-import ar.edu.itba.ss.models.events.ParticleCollision;
-import ar.edu.itba.ss.models.events.WallCollision;
+import ar.edu.itba.ss.models.events.CollisionEvent;
+import ar.edu.itba.ss.models.events.ParticleCollisionEvent;
+import ar.edu.itba.ss.models.events.WallCollisionEvent;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -16,7 +16,7 @@ public class CollisionUtils {
         throw new IllegalStateException("Utility class");
     }
 
-    public static PriorityQueue<WallCollision> calculateTcWithWalls(final Particle particle, final double L) {
+    public static PriorityQueue<WallCollisionEvent> calculateTcWithWalls(final Particle particle, final double L) {
         final List<Wall> walls = List.of(
                 new Wall(Wall.WallType.TOP, L),
                 new Wall(Wall.WallType.BOTTOM, L),
@@ -31,7 +31,7 @@ public class CollisionUtils {
                 .collect(Collectors.toCollection(PriorityQueue::new));
     }
 
-    public static Optional<WallCollision> calculateTcWithWall(final Particle particle, final Wall wall) {
+    public static Optional<WallCollisionEvent> calculateTcWithWall(final Particle particle, final Wall wall) {
         final double x = particle.position().x();
         final double y = particle.position().y();
         final double vx = particle.speed().x();
@@ -42,27 +42,27 @@ public class CollisionUtils {
             case TOP -> {
                 if (vy < 0)
                     yield Optional.empty();
-                yield Optional.of(new WallCollision((wall.position().y() - r - y) / vy, particle, wall));
+                yield Optional.of(new WallCollisionEvent((wall.position().y() - r - y) / vy, particle, wall));
             }
             case BOTTOM -> {
                 if (vy > 0)
                     yield Optional.empty();
-                yield Optional.of(new WallCollision((wall.position().y() + r - y) / vy, particle, wall));
+                yield Optional.of(new WallCollisionEvent((wall.position().y() + r - y) / vy, particle, wall));
             }
             case LEFT -> {
                 if (vx > 0)
                     yield Optional.empty();
-                yield Optional.of(new WallCollision((wall.position().y() + r - x) / vx, particle, wall));
+                yield Optional.of(new WallCollisionEvent((wall.position().y() + r - x) / vx, particle, wall));
             }
             case RIGHT -> {
                 if (vx < 0)
                     yield Optional.empty();
-                yield Optional.of(new WallCollision((wall.position().y() - r - x) / vx, particle, wall));
+                yield Optional.of(new WallCollisionEvent((wall.position().y() - r - x) / vx, particle, wall));
             }
         };
     }
 
-    public static PriorityQueue<ParticleCollision> calculateTcWithParticles(final Particle particle, final List<Particle> particles) {
+    public static PriorityQueue<ParticleCollisionEvent> calculateTcWithParticles(final Particle particle, final List<Particle> particles) {
         final double angle = Math.toDegrees(particle.speed().angle());
         final double x = particle.position().x();
         final double y = particle.position().y();
@@ -79,16 +79,16 @@ public class CollisionUtils {
                             .map(op -> calculateTcWithParticle(particle, p))
                             .filter(Optional::isPresent)
                             .map(Optional::get)
-                            .map(time -> new ParticleCollision(time, particle, p));
+                            .map(time -> new ParticleCollisionEvent(time, particle, p));
                 })
                 .collect(Collectors.toCollection(PriorityQueue::new));
     }
 
-    public static PriorityQueue<Event> calculateAllCollisions(final Particle particle, final List<Particle> particles, final double L){
-        final PriorityQueue<ParticleCollision> particleCollisions = CollisionUtils.calculateTcWithParticles(particle, particles);
-        final PriorityQueue<WallCollision> wallCollisions = CollisionUtils.calculateTcWithWalls(particle, L);
+    public static PriorityQueue<CollisionEvent> calculateAllCollisions(final Particle particle, final List<Particle> particles, final double L){
+        final PriorityQueue<ParticleCollisionEvent> particleCollisions = CollisionUtils.calculateTcWithParticles(particle, particles);
+        final PriorityQueue<WallCollisionEvent> wallCollisions = CollisionUtils.calculateTcWithWalls(particle, L);
 
-        final PriorityQueue<Event> collisions = new PriorityQueue<>();
+        final PriorityQueue<CollisionEvent> collisions = new PriorityQueue<>();
         collisions.addAll(particleCollisions);
         collisions.addAll(wallCollisions);
 

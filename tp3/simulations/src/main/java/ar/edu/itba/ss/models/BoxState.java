@@ -1,6 +1,6 @@
 package ar.edu.itba.ss.models;
 
-import ar.edu.itba.ss.models.events.Event;
+import ar.edu.itba.ss.models.events.CollisionEvent;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -15,7 +15,7 @@ public class BoxState {
     @Setter
     List<Particle> particles;
     @Setter
-    PriorityQueue<Event> events;
+    PriorityQueue<CollisionEvent> events;
     int iteration;
     final Double L;
 

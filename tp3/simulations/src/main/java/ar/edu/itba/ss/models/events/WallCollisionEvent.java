@@ -10,11 +10,11 @@ import java.util.List;
 
 @Getter
 @Accessors(fluent = true)
-public class WallCollision extends Event {
+public class WallCollisionEvent extends CollisionEvent {
     private final Particle p;
     private final Wall wall;
 
-    public WallCollision(double time, Particle p, Wall wall) {
+    public WallCollisionEvent(double time, Particle p, Wall wall) {
         super(time, EventType.WALL_COLLISION);
         this.p = p;
         this.wall = wall;
