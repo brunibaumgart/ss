@@ -55,7 +55,7 @@ def create_animation_video(sim_params, data, output_video):
 
     resolution = 1080  # Adjust the resolution as needed
     scale = resolution / L
-    radius = int(R * scale * 0.5)  # Reduce particle size
+    radius = int(R * scale)  # Reduce particle size
 
     # Video writer setup
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Codec for .mp4
@@ -71,7 +71,7 @@ def create_animation_video(sim_params, data, output_video):
             # Draw the particle with reduced size
             if id_ == -1:
                 # TODO: change radius of brownian particle dynamically
-                cv2.circle(frame, (cx, cy), int(0.005 * scale * 0.5), particle_color, -1)
+                cv2.circle(frame, (cx, cy), int(0.005 * scale), particle_color, -1)
             else:
                 cv2.circle(frame, (cx, cy), radius, particle_color, -1)
 

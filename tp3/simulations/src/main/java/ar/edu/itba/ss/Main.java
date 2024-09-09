@@ -59,7 +59,7 @@ public class Main
             final FileWriter writer = new FileWriter(FilePaths.OUTPUT_DIR + "video_frames/frame_" + (i + 1) + ".txt");
             OutputUtils.printVideoFrameHeader(writer);
 
-            MolecularDynamicsMethod.runIteration(boxState);
+            MolecularDynamicsMethod.runIteration2(boxState);
 
             OutputUtils.printVideoFrame(writer, boxState.particles());
         }

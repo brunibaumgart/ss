@@ -24,10 +24,9 @@ public class OutputUtils {
 
     public static void printVideoFrame(final FileWriter writer, final List<Particle> particles) {
         particles.stream()
-                .map(p -> String.format(LOCALE, "%d %.2f %.2f %.2f %.2f\n", p.id(), p.position().x(), p.position().y(), p.speed().x(), p.speed().y()))
-                .forEach(s -> {
+                .forEach(p -> {
                     try {
-                        writer.write(s);
+                        writer.write(p.id() + " " + p.position().x() + " " + p.position().y() + " " + p.speed().x() + " " + p.speed().y() + "\n");
                         writer.flush();
                     } catch (final Exception e) {
                         e.printStackTrace();

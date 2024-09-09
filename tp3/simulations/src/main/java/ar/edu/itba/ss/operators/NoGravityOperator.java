@@ -12,8 +12,8 @@ public class NoGravityOperator {
 
     public static Pair<Vector, Vector> collide(final Particle p1, final Particle p2) {
         final double sigma = p1.radius() + p2.radius();
-        final Vector deltaV = p1.speed().subtract(p2.speed());
-        final Vector deltaR = p1.position().subtract(p2.position());
+        final Vector deltaV = p2.speed().subtract(p1.speed());
+        final Vector deltaR = p2.position().subtract(p1.position());
         final double deltaVdotDeltaR = deltaV.dot(deltaR);
 
         final double J = 2 * p1.mass() * p2.mass() * deltaVdotDeltaR / (sigma * (p1.mass() + p2.mass()));

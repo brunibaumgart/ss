@@ -13,6 +13,73 @@ import java.util.Optional;
 import java.util.PriorityQueue;
 
 public class MolecularDynamicsMethod {
+    public static BoxState runIteration2(BoxState boxState) {
+        final List<Particle> particles = boxState.particles();
+
+        // If it's the first iteration, calculate tc for all particles
+        if(boxState.iteration() == 0) {
+            for (Particle particle : particles) {
+                final PriorityQueue<CollisionEvent> collisions = CollisionUtils.calculateAllCollisions(particle, particles, boxState.L());
+                if(!collisions.isEmpty())
+                    boxState.events().add(collisions.peek());
+            }
+        }
+
+        // Get the event with the smallest time (tc)
+        final CollisionEvent currEvent = boxState.events().poll();
+        if (currEvent == null)
+            throw new IllegalStateException("No event for next iteration");
+        final double minTc = currEvent.getTime();
+
+        final List<Particle> particlesColliding = currEvent.getParticles();
+
+        // Update positions
+        particles.forEach(p -> {
+            final Vector newPosition = p.position().add(p.speed().multiply(minTc));
+            final Particle newParticle = new Particle(p.id(), p.radius(), newPosition, p.speed(), p.mass());
+            particles.set(particles.indexOf(p), newParticle);
+        });
+
+        // Update speeds of the particles involved
+        if (currEvent.getType() == CollisionEvent.EventType.PARTICLES_COLLISION) {
+            final ParticleCollisionEvent event = (ParticleCollisionEvent) currEvent;
+            final Particle p1 = event.p1();
+            final Particle p2 = event.p2();
+
+            final Pair<Vector, Vector> newSpeeds = NoGravityOperator.collide(p1, p2);
+
+            final Particle newP1 = new Particle(p1.id(), p1.radius(), p1.position(), newSpeeds.first(), p1.mass());
+            final Particle newP2 = new Particle(p2.id(), p2.radius(), p2.position(), newSpeeds.second(), p2.mass());
+
+            particles.set(particles.indexOf(p1), newP1);
+            particles.set(particles.indexOf(p2), newP2);
+        } else {
+            final WallCollisionEvent event = (WallCollisionEvent) currEvent;
+            final Particle p = event.p();
+            final Wall wall = event.wall();
+
+            final Vector newSpeed = NoGravityOperator.collideWithWall(p, wall);
+            final Particle newP = new Particle(p.id(), p.radius(), p.position(), newSpeed, p.mass());
+
+            particles.set(particles.indexOf(p), newP);
+        }
+
+        // Update all events
+        boxState.events().removeIf(e -> e.containsParticles(particlesColliding));
+        boxState.events().forEach(e -> e.setTime(e.getTime() - minTc));
+
+        // Add new events of the colliding particles
+        particlesColliding.forEach(p -> {
+            final PriorityQueue<CollisionEvent> collisions = CollisionUtils.calculateAllCollisions(p, particles, boxState.L());
+            if(!collisions.isEmpty())
+                boxState.events().add(collisions.peek());
+        });
+
+        // Increment iteration
+        boxState.incrementIteration();
+
+        return boxState;
+    }
 
     public static BoxState runIteration(BoxState boxState) {
         final List<Particle> particles = boxState.particles();

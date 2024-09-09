@@ -42,22 +42,22 @@ public class CollisionUtils {
         return switch (wall.type()) {
             case TOP -> {
                 if (vy > 0)
-                    yield Optional.of(new WallCollisionEvent(Math.max(0, (wall.position().y() - r - y) / vy), particle, wall));
+                    yield Optional.of(new WallCollisionEvent((wall.position().y() - r - y) / vy, particle, wall));
                 yield Optional.empty();
             }
             case BOTTOM -> {
                 if (vy < 0)
-                    yield Optional.of(new WallCollisionEvent(Math.max(0, (wall.position().y() + r - y) / vy), particle, wall));
+                    yield Optional.of(new WallCollisionEvent((wall.position().y() + r - y) / vy, particle, wall));
                 yield Optional.empty();
             }
             case LEFT -> {
                 if (vx < 0)
-                    yield Optional.of(new WallCollisionEvent(Math.max(0, (wall.position().x() + r - x) / vx), particle, wall));
+                    yield Optional.of(new WallCollisionEvent((wall.position().x() + r - x) / vx, particle, wall));
                 yield Optional.empty();
             }
             case RIGHT -> {
                 if (vx > 0)
-                    yield Optional.of(new WallCollisionEvent(Math.max(0, (wall.position().x() - r - x) / vx), particle, wall));
+                    yield Optional.of(new WallCollisionEvent((wall.position().x() - r - x) / vx, particle, wall));
                 yield Optional.empty();
             }
         };
@@ -108,7 +108,7 @@ public class CollisionUtils {
         if (deltaVDotDeltaR >= 0)
             return Optional.empty();
 
-        final double d = Math.pow(deltaVDotDeltaR, 2) - (deltaVDotDeltaV) * (deltaRDotDeltaR - Math.pow(sigma, 2));
+        final double d = Math.pow(deltaVDotDeltaR, 2) - (deltaVDotDeltaV * (deltaRDotDeltaR - Math.pow(sigma, 2)));
         if (d < 0)
             return Optional.empty();
 
