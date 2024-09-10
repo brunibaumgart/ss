@@ -59,7 +59,7 @@ def create_animation_video(sim_params, data, output_video):
 
     # Video writer setup
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Codec for .mp4
-    video_writer = cv2.VideoWriter(output_video, fourcc, 1, (resolution, resolution))
+    video_writer = cv2.VideoWriter(output_video, fourcc, 10, (resolution, resolution))
 
     for i in range(iterations):
         frame = np.ones((resolution, resolution, 3), dtype=np.uint8) * 255  # White background

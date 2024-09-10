@@ -1,7 +1,6 @@
 package ar.edu.itba.ss.utils;
 
 import ar.edu.itba.ss.models.Particle;
-import ar.edu.itba.ss.models.Quadrant;
 import ar.edu.itba.ss.models.Vector;
 import ar.edu.itba.ss.models.Wall;
 import ar.edu.itba.ss.models.events.CollisionEvent;
@@ -64,24 +63,14 @@ public class CollisionUtils {
     }
 
     public static PriorityQueue<ParticleCollisionEvent> calculateTcWithParticles(final Particle particle, final List<Particle> particles) {
-        final double angle = Math.toDegrees(particle.speed().angle());
-        final double x = particle.position().x();
-        final double y = particle.position().y();
-
-        final Set<Quadrant> quadrants = Quadrant.getQuadrant(angle).getAdjacentQuadrants();
-
         return particles.stream()
-                .flatMap(p -> {
-                    final double otherX = p.position().x();
-                    final double otherY = p.position().y();
+                .map(p -> {
+                    final Optional<Double> time = calculateTcWithParticle(particle, p);
 
-                    return quadrants.stream()
-                            .filter(q -> q.isInQuadrant(x, y, otherX, otherY))
-                            .map(op -> calculateTcWithParticle(particle, p))
-                            .filter(Optional::isPresent)
-                            .map(Optional::get)
-                            .map(time -> new ParticleCollisionEvent(time, particle, p));
+                    return time.map(t -> new ParticleCollisionEvent(t, particle, p));
                 })
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .filter(e -> e.getTime() != Double.POSITIVE_INFINITY && e.getTime() != Double.NEGATIVE_INFINITY)
                 .collect(Collectors.toCollection(PriorityQueue::new));
     }
