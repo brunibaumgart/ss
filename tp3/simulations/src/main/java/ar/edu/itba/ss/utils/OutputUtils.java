@@ -15,7 +15,7 @@ public class OutputUtils {
 
     public static void printTime(final FileWriter writer, final double time) {
         try {
-            writer.write(time + "\n");
+            writer.write("Time " + time + "\n");
             writer.flush();
         } catch (final Exception e) {
             e.printStackTrace();

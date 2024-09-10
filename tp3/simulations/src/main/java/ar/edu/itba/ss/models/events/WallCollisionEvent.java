@@ -15,7 +15,7 @@ public class WallCollisionEvent extends CollisionEvent implements Comparable<Col
     private final Wall wall;
 
     public WallCollisionEvent(double time, Particle p, Wall wall) {
-        super(time, EventType.WALL_COLLISION);
+        super(EventType.WALL_COLLISION, time);
         this.p = p;
         this.wall = wall;
     }

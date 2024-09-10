@@ -14,7 +14,7 @@ public class ParticleCollisionEvent extends CollisionEvent implements Comparable
     private final Particle p2;
 
     public ParticleCollisionEvent(double time, Particle p1, Particle p2) {
-        super(time, EventType.PARTICLES_COLLISION);
+        super(EventType.PARTICLES_COLLISION, time);
         this.p1 = p1;
         this.p2 = p2;
     }

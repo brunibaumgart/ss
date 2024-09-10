@@ -23,13 +23,13 @@ def generate_color_for_id(id_):
 
 def load_output_files(output_dir, iterations: int):
     data = []
-    for i in range(0, iterations):  # Start from 1 to iterations
+    for i in range(1, iterations):  # Start from 1 to iterations
         filename = os.path.join(output_dir, f"frame_{i}.txt")
         with open(filename, 'r') as f:
             particles = []
             for line in f:
                 # Skip header line
-                if line.strip() == "" or line.startswith("id"):
+                if line.strip() == "" or line.startswith("id") or line.startswith("Time"):
                     continue
                 values = line.split()
                 if len(values) < 5:

@@ -6,6 +6,6 @@
   "mass_p": 1,
   "mass_b": 1,
   "rp": 0.001,
-  "iterations": 4000,
+  "iterations": 400,
   "movable": false
 }
