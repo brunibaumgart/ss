@@ -13,6 +13,15 @@ public class OutputUtils {
         throw new IllegalStateException("Utility class");
     }
 
+    public static void printTime(final FileWriter writer, final double time) {
+        try {
+            writer.write(time + "\n");
+            writer.flush();
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void printVideoFrameHeader(final FileWriter writer) {
         try {
             writer.write("id x y vx vy\n");
@@ -23,7 +32,7 @@ public class OutputUtils {
     }
 
     public static void printVideoFrame(final FileWriter writer, final List<Particle> particles) {
-        particles.stream()
+        particles
                 .forEach(p -> {
                     try {
                         writer.write(p.id() + " " + p.position().x() + " " + p.position().y() + " " + p.speed().x() + " " + p.speed().y() + "\n");

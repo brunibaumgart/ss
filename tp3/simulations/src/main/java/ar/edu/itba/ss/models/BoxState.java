@@ -16,13 +16,13 @@ public class BoxState {
     private List<Particle> particles;
     @Setter
     private PriorityQueue<CollisionEvent> events;
-    private int iteration;
+    private int iteration = 0;
+    private double timeElapsed = 0.0;
     private final Double L;
 
     public BoxState(final List<Particle> particles, final double L) {
         this.particles = particles;
         this.events = new PriorityQueue<>();
-        this.iteration = 0;
         this.L = L;
     }
 
@@ -30,4 +30,7 @@ public class BoxState {
         this.iteration++;
     }
 
+    public void addTime(final double time) {
+        this.timeElapsed += time;
+    }
 }

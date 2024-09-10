@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 public class MolecularDynamicsMethod {
-    public static BoxState runIteration(BoxState boxState) {
+    public static void runIteration(BoxState boxState) {
         final List<Particle> particles = boxState.particles();
 
         // If it's the first iteration, calculate tc for all particles
@@ -90,6 +90,7 @@ public class MolecularDynamicsMethod {
         // Increment iteration
         boxState.incrementIteration();
 
-        return boxState;
+        // Add time to the box state
+        boxState.addTime(minTc);
     }
 }
