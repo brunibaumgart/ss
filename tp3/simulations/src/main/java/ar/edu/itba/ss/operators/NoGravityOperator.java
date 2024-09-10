@@ -16,7 +16,7 @@ public class NoGravityOperator {
         final Vector deltaR = p2.position().subtract(p1.position());
         final double deltaVdotDeltaR = deltaV.dot(deltaR);
 
-        final double J = 2 * p1.mass() * p2.mass() * deltaVdotDeltaR / (sigma * (p1.mass() + p2.mass()));
+        final double J = 2 * p1.mass() * deltaVdotDeltaR / (sigma * ((p1.mass() / p2.mass()) + 1));
 
         final double Jx = J * deltaR.x() / sigma;
         final double Jy = J * deltaR.y() / sigma;
