@@ -98,6 +98,10 @@ public class CollisionUtils {
     }
 
     private static Optional<Double> calculateTcWithParticle(final Particle particle, final Particle otherParticle) {
+        if (particle.equals(otherParticle)){
+            return Optional.empty();
+        }
+
         final double sigma = particle.radius() + otherParticle.radius();
         final Vector deltaR = otherParticle.position().subtract(particle.position());
         final Vector deltaV = otherParticle.speed().subtract(particle.speed());

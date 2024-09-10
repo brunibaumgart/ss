@@ -8,6 +8,7 @@ import ar.edu.itba.ss.operators.NoGravityOperator;
 import ar.edu.itba.ss.utils.CollisionUtils;
 import ar.edu.itba.ss.utils.ParticleUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.PriorityQueue;
@@ -43,8 +44,14 @@ public class MolecularDynamicsMethod {
         // Update speeds of the particles involved
         if (currEvent.getType() == CollisionEvent.EventType.PARTICLES_COLLISION) {
             final ParticleCollisionEvent event = (ParticleCollisionEvent) currEvent;
-            final Particle p1 = event.p1();
-            final Particle p2 = event.p2();
+            Particle p1 = event.p1();
+            Particle p2 = event.p2();
+
+            // Get updated particles
+            int indexP1 = particles.indexOf(p1);
+            int indexP2 = particles.indexOf(p2);
+            p1 = particles.get(indexP1);
+            p2 = particles.get(indexP2);
 
             final Pair<Vector, Vector> newSpeeds = NoGravityOperator.collide(p1, p2);
 
@@ -55,8 +62,12 @@ public class MolecularDynamicsMethod {
             particles.set(particles.indexOf(p2), newP2);
         } else {
             final WallCollisionEvent event = (WallCollisionEvent) currEvent;
-            final Particle p = event.p();
+            Particle p = event.p();
             final Wall wall = event.wall();
+
+            // Get updated particle
+            int indexP = particles.indexOf(p);
+            p = particles.get(indexP);
 
             final Vector newSpeed = NoGravityOperator.collideWithWall(p, wall);
             final Particle newP = new Particle(p.id(), p.radius(), p.position(), newSpeed, p.mass());
@@ -68,8 +79,15 @@ public class MolecularDynamicsMethod {
         boxState.events().removeIf(e -> e.containsParticles(particlesColliding));
         boxState.events().forEach(e -> e.setTime(e.getTime() - minTc));
 
+        // Get updated particles
+        List<Particle> updatedParticlesColliding = new ArrayList<>();
+        for (Particle collidingParticle: particlesColliding){
+            int particle_index = particles.indexOf(collidingParticle);
+            updatedParticlesColliding.add(particles.get(particle_index));
+        }
+
         // Add new events of the colliding particles
-        particlesColliding.forEach(p -> {
+        updatedParticlesColliding.forEach(p -> {
             final PriorityQueue<CollisionEvent> collisions = CollisionUtils.calculateAllCollisions(p, particles, boxState.L());
             if(!collisions.isEmpty())
                 boxState.events().add(collisions.peek());
