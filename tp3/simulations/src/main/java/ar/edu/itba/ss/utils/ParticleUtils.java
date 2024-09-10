@@ -32,6 +32,7 @@ public class ParticleUtils {
     ) {
         final List<Particle> result = new ArrayList<>(particles);
         final Random random = new Random();
+        random.setSeed(100L);
 
         for (int i = 0; i < N; i++) {
             final double angle = random.nextDouble() * 2 * Math.PI;

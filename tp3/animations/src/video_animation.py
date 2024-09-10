@@ -59,10 +59,14 @@ def create_animation_video(sim_params, data, output_video):
 
     # Video writer setup
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Codec for .mp4
-    video_writer = cv2.VideoWriter(output_video, fourcc, 10, (resolution, resolution))
+    video_writer = cv2.VideoWriter(output_video, fourcc, 1, (resolution, resolution))
 
     for i in range(iterations):
         frame = np.ones((resolution, resolution, 3), dtype=np.uint8) * 255  # White background
+
+        # Add the iteration number to the frame
+        iteration_text = f"Iteration: {i}"
+        cv2.putText(frame, iteration_text, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
 
         for particle in data[i]:
             id_, x, y, vx, vy, particle_color = particle
