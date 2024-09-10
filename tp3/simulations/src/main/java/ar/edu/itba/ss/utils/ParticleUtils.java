@@ -40,7 +40,7 @@ public class ParticleUtils {
 
             Particle p = new Particle(i, r, new Vector(x, y), Vector.fromPolar(speed, angle), mass);
             // check particles do not overlap
-            while (ParticleUtils.collidesWithAny(p, result)) {
+            while (collidesWithAny(p, result) || collidesWithWalls(p, L)) {
                 x = random.nextDouble() * L;
                 y = random.nextDouble() * L;
                 p = new Particle(i, r, new Vector(x, y), Vector.fromPolar(speed, angle), mass);
@@ -69,5 +69,12 @@ public class ParticleUtils {
 
     private static boolean collidesWithAny(final Particle particle, final List<Particle> particles) {
         return particles.stream().anyMatch(particle::collidesWith);
+    }
+
+    private static boolean collidesWithWalls(final Particle particle, final double L) {
+        return particle.position().x() - particle.radius() <= 0 ||
+                particle.position().x() + particle.radius() >= L ||
+                particle.position().y() - particle.radius() <= 0 ||
+                particle.position().y() + particle.radius() >= L;
     }
 }

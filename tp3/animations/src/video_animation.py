@@ -75,6 +75,10 @@ def create_animation_video(sim_params, data, output_video):
             else:
                 cv2.circle(frame, (cx, cy), radius, particle_color, -1)
 
+            # Add particle ID near the particle
+            text_position = (cx + radius, cy - radius)
+            cv2.putText(frame, str(id_), text_position, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1, cv2.LINE_AA)
+
         # Write frame to video
         video_writer.write(frame)
 

@@ -44,43 +44,39 @@ public class MolecularDynamicsMethod {
         // Update speeds of the particles involved
         if (currEvent.getType() == CollisionEvent.EventType.PARTICLES_COLLISION) {
             final ParticleCollisionEvent event = (ParticleCollisionEvent) currEvent;
-            Particle p1 = event.p1();
-            Particle p2 = event.p2();
 
             // Get updated particles
-            int indexP1 = particles.indexOf(p1);
-            int indexP2 = particles.indexOf(p2);
-            p1 = particles.get(indexP1);
-            p2 = particles.get(indexP2);
+            final int indexP1 = particles.indexOf(event.p1());
+            final int indexP2 = particles.indexOf(event.p2());
+            final Particle p1 = particles.get(indexP1);
+            final Particle p2 = particles.get(indexP2);
 
             final Pair<Vector, Vector> newSpeeds = NoGravityOperator.collide(p1, p2);
 
             final Particle newP1 = new Particle(p1.id(), p1.radius(), p1.position(), newSpeeds.first(), p1.mass());
             final Particle newP2 = new Particle(p2.id(), p2.radius(), p2.position(), newSpeeds.second(), p2.mass());
 
-            particles.set(particles.indexOf(p1), newP1);
-            particles.set(particles.indexOf(p2), newP2);
+            particles.set(indexP1, newP1);
+            particles.set(indexP2, newP2);
         } else {
             final WallCollisionEvent event = (WallCollisionEvent) currEvent;
-            Particle p = event.p();
-            final Wall wall = event.wall();
 
             // Get updated particle
-            int indexP = particles.indexOf(p);
-            p = particles.get(indexP);
+            final int indexP = particles.indexOf(event.p());
+            final Particle p = particles.get(indexP);
 
-            final Vector newSpeed = NoGravityOperator.collideWithWall(p, wall);
+            final Vector newSpeed = NoGravityOperator.collideWithWall(p, event.wall());
             final Particle newP = new Particle(p.id(), p.radius(), p.position(), newSpeed, p.mass());
 
-            particles.set(particles.indexOf(p), newP);
+            particles.set(indexP, newP);
         }
 
         // Update all events
-        boxState.events().removeIf(e -> e.containsParticles(particlesColliding));
-        boxState.events().forEach(e -> e.setTime(e.getTime() - minTc));
+        boxState.events().removeIf(e -> e.containsParticles(particlesColliding));  // Remove stale events
+        boxState.events().forEach(e -> e.setTime(e.getTime() - minTc)); // Update time of remaining events
 
         // Get updated particles
-        List<Particle> updatedParticlesColliding = new ArrayList<>();
+        final List<Particle> updatedParticlesColliding = new ArrayList<>();
         for (Particle collidingParticle: particlesColliding){
             int particle_index = particles.indexOf(collidingParticle);
             updatedParticlesColliding.add(particles.get(particle_index));
