@@ -3,7 +3,9 @@ package ar.edu.itba.ss.utils;
 import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.models.Vector;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class ParticleUtils {
@@ -52,19 +54,19 @@ public class ParticleUtils {
         return result;
     }
 
-    public static List<Particle> updateParticlesPosition(List<Particle> particles, double minimumCollisionTime){
+    public static List<Particle> updateParticlesPosition(List<Particle> particles, double minimumCollisionTime) {
         // TODO: check this
         return particles.stream()
-                .map(particle-> updateParticlePosition(particle, minimumCollisionTime))
+                .map(particle -> updateParticlePosition(particle, minimumCollisionTime))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    private static Particle updateParticlePosition(Particle particle, double minimumCollisionTime){
+    private static Particle updateParticlePosition(Particle particle, double minimumCollisionTime) {
         final Vector position = particle.position();
         final Vector speed = particle.speed();
         final Vector newPos = position.add(speed.multiply(minimumCollisionTime));
 
-        return new Particle(particle.id(),particle.radius(), newPos, speed, particle.mass());
+        return new Particle(particle.id(), particle.radius(), newPos, speed, particle.mass());
     }
 
     private static boolean collidesWithAny(final Particle particle, final List<Particle> particles) {

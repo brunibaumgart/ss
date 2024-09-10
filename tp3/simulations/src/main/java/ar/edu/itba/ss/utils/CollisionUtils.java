@@ -7,7 +7,9 @@ import ar.edu.itba.ss.models.events.CollisionEvent;
 import ar.edu.itba.ss.models.events.ParticleCollisionEvent;
 import ar.edu.itba.ss.models.events.WallCollisionEvent;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.PriorityQueue;
 import java.util.stream.Collectors;
 
 public class CollisionUtils {
@@ -75,7 +77,7 @@ public class CollisionUtils {
                 .collect(Collectors.toCollection(PriorityQueue::new));
     }
 
-    public static PriorityQueue<CollisionEvent> calculateAllCollisions(final Particle particle, final List<Particle> particles, final double L){
+    public static PriorityQueue<CollisionEvent> calculateAllCollisions(final Particle particle, final List<Particle> particles, final double L) {
         final PriorityQueue<ParticleCollisionEvent> particleCollisions = CollisionUtils.calculateTcWithParticles(particle, particles);
         final PriorityQueue<WallCollisionEvent> wallCollisions = CollisionUtils.calculateTcWithWalls(particle, L);
 

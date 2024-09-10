@@ -1,6 +1,9 @@
 package ar.edu.itba.ss.methods;
 
-import ar.edu.itba.ss.models.*;
+import ar.edu.itba.ss.models.BoxState;
+import ar.edu.itba.ss.models.Pair;
+import ar.edu.itba.ss.models.Particle;
+import ar.edu.itba.ss.models.Vector;
 import ar.edu.itba.ss.models.events.CollisionEvent;
 import ar.edu.itba.ss.models.events.ParticleCollisionEvent;
 import ar.edu.itba.ss.models.events.WallCollisionEvent;
@@ -16,10 +19,10 @@ public class MolecularDynamicsMethod {
         final List<Particle> particles = boxState.particles();
 
         // If it's the first iteration, calculate tc for all particles
-        if(boxState.iteration() == 0) {
+        if (boxState.iteration() == 0) {
             for (Particle particle : particles) {
                 final PriorityQueue<CollisionEvent> collisions = CollisionUtils.calculateAllCollisions(particle, particles, boxState.L());
-                if(!collisions.isEmpty())
+                if (!collisions.isEmpty())
                     boxState.events().addAll(collisions);
             }
         }
@@ -75,7 +78,7 @@ public class MolecularDynamicsMethod {
 
         // Get updated particles
         final List<Particle> updatedParticlesColliding = new ArrayList<>();
-        for (Particle collidingParticle: particlesColliding){
+        for (Particle collidingParticle : particlesColliding) {
             int particle_index = particles.indexOf(collidingParticle);
             updatedParticlesColliding.add(particles.get(particle_index));
         }
@@ -83,7 +86,7 @@ public class MolecularDynamicsMethod {
         // Add new events of the colliding particles
         updatedParticlesColliding.forEach(p -> {
             final PriorityQueue<CollisionEvent> collisions = CollisionUtils.calculateAllCollisions(p, particles, boxState.L());
-            if(!collisions.isEmpty())
+            if (!collisions.isEmpty())
                 boxState.events().addAll(collisions);
         });
 

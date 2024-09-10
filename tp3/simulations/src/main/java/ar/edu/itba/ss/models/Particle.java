@@ -1,7 +1,9 @@
 package ar.edu.itba.ss.models;
 
-import ar.edu.itba.ss.utils.ParticleUtils;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 @AllArgsConstructor

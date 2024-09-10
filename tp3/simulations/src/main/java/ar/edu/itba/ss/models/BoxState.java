@@ -12,13 +12,13 @@ import java.util.PriorityQueue;
 @Accessors(fluent = true)
 public class BoxState {
 
+    private final Double L;
     @Setter
     private List<Particle> particles;
     @Setter
     private PriorityQueue<CollisionEvent> events;
     private int iteration = 0;
     private double timeElapsed = 0.0;
-    private final Double L;
 
     public BoxState(final List<Particle> particles, final double L) {
         this.particles = particles;
@@ -26,7 +26,7 @@ public class BoxState {
         this.L = L;
     }
 
-    public void incrementIteration(){
+    public void incrementIteration() {
         this.iteration++;
     }
 

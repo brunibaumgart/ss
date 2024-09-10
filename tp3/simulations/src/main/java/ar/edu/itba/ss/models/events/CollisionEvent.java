@@ -10,22 +10,22 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public abstract class CollisionEvent implements Comparable<CollisionEvent> {
+    private final EventType type;
     @Setter
     private double time;
-    private final EventType type;
 
     @Override
     public int compareTo(CollisionEvent o) {
         return Double.compare(time, o.time);
     }
 
+    public abstract List<Particle> getParticles();
+
+    public abstract boolean containsParticles(List<Particle> particles);
+
     public enum EventType {
         PARTICLES_COLLISION,
         WALL_COLLISION,
     }
-
-    public abstract List<Particle> getParticles();
-
-    public abstract boolean containsParticles(List<Particle> particles);
 
 }
