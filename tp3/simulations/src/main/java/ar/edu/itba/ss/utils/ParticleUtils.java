@@ -6,7 +6,6 @@ import ar.edu.itba.ss.models.Vector;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 public class ParticleUtils {
     private ParticleUtils() {
@@ -56,23 +55,8 @@ public class ParticleUtils {
         return result;
     }
 
-    public static List<Particle> updateParticlesPosition(List<Particle> particles, double minimumCollisionTime) {
-        // TODO: check this
-        return particles.stream()
-                .map(particle -> updateParticlePosition(particle, minimumCollisionTime))
-                .collect(Collectors.toCollection(ArrayList::new));
-    }
-
-    private static Particle updateParticlePosition(Particle particle, double minimumCollisionTime) {
-        final Vector position = particle.position();
-        final Vector speed = particle.speed();
-        final Vector newPos = position.add(speed.multiply(minimumCollisionTime));
-
-        return new Particle(particle.id(), particle.radius(), newPos, speed, particle.mass());
-    }
-
     private static boolean collidesWithAny(final Particle particle, final List<Particle> particles) {
-        return particles.stream().anyMatch(particle::collidesWith);
+        return particles.parallelStream().anyMatch(particle::collidesWith);
     }
 
     private static boolean collidesWithWalls(final Particle particle, final double L) {

@@ -25,7 +25,7 @@ public class CollisionUtils {
                 new Wall(Wall.WallType.RIGHT, L)
         );
 
-        return walls.stream()
+        return walls.parallelStream()
                 .map(wall -> calculateTcWithWall(particle, wall))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
@@ -65,7 +65,7 @@ public class CollisionUtils {
     }
 
     public static PriorityQueue<ParticleCollisionEvent> calculateTcWithParticles(final Particle particle, final List<Particle> particles) {
-        return particles.stream()
+        return particles.parallelStream()
                 .map(p -> {
                     final Optional<Double> time = calculateTcWithParticle(particle, p);
 
