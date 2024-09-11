@@ -9,6 +9,7 @@ import ar.edu.itba.ss.models.events.ParticleCollisionEvent;
 import ar.edu.itba.ss.models.events.WallCollisionEvent;
 import ar.edu.itba.ss.operators.NoGravityOperator;
 import ar.edu.itba.ss.utils.CollisionUtils;
+import ar.edu.itba.ss.utils.ParticleUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,10 @@ public class MolecularDynamicsMethod {
 
         // Update speeds of the particles involved
         if (currEvent.getType() == CollisionEvent.EventType.PARTICLES_COLLISION) {
-            final ParticleCollisionEvent event = (ParticleCollisionEvent) currEvent;
+            ParticleCollisionEvent event = (ParticleCollisionEvent) currEvent;
+            // Ensure p1 is not the brownian particle
+            if(event.p1().id() == ParticleUtils.BROWNIAN_ID)
+                event = new ParticleCollisionEvent(event.getTime(), event.p2(), event.p1());
 
             // Get updated particles
             final int indexP1 = particles.indexOf(event.p1());

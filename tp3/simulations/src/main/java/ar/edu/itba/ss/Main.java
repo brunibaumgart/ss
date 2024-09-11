@@ -14,14 +14,12 @@ import java.util.List;
 public class Main {
     private static final String CONFIG_FILE = "config.json";
 
-    private static final int BROWNIAN_ID = -1;
-
     public static void main(String[] args) throws IOException {
         // 0. Levantar los parámetros del config.json
         final Parameters parameters = ArgumentHandlerUtils.getParameters(CONFIG_FILE);
 
         final Particle brownianParticle = new Particle(
-                BROWNIAN_ID,
+                ParticleUtils.BROWNIAN_ID,
                 parameters.getRb(),
                 new Vector(parameters.getL() / 2, parameters.getL() / 2),
                 Vector.fromPolar(0, 0),
@@ -31,7 +29,7 @@ public class Main {
         aux.add(brownianParticle);
 
         final List<Particle> particles = ParticleUtils.createMovingParticles(
-                new ArrayList<>(),
+                aux,
                 parameters.getN(),
                 parameters.getL(),
                 parameters.getRp(),

@@ -13,6 +13,8 @@ public class ParticleUtils {
         throw new IllegalStateException("Utility class");
     }
 
+    public static final int BROWNIAN_ID = -1;
+
     /**
      * Create particles in the space without overlapping
      *

@@ -17,7 +17,7 @@ public class CollisionUtils {
         throw new IllegalStateException("Utility class");
     }
 
-    public static PriorityQueue<WallCollisionEvent> calculateTcWithWalls(final Particle particle, final double L) {
+    private static PriorityQueue<WallCollisionEvent> calculateTcWithWalls(final Particle particle, final double L) {
         final List<Wall> walls = List.of(
                 new Wall(Wall.WallType.TOP, L),
                 new Wall(Wall.WallType.BOTTOM, L),
@@ -33,7 +33,7 @@ public class CollisionUtils {
                 .collect(Collectors.toCollection(PriorityQueue::new));
     }
 
-    public static Optional<WallCollisionEvent> calculateTcWithWall(final Particle particle, final Wall wall) {
+    private static Optional<WallCollisionEvent> calculateTcWithWall(final Particle particle, final Wall wall) {
         final double x = particle.position().x();
         final double y = particle.position().y();
         final double vx = particle.speed().x();
