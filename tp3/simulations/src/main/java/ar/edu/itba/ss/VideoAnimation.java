@@ -15,7 +15,7 @@ public class VideoAnimation {
     public static void run(final Parameters parameters, final List<Particle> particles) throws IOException {
         // Creamos una clase estatica, le pasamos las particulas y te hace una iteración
         BoxState boxState = new BoxState(particles, parameters.getL());
-        for (int i = 0; i < parameters.getIterations(); i++) {
+        for (int i = 0; boxState.timeElapsed() < parameters.getTime() ; i++) {
             final FileWriter writer = new FileWriter(FilePaths.OUTPUT_DIR + "video_frames/frame_" + (i + 1) + ".txt");
             OutputUtils.printTime(writer, boxState.timeElapsed());
 
