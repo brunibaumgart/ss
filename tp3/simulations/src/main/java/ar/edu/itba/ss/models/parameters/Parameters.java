@@ -20,6 +20,8 @@ public class Parameters {
     private double massB;
     private double rp;
     private double rb;
-    private int iterations;
+    private double time;
     private boolean movable; // whether the brownian particle moves or not
+    private PlotsParameters plots;
+    private VideoParameters video;
 }
