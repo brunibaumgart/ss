@@ -42,4 +42,13 @@ public class OutputUtils {
                     }
                 });
     }
+
+    public static void printSeparator(final FileWriter writer) {
+        try {
+            writer.write("#######\n");
+            writer.flush();
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
