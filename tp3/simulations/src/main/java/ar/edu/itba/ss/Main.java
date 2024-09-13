@@ -37,6 +37,11 @@ public class Main {
                 parameters.getMassP()
         );
 
-        VideoAnimation.run(parameters, particles);
+        if (parameters.getVideo().isEnabled()) {
+            VideoAnimation.run(parameters, particles);
+        }
+        if (parameters.getPlots().getPressureVsTime().isEnabled()) {
+            PressureVsTime.run(parameters, particles);
+        }
     }
 }

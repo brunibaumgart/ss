@@ -30,6 +30,7 @@ public class MolecularDynamicsMethod {
 
         // Get the event with the smallest time (tc)
         final CollisionEvent currEvent = boxState.events().poll();
+
         if (currEvent == null)
             throw new IllegalStateException("No event for next iteration");
         final double minTc = currEvent.getTime();
@@ -99,5 +100,6 @@ public class MolecularDynamicsMethod {
 
         // Add time to the box state
         boxState.addTime(minTc);
+        boxState.lastEvent(currEvent);
     }
 }

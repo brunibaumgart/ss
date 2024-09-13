@@ -19,6 +19,8 @@ public class BoxState {
     private PriorityQueue<CollisionEvent> events;
     private int iteration = 0;
     private double timeElapsed = 0.0;
+    @Setter
+    private CollisionEvent lastEvent;
 
     public BoxState(final List<Particle> particles, final double L) {
         this.particles = particles;
