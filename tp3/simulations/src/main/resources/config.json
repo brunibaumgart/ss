@@ -1,20 +1,23 @@
 {
-  "rb": 0.005,
   "video": {
     "enabled": false
   },
   "l": 0.1,
-  "n": 100,
+  "n": 300,
   "speed": 1,
   "mass_p": 1,
   "mass_b": 1,
   "rp": 0.001,
-  "time": 3,
+  "rb": 0.005,
+  "time": 1,
   "movable": false,
   "plots": {
     "pressure_vs_time": {
-      "enabled" : true,
-      "dt": 0.5
+      "enabled" : false,
+      "dt": 0.05
+    },
+    "collisions_with_obstacle": {
+        "enabled" : true
     }
   }
 }
