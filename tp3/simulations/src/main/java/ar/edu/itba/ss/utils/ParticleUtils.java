@@ -33,8 +33,12 @@ public class ParticleUtils {
             final double speed,
             final double mass
     ) {
+        final Random seedGenerator = new Random();
+        final long seed = seedGenerator.nextLong();
+        final Random random = new Random(seed);
+        System.out.println("Seed " + seed);
+
         final List<Particle> result = new ArrayList<>(particles);
-        final Random random = new Random();
 
         for (int i = 0; i < N; i++) {
             final double angle = random.nextDouble() * 2 * Math.PI;

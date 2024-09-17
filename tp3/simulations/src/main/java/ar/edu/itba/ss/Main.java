@@ -40,8 +40,13 @@ public class Main {
         if (parameters.getVideo().isEnabled()) {
             VideoAnimation.run(parameters, particles);
         }
+
         if (parameters.getPlots().getPressureVsTime().isEnabled()) {
             PressureVsTime.run(parameters, particles);
+        }
+
+        if (parameters.getPlots().getCollisionsWithObstacle().isEnabled()) {
+            CollisionsWithObstacle.run(parameters, particles);
         }
     }
 }

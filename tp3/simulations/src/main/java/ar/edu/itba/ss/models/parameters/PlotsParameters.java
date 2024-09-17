@@ -13,5 +13,6 @@ import lombok.Setter;
 public class PlotsParameters {
     @JsonProperty("pressure_vs_time")
     private PressureVsTimeParameters pressureVsTime;
-
+    @JsonProperty("collisions_with_obstacle")
+    private CollisionsWIthObstacleParameters collisionsWithObstacle;
 }
