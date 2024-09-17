@@ -33,4 +33,14 @@ public class NoGravityOperator {
             case LEFT, RIGHT -> new Vector(-p.speed().x(), p.speed().y()); // vertical
         };
     }
+
+    public static Vector collideWithCircularWall(final Particle p, final Vector center){
+        Vector normal = p.position().subtract(center); // normal vector of particle
+        normal = normal.multiply(1 / normal.magnitude()); // normal unit vector
+
+        final Vector vNormal = normal.multiply(p.speed().dot(normal)); // vn magnitude of speed vector
+        final Vector vTangencial = p.speed().subtract(vNormal); // vt magnitude of speed vector
+
+        return vTangencial.subtract(vNormal); // v = vt - vn because collision changes vn to -vn
+    }
 }
