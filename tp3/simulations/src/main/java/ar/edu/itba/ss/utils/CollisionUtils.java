@@ -3,6 +3,7 @@ package ar.edu.itba.ss.utils;
 import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.models.Vector;
 import ar.edu.itba.ss.models.Wall;
+import ar.edu.itba.ss.models.events.CircularWallCollisionEvent;
 import ar.edu.itba.ss.models.events.CollisionEvent;
 import ar.edu.itba.ss.models.events.ParticleCollisionEvent;
 import ar.edu.itba.ss.models.events.WallCollisionEvent;
@@ -64,6 +65,32 @@ public class CollisionUtils {
         };
     }
 
+    private static Optional<CircularWallCollisionEvent> calculateTcWithCircularWall(final Particle particle, final double wallRadius){
+        final double x0 = particle.position().x() - wallRadius; // Makes the calculation easier
+        final double y0 = particle.position().y() - wallRadius;
+        final double vx = particle.speed().x();
+        final double vy = particle.speed().y();
+
+        if(vx == 0 && vy == 0) {
+            return Optional.empty();
+        }
+
+        final double A = vx*vx + vy*vy;
+        final double B = 2 * ((x0)*vx + (y0)*vy);
+        final double rdiff = wallRadius - particle.radius();
+        final double C = x0*x0 + y0*y0 - rdiff*rdiff;
+
+        final double discriminant = B * B - 4 * A * C;
+
+        if (discriminant < 0) {
+            return Optional.empty();
+        }
+
+        final double t1 = (-B + Math.sqrt(discriminant)) / (2 * A);
+        //final double t2 = (-B - Math.sqrt(discriminant)) / (2 * A);
+        return Optional.of(new CircularWallCollisionEvent(t1, particle));
+    }
+
     public static PriorityQueue<ParticleCollisionEvent> calculateTcWithParticles(final Particle particle, final List<Particle> particles) {
         return particles.parallelStream()
                 .map(p -> {
@@ -84,6 +111,18 @@ public class CollisionUtils {
         final PriorityQueue<CollisionEvent> collisions = new PriorityQueue<>();
         collisions.addAll(particleCollisions);
         collisions.addAll(wallCollisions);
+
+        return collisions;
+    }
+
+    public static PriorityQueue<CollisionEvent> calculateAllCollisionsCircular(final Particle particle, final List<Particle> particles, final Vector center, final double radius){
+        final PriorityQueue<ParticleCollisionEvent> particleCollisions = CollisionUtils.calculateTcWithParticles(particle, particles);
+        final Optional<CircularWallCollisionEvent> circularWallCollision = CollisionUtils.calculateTcWithCircularWall(particle, center, radius);
+
+        final PriorityQueue<CollisionEvent> collisions = new PriorityQueue<>();
+        collisions.addAll(particleCollisions);
+
+        circularWallCollision.ifPresent(collisions::add);
 
         return collisions;
     }
