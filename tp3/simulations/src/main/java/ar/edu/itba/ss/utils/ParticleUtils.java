@@ -59,6 +59,40 @@ public class ParticleUtils {
         return result;
     }
 
+    public static List<Particle> createMovingParticlesCircular(final List<Particle> particles,
+                                                               final int N,
+                                                               final double L,
+                                                               final double r,
+                                                               final double speed,
+                                                               final double mass) {
+        final List<Particle> result = new ArrayList<>(particles);
+        final Random random = new Random();
+
+        for (int i = 0; i < N; i++) {
+            final double angle = random.nextDouble() * 2 * Math.PI;
+
+            double theta = random.nextDouble() * 2 * Math.PI;
+            double radius = random.nextDouble() * (L/2);
+
+            double x = radius * Math.cos(theta);
+            double y = radius * Math.sin(theta);
+
+            Particle p = new Particle(i, r, new Vector(x, y), Vector.fromPolar(speed, angle), mass);
+            // check particles do not overlap
+            while (collidesWithAny(p, result) || collidesWithCircularWall(p, L)) {
+                theta = random.nextDouble() * 2 * Math.PI;
+                radius = random.nextDouble() * (L/2);
+                x = radius * Math.cos(theta);
+                y = radius * Math.sin(theta);
+                p = new Particle(i, r, new Vector(x, y), Vector.fromPolar(speed, angle), mass);
+            }
+
+            result.add(p);
+        }
+
+        return result;
+    }
+
     private static boolean collidesWithAny(final Particle particle, final List<Particle> particles) {
         return particles.parallelStream().anyMatch(particle::collidesWith);
     }
@@ -68,5 +102,10 @@ public class ParticleUtils {
                 particle.position().x() + particle.radius() >= L ||
                 particle.position().y() - particle.radius() <= 0 ||
                 particle.position().y() + particle.radius() >= L;
+    }
+
+    private static boolean collidesWithCircularWall(final Particle particle, final double L){
+        final double distanceCenter = particle.position().distanceTo(new Vector(L/2, L/2));
+        return distanceCenter + particle.radius() >= L/2;
     }
 }
