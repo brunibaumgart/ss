@@ -6,18 +6,20 @@
   "n": 300,
   "speed": 1,
   "mass_p": 1,
-  "mass_b": 1,
   "rp": 0.001,
   "rb": 0.005,
   "time": 1,
-  "movable": false,
   "plots": {
     "pressure_vs_time": {
       "enabled" : false,
       "dt": 0.05
     },
     "collisions_with_obstacle": {
-        "enabled" : true
+        "enabled" : false
+    },
+    "msd": {
+      "enabled" : true,
+      "mass_b": 3
     }
   }
 }

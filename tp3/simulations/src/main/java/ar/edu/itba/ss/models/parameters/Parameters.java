@@ -16,12 +16,9 @@ public class Parameters {
     private double speed;
     @JsonProperty("mass_p")
     private double massP;
-    @JsonProperty("mass_b")
-    private double massB;
     private double rp;
     private double rb;
     private double time;
-    private boolean movable; // whether the brownian particle moves or not
     private PlotsParameters plots;
     private VideoParameters video;
 }

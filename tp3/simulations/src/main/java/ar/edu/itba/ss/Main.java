@@ -23,7 +23,7 @@ public class Main {
                 parameters.getRb(),
                 new Vector(parameters.getL() / 2, parameters.getL() / 2),
                 Vector.fromPolar(0, 0),
-                parameters.isMovable() ? parameters.getMassB() : Double.POSITIVE_INFINITY
+                parameters.getPlots().getMsd().isEnabled() ? parameters.getPlots().getMsd().getMassB() : Double.POSITIVE_INFINITY
         );
         final List<Particle> aux = new ArrayList<>();
         aux.add(brownianParticle);
@@ -47,6 +47,10 @@ public class Main {
 
         if (parameters.getPlots().getCollisionsWithObstacle().isEnabled()) {
             CollisionsWithObstacle.run(parameters, particles);
+        }
+
+        if (parameters.getPlots().getMsd().isEnabled()) {
+            MSD.run(parameters, particles);
         }
     }
 }
