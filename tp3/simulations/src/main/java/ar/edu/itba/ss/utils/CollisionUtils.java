@@ -115,9 +115,9 @@ public class CollisionUtils {
         return collisions;
     }
 
-    public static PriorityQueue<CollisionEvent> calculateAllCollisionsCircular(final Particle particle, final List<Particle> particles, final Vector center, final double radius){
+    public static PriorityQueue<CollisionEvent> calculateAllCollisionsCircular(final Particle particle, final List<Particle> particles, final double radius){
         final PriorityQueue<ParticleCollisionEvent> particleCollisions = CollisionUtils.calculateTcWithParticles(particle, particles);
-        final Optional<CircularWallCollisionEvent> circularWallCollision = CollisionUtils.calculateTcWithCircularWall(particle, center, radius);
+        final Optional<CircularWallCollisionEvent> circularWallCollision = CollisionUtils.calculateTcWithCircularWall(particle, radius);
 
         final PriorityQueue<CollisionEvent> collisions = new PriorityQueue<>();
         collisions.addAll(particleCollisions);
