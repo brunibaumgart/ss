@@ -1,9 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+import pandas as pd
 
 from src.constants import FilePaths
-
 
 # Read the file and extract time and positions (x, y)
 def read_positions(file_path):
@@ -17,7 +17,6 @@ def read_positions(file_path):
             positions.append((float(x_str), float(y_str)))
     return np.array(times), np.array(positions)
 
-
 # Calculate the MSD evolution over time, using fixed time intervals (Delta T)
 def calculate_msd_evolution(times, positions, delta_t):
     initial_position = positions[0]
@@ -29,11 +28,10 @@ def calculate_msd_evolution(times, positions, delta_t):
         if times[i] >= last_time + delta_t:
             squared_displacements = np.sum((positions[i] - initial_position) ** 2)
             msd_evolution.append(squared_displacements)
-            selected_times.append(times[i])  # Guardar el tiempo correspondiente al DCM calculado
+            selected_times.append(np.floor((times[i] - delta_t / 2) / delta_t) * delta_t)  # Ajustar el tiempo al múltiplo más cercano de delta_t
             last_time = times[i]
 
     return msd_evolution, selected_times
-
 
 # Plot MSD evolution with time on the x-axis
 def plot_msd_evolution(times, msd_evolution):
@@ -55,9 +53,17 @@ def plot_msd_evolution(times, msd_evolution):
     plt.grid(True)
     plt.show()
 
+# Save the MSD evolution data to a CSV file
+def save_msd_to_csv(times, msd_evolution, output_csv):
+    data = {
+        'time': times,
+        'msd': msd_evolution
+    }
+    df = pd.DataFrame(data)
+    df.to_csv(output_csv, index=False)
 
 # File path
-file_path = FilePaths.SIMULATIONS_DIR + "msd.txt"
+file_path = FilePaths.SIMULATIONS_DIR + "msd_3.txt"
 
 # Set the time interval (Delta T)
 delta_t = 0.002 # Ajusta este valor según tu preferencia
@@ -70,3 +76,7 @@ msd_evolution, selected_times = calculate_msd_evolution(times, positions, delta_
 
 # Plot the MSD evolution with time on the x-axis
 plot_msd_evolution(selected_times, msd_evolution)
+
+# Save the MSD evolution data to a CSV file
+output_csv = 'msd_evolution_3.csv'
+save_msd_to_csv(selected_times, msd_evolution, output_csv)

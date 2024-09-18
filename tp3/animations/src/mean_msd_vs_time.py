@@ -1,93 +1,58 @@
-import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
-
-from src.constants import FilePaths
+from matplotlib.ticker import FuncFormatter
 
 
-# Read the file and extract time and positions (x, y)
-def read_positions(file_path):
-    times = []
-    positions = []
-    with open(file_path, 'r') as f:
-        next(f)  # Skip the header if there is one
-        for line in f:
-            time_str, x_str, y_str = line.split()
-            times.append(float(time_str))
-            positions.append((float(x_str), float(y_str)))
-    return np.array(times), np.array(positions)
+def read_and_average_csv(file_pattern, num_files):
+    data_frames = []
 
-
-# Calculate the MSD evolution over time, using fixed time intervals (Delta T)
-def calculate_msd_evolution(times, positions, delta_t):
-    initial_position = positions[0]
-    msd_evolution = []
-    selected_times = []
-    last_time = times[0]
-
-    for i in range(1, len(positions)):
-        if times[i] >= last_time + delta_t:
-            squared_displacements = np.sum((positions[i] - initial_position) ** 2)
-            msd_evolution.append(squared_displacements)
-            selected_times.append(times[i])  # Guardar el tiempo correspondiente al DCM calculado
-            last_time = times[i]
-
-    return msd_evolution, selected_times
-
-
-# Calculate the average MSD across all files
-def calculate_average_msd(num_files, delta_t):
-    all_msd_evolutions = []
-    common_times = None
-
+    # Leer los archivos CSV
     for i in range(1, num_files + 1):
-        file_path = FilePaths.SIMULATIONS_DIR + f"msd_{i}.txt"
-        times, positions = read_positions(file_path)
+        file_name = file_pattern.format(i)
+        df = pd.read_csv(file_name)
+        data_frames.append(df)
 
-        msd_evolution, selected_times = calculate_msd_evolution(times, positions, delta_t)
-        all_msd_evolutions.append(msd_evolution)
+    # Concatenar todos los DataFrames en uno solo
+    combined_df = pd.concat(data_frames)
 
-        # Si es la primera ejecución, fijamos los tiempos comunes
-        if common_times is None:
-            common_times = selected_times
+    # Agrupar por tiempo y calcular el promedio de MSD
+    averaged_df = combined_df.groupby('time').agg({'msd': 'mean'}).reset_index()
 
-    # Asegurarse que todas las ejecuciones tienen el mismo número de instantes de tiempo
-    all_msd_evolutions = [np.interp(common_times, selected_times, msd) for msd, selected_times in
-                          zip(all_msd_evolutions, all_msd_evolutions)]
-
-    # Calcular el promedio del DCM en cada instante de tiempo
-    average_msd = np.mean(all_msd_evolutions, axis=0)
-
-    return average_msd, common_times
+    return averaged_df
 
 
-# Plot MSD evolution with time on the x-axis
-def plot_msd_evolution(times, msd_evolution):
-    fig, ax = plt.subplots()
+def scientific_formatter(x, pos):
+    """Format function to show scaled values."""
+    return f'{x * 1e3:.1f}'  # Escalar los valores por 10^-3 y mostrar con un decimal
 
-    # Scale the MSD values for better visualization
-    msd_evolution_scaled = np.array(msd_evolution) / 1e-3
 
-    # Plot
-    ax.plot(times, msd_evolution_scaled, linestyle='-')
-
-    # Labels
-    ax.set_xlabel('Tiempo (s)')
-    ax.set_ylabel('Desplazamiento Cuadrático Medio (DCM) ($\\times 10^{-3}$)')
-
-    # Format the y-axis to reflect the scaling
-    ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, _: f'{y:.1f}'))
-
+def plot_scatter(df, output_image):
+    plt.figure(figsize=(10, 6))
+    plt.scatter(df['time'], df['msd'], color='blue', marker='o')
+    plt.xlabel('Time')
+    plt.ylabel('MSD (x10^-3)')
+    plt.title('Average MSD vs Time')
     plt.grid(True)
+
+    # Ajustar los ejes para mostrar valores escalados
+    plt.gca().xaxis.set_major_formatter(FuncFormatter(scientific_formatter))
+    plt.gca().yaxis.set_major_formatter(FuncFormatter(scientific_formatter))
+
+    plt.savefig(output_image)  # Guardar el gráfico como imagen
     plt.show()
 
 
-# Variables
-num_files = 3  # Número de archivos a leer (ajustar según tu caso)
-delta_t = 0.002  # Ajusta este valor según tu preferencia
+def save_csv(df, output_csv):
+    df.to_csv(output_csv, index=False)  # Guardar el DataFrame como archivo CSV
 
-# Calculate the average MSD evolution using fixed time intervals
-average_msd_evolution, common_times = calculate_average_msd(num_files, delta_t)
 
-# Plot the average MSD evolution with time on the x-axis
-plot_msd_evolution(common_times, average_msd_evolution)
+# Definir el patrón de nombre del archivo y el número de archivos
+file_pattern = 'msd_evolution_{}.csv'
+num_files = 3  # Cambia esto al número de archivos que tienes
+output_image = 'average_msd_plot.png'  # Nombre del archivo de imagen
+output_csv = 'average_msd.csv'  # Nombre del archivo CSV
+
+# Leer los archivos, calcular el promedio, guardar el CSV y generar el gráfico
+averaged_df = read_and_average_csv(file_pattern, num_files)
+save_csv(averaged_df, output_csv)
+plot_scatter(averaged_df, output_image)
