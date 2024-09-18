@@ -40,7 +40,7 @@ public class MolecularDynamicsMethod {
         // Update positions
         particles.forEach(p -> {
             final Vector newPosition = p.position().add(p.speed().multiply(minTc));
-            final Particle newParticle = new Particle(p.id(), p.radius(), newPosition, p.speed(), p.mass());
+            final Particle newParticle = new Particle(p.id(), p.radius(), newPosition, p.speed(), p.mass(),p.previousSpeed());
             particles.set(particles.indexOf(p), newParticle);
         });
 
@@ -59,8 +59,8 @@ public class MolecularDynamicsMethod {
 
             final Pair<Vector, Vector> newSpeeds = NoGravityOperator.collide(p1, p2);
 
-            final Particle newP1 = new Particle(p1.id(), p1.radius(), p1.position(), newSpeeds.first(), p1.mass());
-            final Particle newP2 = new Particle(p2.id(), p2.radius(), p2.position(), newSpeeds.second(), p2.mass());
+            final Particle newP1 = new Particle(p1.id(), p1.radius(), p1.position(), newSpeeds.first(), p1.mass(),p1.speed());
+            final Particle newP2 = new Particle(p2.id(), p2.radius(), p2.position(), newSpeeds.second(), p2.mass(),p2.speed());
 
             particles.set(indexP1, newP1);
             particles.set(indexP2, newP2);
@@ -72,7 +72,7 @@ public class MolecularDynamicsMethod {
             final Particle p = particles.get(indexP);
 
             final Vector newSpeed = NoGravityOperator.collideWithWall(p, event.wall());
-            final Particle newP = new Particle(p.id(), p.radius(), p.position(), newSpeed, p.mass());
+            final Particle newP = new Particle(p.id(), p.radius(), p.position(), newSpeed, p.mass(),p.speed());
 
             particles.set(indexP, newP);
         }

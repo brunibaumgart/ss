@@ -22,6 +22,8 @@ public class Particle {
     private final Vector speed;
     @EqualsAndHashCode.Exclude
     private final double mass;
+    @EqualsAndHashCode.Exclude
+    private Vector previousSpeed;
 
     // for debugging purposes
     public Particle(int id) {
@@ -30,6 +32,16 @@ public class Particle {
         this.position = new Vector(0, 0);
         this.speed = new Vector(0, 0);
         this.mass = 0;
+        this.previousSpeed = new Vector(0, 0);
+    }
+
+    public Particle(int id, double radius, Vector position, Vector speed, double mass) {
+        this.id = id;
+        this.radius = radius;
+        this.position = position;
+        this.speed = speed;
+        this.mass = mass;
+        this.previousSpeed = new Vector(0, 0);
     }
 
     public double distanceTo(Particle other) {

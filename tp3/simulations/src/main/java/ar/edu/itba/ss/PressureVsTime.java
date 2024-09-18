@@ -40,28 +40,32 @@ public class PressureVsTime {
             //OutputUtils.printVideoFrameHeader(writer);
 
             MolecularDynamicsMethod.runIteration(boxState);
-            if(Double.compare(boxState.timeElapsed(), parameters.getTime()) >= 0)
+            if (Double.compare(boxState.timeElapsed(), parameters.getTime()) >= 0)
                 break;
 
-            int currentInterval = (int) (boxState.timeElapsed() / dt) ;
-            if (boxState.lastEvent().getType() == CollisionEvent.EventType.WALL_COLLISION ) {
-                final WallCollisionEvent event = (WallCollisionEvent) boxState.lastEvent();
+            int currentInterval = (int) (boxState.timeElapsed() / dt);
+            if (boxState.lastEvent().getType() == CollisionEvent.EventType.WALL_COLLISION) {
                 // sumo la cantidad de movimiento de esta colision a la presion
-                wallPressure.set(currentInterval, wallPressure.get(currentInterval) + event.p().speed().x()); //todo
-            }
-            else {
+                final WallCollisionEvent event = (WallCollisionEvent) boxState.lastEvent();
+                double deltaVx = event.p().speed().x() - event.p().previousSpeed().x();
+                double deltaVy = event.p().speed().y() - event.p().previousSpeed().y();
+                double impulse = event.p().mass() * Math.sqrt(deltaVx * deltaVx + deltaVy * deltaVy);
+                wallPressure.set(currentInterval, wallPressure.get(currentInterval) + impulse);
+            } else {
                 final ParticleCollisionEvent event = (ParticleCollisionEvent) boxState.lastEvent();
+                Particle p1 = event.getParticles().get(0);
+                Particle p2 = event.getParticles().get(1);
                 // Checkeamos que la colision sea entre la particula browniana (id -1) y otra particula
-                if (boxState.lastEvent().getParticles().get(0).id() == ParticleUtils.BROWNIAN_ID) {
-                    //suma la cantidad de movimiento de la particula browniana a la que ya tiene
-                    brownianPressure.set(currentInterval, brownianPressure.get(currentInterval) + 1); //todo
+                if (p1.id() == ParticleUtils.BROWNIAN_ID || p2.id() == ParticleUtils.BROWNIAN_ID) {
+                    // Calculamos el impulso para la partícula browniana
+                    Particle particle = (p1.id() == ParticleUtils.BROWNIAN_ID) ? p2 : p1;
+                    double deltaVx = particle.speed().x() - particle.previousSpeed().x();
+                    double deltaVy = particle.speed().y() - particle.previousSpeed().y();
+                    double impulse = particle.mass() * Math.sqrt(deltaVx * deltaVx + deltaVy * deltaVy);
+                    brownianPressure.set(currentInterval, brownianPressure.get(currentInterval) + impulse);
                 }
-                else {
-                    brownianPressure.set(currentInterval, brownianPressure.get(currentInterval) + 1); //todo
-                }
-
+                //OutputUtils.printVideoFrame(writer, boxState.particles());
             }
-            //OutputUtils.printVideoFrame(writer, boxState.particles());
         }
 
         for ( int i = 0 ; i < intervals ; i++ ) {
@@ -76,6 +80,7 @@ public class PressureVsTime {
     private static void writePressuresToFile(int intervals, Parameters parameters, List<Double> wallPressure, List<Double> brounianPressure) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FilePaths.OUTPUT_DIR + "pressures.txt"))) {
             double dt = parameters.getPlots().getPressureVsTime().getDt();
+            int decimalPlaces = getDecimalPlaces(dt); // Obtenemos la cantidad de decimales de dt
 
             // Escribir los datos en filas
             for (int i = 0; i < intervals; i++) {
@@ -83,8 +88,9 @@ public class PressureVsTime {
                 double wp = wallPressure.get(i); // Presión de pared para el intervalo actual
                 double bp = brounianPressure.get(i); // Presión browniana para el intervalo actual
 
-                // Escribe los valores separados por espacios
-                writer.write(interval + " " + wp + " " + bp);
+                // Formatear el valor de interval con la misma cantidad de decimales que dt
+                String format = "%." + decimalPlaces + "f %f %f";
+                writer.write(String.format(format, interval, wp, bp));
                 writer.newLine(); // Nueva línea después de cada fila
             }
 
@@ -93,5 +99,12 @@ public class PressureVsTime {
             System.err.println("Error al escribir en el archivo: " + e.getMessage());
         }
     }
+
+    // Función auxiliar para obtener la cantidad de decimales de un número
+    private static int getDecimalPlaces(double number) {
+        String[] parts = String.valueOf(number).split("\\.");
+        return parts.length > 1 ? parts[1].length() : 0;
+    }
+
 
 }
