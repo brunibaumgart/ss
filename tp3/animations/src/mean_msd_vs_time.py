@@ -10,6 +10,7 @@ def read_and_average_csv(file_pattern, num_files):
     for i in range(1, num_files + 1):
         file_name = file_pattern.format(i)
         df = pd.read_csv(file_name)
+        df['time'] = df['time'] / 1000
         data_frames.append(df)
 
     # Concatenar todos los DataFrames en uno solo
@@ -29,9 +30,8 @@ def scientific_formatter(x, pos):
 def plot_scatter(df, output_image):
     plt.figure(figsize=(10, 6))
     plt.scatter(df['time'], df['msd'], color='blue', marker='o')
-    plt.xlabel('Time')
-    plt.ylabel('MSD (x10^-3)')
-    plt.title('Average MSD vs Time')
+    plt.xlabel('Tiempo (s)')
+    plt.ylabel('DCM (x10^-3)')
     plt.grid(True)
 
     # Ajustar los ejes para mostrar valores escalados
