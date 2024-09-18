@@ -21,4 +21,5 @@ public class Parameters {
     private double time;
     private PlotsParameters plots;
     private VideoParameters video;
+    private boolean circular;
 }

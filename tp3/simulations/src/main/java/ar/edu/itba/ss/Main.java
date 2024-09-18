@@ -28,14 +28,26 @@ public class Main {
         final List<Particle> aux = new ArrayList<>();
         aux.add(brownianParticle);
 
-        final List<Particle> particles = ParticleUtils.createMovingParticles(
-                aux,
-                parameters.getN(),
-                parameters.getL(),
-                parameters.getRp(),
-                parameters.getSpeed(),
-                parameters.getMassP()
-        );
+        List<Particle> particles;
+
+        if (parameters.isCircular()){
+            particles = ParticleUtils.createMovingParticlesCircular(aux,
+                    parameters.getN(),
+                    parameters.getL(),
+                    parameters.getRp(),
+                    parameters.getSpeed(),
+                    parameters.getMassP());
+        }
+        else {
+            particles = ParticleUtils.createMovingParticles(
+                    aux,
+                    parameters.getN(),
+                    parameters.getL(),
+                    parameters.getRp(),
+                    parameters.getSpeed(),
+                    parameters.getMassP()
+            );
+        }
 
         if (parameters.getVideo().isEnabled()) {
             VideoAnimation.run(parameters, particles);
