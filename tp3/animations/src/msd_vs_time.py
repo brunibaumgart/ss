@@ -18,17 +18,21 @@ def read_positions(file_path):
     return np.array(times), np.array(positions)
 
 
-# Calculate the MSD evolution over time
-def calculate_msd_evolution(positions):
+# Calculate the MSD evolution over time, using fixed time intervals (Delta T)
+def calculate_msd_evolution(times, positions, delta_t):
     initial_position = positions[0]
     msd_evolution = []
+    selected_times = []
+    last_time = times[0]
 
-    for i in range(1, len(positions) + 1):
-        squared_displacements = np.sum((positions[:i] - initial_position) ** 2, axis=1)
-        msd = np.mean(squared_displacements)
-        msd_evolution.append(msd)
+    for i in range(1, len(positions)):
+        if times[i] >= last_time + delta_t:
+            squared_displacements = np.sum((positions[i] - initial_position) ** 2)
+            msd_evolution.append(squared_displacements)
+            selected_times.append(times[i])  # Guardar el tiempo correspondiente al DCM calculado
+            last_time = times[i]
 
-    return msd_evolution
+    return msd_evolution, selected_times
 
 
 # Plot MSD evolution with time on the x-axis
@@ -39,7 +43,7 @@ def plot_msd_evolution(times, msd_evolution):
     msd_evolution_scaled = np.array(msd_evolution) / 1e-3
 
     # Plot
-    ax.plot(times[:len(msd_evolution)], msd_evolution_scaled, linestyle='-')
+    ax.plot(times, msd_evolution_scaled, linestyle='-')
 
     # Labels
     ax.set_xlabel('Tiempo (s)')
@@ -55,11 +59,14 @@ def plot_msd_evolution(times, msd_evolution):
 # File path
 file_path = FilePaths.SIMULATIONS_DIR + "msd.txt"
 
+# Set the time interval (Delta T)
+delta_t = 0.002 # Ajusta este valor según tu preferencia
+
 # Read the positions and times from the file
 times, positions = read_positions(file_path)
 
-# Calculate the MSD evolution
-msd_evolution = calculate_msd_evolution(positions)
+# Calculate the MSD evolution using fixed time intervals
+msd_evolution, selected_times = calculate_msd_evolution(times, positions, delta_t)
 
 # Plot the MSD evolution with time on the x-axis
-plot_msd_evolution(times, msd_evolution)
+plot_msd_evolution(selected_times, msd_evolution)
