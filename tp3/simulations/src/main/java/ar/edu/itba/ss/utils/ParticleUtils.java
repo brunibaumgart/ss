@@ -67,12 +67,13 @@ public class ParticleUtils {
                                                                final double mass) {
         final List<Particle> result = new ArrayList<>(particles);
         final Random random = new Random();
+        final double R = L/2;
 
         for (int i = 0; i < N; i++) {
             final double angle = random.nextDouble() * 2 * Math.PI;
 
             double theta = random.nextDouble() * 2 * Math.PI;
-            double radius = random.nextDouble() * (L/2);
+            double radius = Math.sqrt(random.nextDouble()) * R;
 
             double x = radius * Math.cos(theta);
             double y = radius * Math.sin(theta);
@@ -81,12 +82,13 @@ public class ParticleUtils {
             // check particles do not overlap
             while (collidesWithAny(p, result) || collidesWithCircularWall(p, L)) {
                 theta = random.nextDouble() * 2 * Math.PI;
-                radius = random.nextDouble() * (L/2);
+                radius = Math.sqrt(random.nextDouble());
                 x = radius * Math.cos(theta);
                 y = radius * Math.sin(theta);
                 p = new Particle(i, r, new Vector(x, y), Vector.fromPolar(speed, angle), mass);
             }
 
+            p = new Particle(i, r, new Vector(x + R, y + R), Vector.fromPolar(speed, angle), mass);
             result.add(p);
         }
 
@@ -105,7 +107,7 @@ public class ParticleUtils {
     }
 
     private static boolean collidesWithCircularWall(final Particle particle, final double L){
-        final double distanceCenter = particle.position().distanceTo(new Vector(L/2, L/2));
+        final double distanceCenter = particle.position().distanceTo(new Vector(0, 0));
         return distanceCenter + particle.radius() >= L/2;
     }
 }

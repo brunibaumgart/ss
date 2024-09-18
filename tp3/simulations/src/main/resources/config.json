@@ -1,9 +1,10 @@
 {
+  "circular": true,
   "video": {
-    "enabled": false
+    "enabled": true
   },
   "l": 0.1,
-  "n": 300,
+  "n": 100,
   "speed": 1,
   "mass_p": 1,
   "rp": 0.001,
@@ -18,7 +19,7 @@
         "enabled" : false
     },
     "msd": {
-      "enabled" : true,
+      "enabled" : false,
       "mass_b": 3
     }
   }
