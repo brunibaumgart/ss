@@ -15,6 +15,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class PressureVsTime {
     public static void run(final Parameters parameters, final List<Particle> particles) throws IOException {
@@ -88,7 +89,7 @@ public class PressureVsTime {
 
                 // Formatear el valor de interval con la misma cantidad de decimales que dt
                 String format = "%." + decimalPlaces + "f %f %f";
-                writer.write(String.format(format, interval, wp, bp));
+                writer.write(String.format(Locale.US, format, interval, wp, bp));
                 writer.newLine(); // Nueva línea después de cada fila
             }
 
