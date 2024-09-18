@@ -107,7 +107,7 @@ public class MolecularDynamicsMethod {
         // If it's the first iteration, calculate tc for all particles
         if (circularState.iteration() == 0) {
             for (Particle particle : particles) {
-                final PriorityQueue<CollisionEvent> collisions = CollisionUtils.calculateAllCollisionsCircular(particle, particles, circularState.center(), circularState.radius());
+                final PriorityQueue<CollisionEvent> collisions = CollisionUtils.calculateAllCollisionsCircular(particle, particles, circularState.radius());
                 if (!collisions.isEmpty())
                     circularState.events().addAll(collisions);
             }
@@ -176,7 +176,7 @@ public class MolecularDynamicsMethod {
 
         // Add new events of the colliding particles
         updatedParticlesColliding.forEach(p -> {
-            final PriorityQueue<CollisionEvent> collisions = CollisionUtils.calculateAllCollisionsCircular(p, particles, circularState.center(), circularState.radius());
+            final PriorityQueue<CollisionEvent> collisions = CollisionUtils.calculateAllCollisionsCircular(p, particles, circularState.radius());
             if (!collisions.isEmpty())
                 circularState.events().addAll(collisions);
         });
