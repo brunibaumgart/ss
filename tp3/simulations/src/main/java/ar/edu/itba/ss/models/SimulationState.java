@@ -10,7 +10,7 @@ import java.util.PriorityQueue;
 
 @Getter
 @Accessors(fluent = true)
-public class BoxState {
+public class SimulationState {
 
     private final Double L;
     @Setter
@@ -21,11 +21,13 @@ public class BoxState {
     private double timeElapsed = 0.0;
     @Setter
     private CollisionEvent lastEvent;
+    private final boolean isCircular;
 
-    public BoxState(final List<Particle> particles, final double L) {
+    public SimulationState(final List<Particle> particles, final double L, final boolean isCircular) {
         this.particles = particles;
         this.events = new PriorityQueue<>();
         this.L = L;
+        this.isCircular = isCircular;
     }
 
     public void incrementIteration() {

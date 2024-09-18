@@ -2,13 +2,12 @@ package ar.edu.itba.ss;
 
 import ar.edu.itba.ss.constants.FilePaths;
 import ar.edu.itba.ss.methods.MolecularDynamicsMethod;
-import ar.edu.itba.ss.models.BoxState;
 import ar.edu.itba.ss.models.Particle;
+import ar.edu.itba.ss.models.SimulationState;
 import ar.edu.itba.ss.models.events.CollisionEvent;
 import ar.edu.itba.ss.models.events.ParticleCollisionEvent;
 import ar.edu.itba.ss.models.events.WallCollisionEvent;
 import ar.edu.itba.ss.models.parameters.Parameters;
-import ar.edu.itba.ss.utils.OutputUtils;
 import ar.edu.itba.ss.utils.ParticleUtils;
 
 import java.io.BufferedWriter;
@@ -32,27 +31,26 @@ public class PressureVsTime {
         }
 
         // Creamos una clase estatica, le pasamos las particulas y te hace una iteración
-        final BoxState boxState = new BoxState(particles, parameters.getL());
-        for (int i = 0; Double.compare(boxState.timeElapsed(), parameters.getTime()) < 0 ; i++) {
+        SimulationState simulationState = new SimulationState(particles, parameters.getL(), parameters.isCircular());
+        for (int i = 0; Double.compare(simulationState.timeElapsed(), parameters.getTime()) < 0 ; i++) {
             //final FileWriter writer = new FileWriter(FilePaths.OUTPUT_DIR + "video_frames/frame_" + (i + 1) + ".txt");
             //OutputUtils.printTime(writer, boxState.timeElapsed());
 
             //OutputUtils.printVideoFrameHeader(writer);
 
-            MolecularDynamicsMethod.runIteration(boxState);
-            if (Double.compare(boxState.timeElapsed(), parameters.getTime()) >= 0)
+            MolecularDynamicsMethod.runIteration(simulationState);
+            if(Double.compare(simulationState.timeElapsed(), parameters.getTime()) >= 0)
                 break;
 
-            int currentInterval = (int) (boxState.timeElapsed() / dt);
-            if (boxState.lastEvent().getType() == CollisionEvent.EventType.WALL_COLLISION) {
-                // sumo la cantidad de movimiento de esta colision a la presion
-                final WallCollisionEvent event = (WallCollisionEvent) boxState.lastEvent();
+            int currentInterval = (int) (simulationState.timeElapsed() / dt) ;
+            if (simulationState.lastEvent().getType() == CollisionEvent.EventType.WALL_COLLISION ) {
+                final WallCollisionEvent event = (WallCollisionEvent) simulationState.lastEvent();
                 double deltaVx = event.p().speed().x() - event.p().previousSpeed().x();
                 double deltaVy = event.p().speed().y() - event.p().previousSpeed().y();
                 double impulse = event.p().mass() * Math.sqrt(deltaVx * deltaVx + deltaVy * deltaVy);
                 wallPressure.set(currentInterval, wallPressure.get(currentInterval) + impulse);
             } else {
-                final ParticleCollisionEvent event = (ParticleCollisionEvent) boxState.lastEvent();
+                final ParticleCollisionEvent event = (ParticleCollisionEvent) simulationState.lastEvent();
                 Particle p1 = event.getParticles().get(0);
                 Particle p2 = event.getParticles().get(1);
                 // Checkeamos que la colision sea entre la particula browniana (id -1) y otra particula

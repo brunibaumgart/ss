@@ -23,19 +23,31 @@ public class Main {
                 parameters.getRb(),
                 new Vector(parameters.getL() / 2, parameters.getL() / 2),
                 Vector.fromPolar(0, 0),
-                parameters.isMovable() ? parameters.getMassB() : Double.POSITIVE_INFINITY
+                parameters.getPlots().getMsd().isEnabled() ? parameters.getPlots().getMsd().getMassB() : Double.POSITIVE_INFINITY
         );
         final List<Particle> aux = new ArrayList<>();
         aux.add(brownianParticle);
 
-        final List<Particle> particles = ParticleUtils.createMovingParticles(
-                aux,
-                parameters.getN(),
-                parameters.getL(),
-                parameters.getRp(),
-                parameters.getSpeed(),
-                parameters.getMassP()
-        );
+        List<Particle> particles;
+
+        if (parameters.isCircular()){
+            particles = ParticleUtils.createMovingParticlesCircular(aux,
+                    parameters.getN(),
+                    parameters.getL(),
+                    parameters.getRp(),
+                    parameters.getSpeed(),
+                    parameters.getMassP());
+        }
+        else {
+            particles = ParticleUtils.createMovingParticles(
+                    aux,
+                    parameters.getN(),
+                    parameters.getL(),
+                    parameters.getRp(),
+                    parameters.getSpeed(),
+                    parameters.getMassP()
+            );
+        }
 
         if (parameters.getVideo().isEnabled()) {
             VideoAnimation.run(parameters, particles);
@@ -47,6 +59,10 @@ public class Main {
 
         if (parameters.getPlots().getCollisionsWithObstacle().isEnabled()) {
             CollisionsWithObstacle.run(parameters, particles);
+        }
+
+        if (parameters.getPlots().getMsd().isEnabled()) {
+            MSD.run(parameters, particles);
         }
     }
 }

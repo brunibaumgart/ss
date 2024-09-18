@@ -26,6 +26,7 @@ public abstract class CollisionEvent implements Comparable<CollisionEvent> {
     public enum EventType {
         PARTICLES_COLLISION,
         WALL_COLLISION,
+        CIRCULAR_WALL_COLLISION
     }
 
 }

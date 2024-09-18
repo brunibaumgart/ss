@@ -50,4 +50,12 @@ public class Vector {
     public double distanceTo(Vector other) {
         return Math.sqrt(Math.pow(x - other.x, 2) + Math.pow(y - other.y, 2));
     }
+
+    public Vector normalize() {
+        final double magnitude = magnitude();
+        if (magnitude == 0) {
+            throw new ArithmeticException("Cannot normalize a zero vector");
+        }
+        return new Vector(x / magnitude, y / magnitude);
+    }
 }

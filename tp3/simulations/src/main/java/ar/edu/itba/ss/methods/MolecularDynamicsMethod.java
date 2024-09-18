@@ -1,9 +1,7 @@
 package ar.edu.itba.ss.methods;
 
-import ar.edu.itba.ss.models.BoxState;
-import ar.edu.itba.ss.models.Pair;
-import ar.edu.itba.ss.models.Particle;
-import ar.edu.itba.ss.models.Vector;
+import ar.edu.itba.ss.models.*;
+import ar.edu.itba.ss.models.events.CircularWallCollisionEvent;
 import ar.edu.itba.ss.models.events.CollisionEvent;
 import ar.edu.itba.ss.models.events.ParticleCollisionEvent;
 import ar.edu.itba.ss.models.events.WallCollisionEvent;
@@ -16,20 +14,21 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 public class MolecularDynamicsMethod {
-    public static void runIteration(BoxState boxState) {
-        final List<Particle> particles = boxState.particles();
+
+    public static void runIteration(SimulationState simulationState){
+        final List<Particle> particles = simulationState.particles();
 
         // If it's the first iteration, calculate tc for all particles
-        if (boxState.iteration() == 0) {
+        if (simulationState.iteration() == 0) {
             for (Particle particle : particles) {
-                final PriorityQueue<CollisionEvent> collisions = CollisionUtils.calculateAllCollisions(particle, particles, boxState.L());
+                final PriorityQueue<CollisionEvent> collisions = CollisionUtils.calculateAllCollisions(particle, particles, simulationState.L(), simulationState.isCircular());
                 if (!collisions.isEmpty())
-                    boxState.events().addAll(collisions);
+                    simulationState.events().addAll(collisions);
             }
         }
 
         // Get the event with the smallest time (tc)
-        final CollisionEvent currEvent = boxState.events().poll();
+        final CollisionEvent currEvent = simulationState.events().poll();
 
         if (currEvent == null)
             throw new IllegalStateException("No event for next iteration");
@@ -65,21 +64,34 @@ public class MolecularDynamicsMethod {
             particles.set(indexP1, newP1);
             particles.set(indexP2, newP2);
         } else {
-            final WallCollisionEvent event = (WallCollisionEvent) currEvent;
+            if (simulationState.isCircular()){
+                final CircularWallCollisionEvent event = (CircularWallCollisionEvent) currEvent;
 
-            // Get updated particle
-            final int indexP = particles.indexOf(event.p());
-            final Particle p = particles.get(indexP);
+                // Get updated particle
+                final int indexP = particles.indexOf(event.p());
+                final Particle p = particles.get(indexP);
 
-            final Vector newSpeed = NoGravityOperator.collideWithWall(p, event.wall());
-            final Particle newP = new Particle(p.id(), p.radius(), p.position(), newSpeed, p.mass(),p.speed());
+                final Vector newSpeed = NoGravityOperator.collideWithCircularWall(p,
+                        new Vector(simulationState.L()/2, simulationState.L()/2));
+                final Particle newP = new Particle(p.id(), p.radius(), p.position(), newSpeed, p.mass(), p.speed());
+                particles.set(indexP, newP);
+            }
+            else {
+                final WallCollisionEvent event = (WallCollisionEvent) currEvent;
 
-            particles.set(indexP, newP);
+                // Get updated particle
+                final int indexP = particles.indexOf(event.p());
+                final Particle p = particles.get(indexP);
+
+                final Vector newSpeed = NoGravityOperator.collideWithWall(p, event.wall());
+                final Particle newP = new Particle(p.id(), p.radius(), p.position(), newSpeed, p.mass(),p.speed());
+                particles.set(indexP, newP);
+            }
         }
 
         // Update all events
-        boxState.events().removeIf(e -> e.containsParticles(particlesColliding));  // Remove stale events
-        boxState.events().forEach(e -> e.setTime(e.getTime() - minTc)); // Update time of remaining events
+        simulationState.events().removeIf(e -> e.containsParticles(particlesColliding));  // Remove stale events
+        simulationState.events().forEach(e -> e.setTime(e.getTime() - minTc)); // Update time of remaining events
 
         // Get updated particles
         final List<Particle> updatedParticlesColliding = new ArrayList<>();
@@ -90,16 +102,16 @@ public class MolecularDynamicsMethod {
 
         // Add new events of the colliding particles
         updatedParticlesColliding.forEach(p -> {
-            final PriorityQueue<CollisionEvent> collisions = CollisionUtils.calculateAllCollisions(p, particles, boxState.L());
+            final PriorityQueue<CollisionEvent> collisions = CollisionUtils.calculateAllCollisions(p, particles, simulationState.L(),  simulationState.isCircular());
             if (!collisions.isEmpty())
-                boxState.events().addAll(collisions);
+                simulationState.events().addAll(collisions);
         });
 
         // Increment iteration
-        boxState.incrementIteration();
+        simulationState.incrementIteration();
 
         // Add time to the box state
-        boxState.addTime(minTc);
-        boxState.lastEvent(currEvent);
+        simulationState.addTime(minTc);
+        simulationState.lastEvent(currEvent);
     }
 }

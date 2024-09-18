@@ -51,4 +51,13 @@ public class OutputUtils {
             e.printStackTrace();
         }
     }
+
+    public static void printTimeAndPosition(final FileWriter writer, final Particle particle, final double time) {
+        try {
+            writer.write(time + " " + particle.position().x() + " " + particle.position().y() + "\n");
+            writer.flush();
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

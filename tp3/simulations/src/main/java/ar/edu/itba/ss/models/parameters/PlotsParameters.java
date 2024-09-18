@@ -15,4 +15,5 @@ public class PlotsParameters {
     private PressureVsTimeParameters pressureVsTime;
     @JsonProperty("collisions_with_obstacle")
     private CollisionsWIthObstacleParameters collisionsWithObstacle;
+    private MSDParameters msd;
 }

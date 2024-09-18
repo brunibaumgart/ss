@@ -3,6 +3,7 @@ package ar.edu.itba.ss.utils;
 import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.models.Vector;
 import ar.edu.itba.ss.models.Wall;
+import ar.edu.itba.ss.models.events.CircularWallCollisionEvent;
 import ar.edu.itba.ss.models.events.CollisionEvent;
 import ar.edu.itba.ss.models.events.ParticleCollisionEvent;
 import ar.edu.itba.ss.models.events.WallCollisionEvent;
@@ -17,7 +18,7 @@ public class CollisionUtils {
         throw new IllegalStateException("Utility class");
     }
 
-    private static PriorityQueue<WallCollisionEvent> calculateTcWithWalls(final Particle particle, final double L) {
+    private static PriorityQueue<CollisionEvent> calculateTcWithWalls(final Particle particle, final double L) {
         final List<Wall> walls = List.of(
                 new Wall(Wall.WallType.TOP, L),
                 new Wall(Wall.WallType.BOTTOM, L),
@@ -64,7 +65,33 @@ public class CollisionUtils {
         };
     }
 
-    public static PriorityQueue<ParticleCollisionEvent> calculateTcWithParticles(final Particle particle, final List<Particle> particles) {
+    private static Optional<CircularWallCollisionEvent> calculateTcWithCircularWall(final Particle particle, final double wallRadius){
+        final double x0 = particle.position().x() - wallRadius; // Makes the calculation easier
+        final double y0 = particle.position().y() - wallRadius;
+        final double vx = particle.speed().x();
+        final double vy = particle.speed().y();
+
+        if(vx == 0 && vy == 0) {
+            return Optional.empty();
+        }
+
+        final double A = vx*vx + vy*vy;
+        final double B = 2 * ((x0)*vx + (y0)*vy);
+        final double rdiff = wallRadius - particle.radius();
+        final double C = x0*x0 + y0*y0 - rdiff*rdiff;
+
+        final double discriminant = B * B - 4 * A * C;
+
+        if (discriminant < 0) {
+            return Optional.empty();
+        }
+
+        final double t1 = (-B + Math.sqrt(discriminant)) / (2 * A);
+        //final double t2 = (-B - Math.sqrt(discriminant)) / (2 * A);
+        return Optional.of(new CircularWallCollisionEvent(t1, particle));
+    }
+
+    public static PriorityQueue<CollisionEvent> calculateTcWithParticles(final Particle particle, final List<Particle> particles) {
         return particles.parallelStream()
                 .map(p -> {
                     final Optional<Double> time = calculateTcWithParticle(particle, p);
@@ -77,14 +104,16 @@ public class CollisionUtils {
                 .collect(Collectors.toCollection(PriorityQueue::new));
     }
 
-    public static PriorityQueue<CollisionEvent> calculateAllCollisions(final Particle particle, final List<Particle> particles, final double L) {
-        final PriorityQueue<ParticleCollisionEvent> particleCollisions = CollisionUtils.calculateTcWithParticles(particle, particles);
-        final PriorityQueue<WallCollisionEvent> wallCollisions = CollisionUtils.calculateTcWithWalls(particle, L);
-
-        final PriorityQueue<CollisionEvent> collisions = new PriorityQueue<>();
-        collisions.addAll(particleCollisions);
-        collisions.addAll(wallCollisions);
-
+    public static PriorityQueue<CollisionEvent> calculateAllCollisions(final Particle particle, final List<Particle> particles, final double L, final boolean isCircular) {
+        final PriorityQueue<CollisionEvent> collisions = CollisionUtils.calculateTcWithParticles(particle, particles);
+        if (isCircular){
+            final Optional<CircularWallCollisionEvent> circularWallCollision = CollisionUtils.calculateTcWithCircularWall(particle, L/2);
+            circularWallCollision.ifPresent(collisions::add);
+        }
+        else {
+            final PriorityQueue<CollisionEvent> wallCollisions = CollisionUtils.calculateTcWithWalls(particle, L);
+            collisions.addAll(wallCollisions);
+        }
         return collisions;
     }
 
