@@ -15,16 +15,17 @@ import java.util.List;
 public class MSD {
     public static void run(final Parameters parameters, final List<Particle> particles) throws IOException {
         // Creamos una clase estatica, le pasamos las particulas y te hace una iteración
-        SimulationState simulationState = new SimulationState(particles, parameters.getL(), parameters.isCircular());
-        final FileWriter writer = new FileWriter(FilePaths.OUTPUT_DIR + "video.txt");
-        final FileWriter dcmWriter = new FileWriter(FilePaths.OUTPUT_DIR + "msd.txt");
+        final SimulationState simulationState = new SimulationState(particles, parameters.getL(), parameters.isCircular());
 
-        for (int i = 0; simulationState.timeElapsed() < parameters.getTime(); i++) {
+        final FileWriter writer = new FileWriter(FilePaths.OUTPUT_DIR + "video.txt");
+        final FileWriter msdWriter = new FileWriter(FilePaths.OUTPUT_DIR + "msd.txt");
+
+        while (simulationState.timeElapsed() < parameters.getTime()) {
             OutputUtils.printTime(writer, simulationState.timeElapsed());
             OutputUtils.printVideoFrameHeader(writer);
 
             OutputUtils.printTimeAndPosition(
-                    dcmWriter,
+                    msdWriter,
                     simulationState.particles().parallelStream().filter(p -> p.id() == ParticleUtils.BROWNIAN_ID).findFirst().orElseThrow(IllegalAccessError::new),
                     simulationState.timeElapsed()
             );

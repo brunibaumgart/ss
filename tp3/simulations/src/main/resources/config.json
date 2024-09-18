@@ -1,7 +1,7 @@
 {
   "circular": false,
   "video": {
-    "enabled": true
+    "enabled": false
   },
   "l": 0.1,
   "n": 100,
@@ -19,7 +19,7 @@
         "enabled" : false
     },
     "msd": {
-      "enabled" : false,
+      "enabled" : true,
       "mass_b": 3
     }
   }
