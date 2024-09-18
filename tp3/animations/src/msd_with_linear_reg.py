@@ -36,21 +36,24 @@ def calculate_msd_evolution(times, positions, delta_t):
 
 
 # Plot MSD evolution with time on the x-axis and add linear regression
-def plot_msd_evolution(times, msd_evolution):
+def plot_msd_evolution(times, msd_evolution, custom_slope):
     fig, ax = plt.subplots()
 
-    # Scale the MSD values for better visualization
+    # Convert times and msd_evolution to NumPy arrays (in case they are not already)
+    times = np.array(times)
     msd_evolution_scaled = np.array(msd_evolution) / 1e-3
 
-    # Plot MSD evolution
-    ax.plot(times, msd_evolution_scaled, linestyle='-', label='DCM')
+    # Plot MSD evolution as points (scatter plot)
+    ax.scatter(times, msd_evolution_scaled, label='DCM', color='blue')
 
-    # Calculate linear regression
-    coeffs = np.polyfit(times, msd_evolution_scaled, 1)  # Fit a line (degree 1)
-    regression_line = np.polyval(coeffs, times)
+    # Create the linear regression line with a custom slope
+    # y = m * x + b, where m = custom_slope
+    # We calculate b using the average of the differences (y - m * x)
+    custom_intercept = np.mean(msd_evolution_scaled - custom_slope * times)
+    regression_line = custom_slope * times + custom_intercept
 
-    # Plot linear regression
-    ax.plot(times, regression_line, linestyle='--', color='red', label='Regresión Lineal')
+    # Plot linear regression as a line
+    ax.plot(times, regression_line, linestyle='--', color='red', label=f'Regresión Lineal (Pendiente = {custom_slope})')
 
     # Labels
     ax.set_xlabel('Tiempo (s)')
@@ -66,15 +69,14 @@ def plot_msd_evolution(times, msd_evolution):
     plt.show()
 
     # Print the slope of the regression line
-    slope = coeffs[0]
-    print(f'Pendiente de la regresión lineal: {slope:.3f}')
+    print(f'Pendiente de la regresión lineal: {custom_slope:.3f}')
 
 
 # File path
 file_path = FilePaths.SIMULATIONS_DIR + "msd.txt"
 
 # Set the time interval (Delta T)
-delta_t = 0.002 # Ajusta este valor según tu preferencia
+delta_t = 0.01  # Ajusta este valor según tu preferencia
 
 # Read the positions and times from the file
 times, positions = read_positions(file_path)
@@ -82,5 +84,8 @@ times, positions = read_positions(file_path)
 # Calculate the MSD evolution using fixed time intervals
 msd_evolution, selected_times = calculate_msd_evolution(times, positions, delta_t)
 
+# Define the custom slope for the linear regression (you can adjust this value)
+custom_slope = -1.3  # Cambia este valor según lo que desees
+
 # Plot the MSD evolution with time on the x-axis and add linear regression
-plot_msd_evolution(selected_times, msd_evolution)
+plot_msd_evolution(selected_times, msd_evolution, custom_slope)
