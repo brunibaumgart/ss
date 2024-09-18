@@ -18,7 +18,7 @@ public class CollisionUtils {
         throw new IllegalStateException("Utility class");
     }
 
-    private static PriorityQueue<WallCollisionEvent> calculateTcWithWalls(final Particle particle, final double L) {
+    private static PriorityQueue<CollisionEvent> calculateTcWithWalls(final Particle particle, final double L) {
         final List<Wall> walls = List.of(
                 new Wall(Wall.WallType.TOP, L),
                 new Wall(Wall.WallType.BOTTOM, L),
@@ -91,7 +91,7 @@ public class CollisionUtils {
         return Optional.of(new CircularWallCollisionEvent(t1, particle));
     }
 
-    public static PriorityQueue<ParticleCollisionEvent> calculateTcWithParticles(final Particle particle, final List<Particle> particles) {
+    public static PriorityQueue<CollisionEvent> calculateTcWithParticles(final Particle particle, final List<Particle> particles) {
         return particles.parallelStream()
                 .map(p -> {
                     final Optional<Double> time = calculateTcWithParticle(particle, p);
@@ -104,26 +104,16 @@ public class CollisionUtils {
                 .collect(Collectors.toCollection(PriorityQueue::new));
     }
 
-    public static PriorityQueue<CollisionEvent> calculateAllCollisions(final Particle particle, final List<Particle> particles, final double L) {
-        final PriorityQueue<ParticleCollisionEvent> particleCollisions = CollisionUtils.calculateTcWithParticles(particle, particles);
-        final PriorityQueue<WallCollisionEvent> wallCollisions = CollisionUtils.calculateTcWithWalls(particle, L);
-
-        final PriorityQueue<CollisionEvent> collisions = new PriorityQueue<>();
-        collisions.addAll(particleCollisions);
-        collisions.addAll(wallCollisions);
-
-        return collisions;
-    }
-
-    public static PriorityQueue<CollisionEvent> calculateAllCollisionsCircular(final Particle particle, final List<Particle> particles, final double radius){
-        final PriorityQueue<ParticleCollisionEvent> particleCollisions = CollisionUtils.calculateTcWithParticles(particle, particles);
-        final Optional<CircularWallCollisionEvent> circularWallCollision = CollisionUtils.calculateTcWithCircularWall(particle, radius);
-
-        final PriorityQueue<CollisionEvent> collisions = new PriorityQueue<>();
-        collisions.addAll(particleCollisions);
-
-        circularWallCollision.ifPresent(collisions::add);
-
+    public static PriorityQueue<CollisionEvent> calculateAllCollisions(final Particle particle, final List<Particle> particles, final double L, final boolean isCircular) {
+        final PriorityQueue<CollisionEvent> collisions = CollisionUtils.calculateTcWithParticles(particle, particles);
+        if (isCircular){
+            final Optional<CircularWallCollisionEvent> circularWallCollision = CollisionUtils.calculateTcWithCircularWall(particle, L/2);
+            circularWallCollision.ifPresent(collisions::add);
+        }
+        else {
+            final PriorityQueue<CollisionEvent> wallCollisions = CollisionUtils.calculateTcWithWalls(particle, L);
+            collisions.addAll(wallCollisions);
+        }
         return collisions;
     }
 

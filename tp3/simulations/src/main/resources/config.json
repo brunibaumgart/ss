@@ -1,5 +1,5 @@
 {
-  "circular": true,
+  "circular": false,
   "video": {
     "enabled": true
   },

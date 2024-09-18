@@ -4,6 +4,7 @@ import ar.edu.itba.ss.models.Pair;
 import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.models.Vector;
 import ar.edu.itba.ss.models.Wall;
+import ar.edu.itba.ss.models.events.CollisionEvent;
 
 public class NoGravityOperator {
     private NoGravityOperator() {
