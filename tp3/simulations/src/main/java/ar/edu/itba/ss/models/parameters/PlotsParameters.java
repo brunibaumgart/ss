@@ -16,4 +16,6 @@ public class PlotsParameters {
     @JsonProperty("collisions_with_obstacle")
     private CollisionsWIthObstacleParameters collisionsWithObstacle;
     private MSDParameters msd;
+    @JsonProperty("pressure_vs_temperature")
+    private PressureVsTemperatureParameters pressureVsTemperature;
 }

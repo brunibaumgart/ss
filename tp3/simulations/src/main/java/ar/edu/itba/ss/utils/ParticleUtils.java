@@ -3,6 +3,7 @@ package ar.edu.itba.ss.utils;
 import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.models.Vector;
 
+import javax.sound.midi.Soundbank;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -65,8 +66,13 @@ public class ParticleUtils {
                                                                final double r,
                                                                final double speed,
                                                                final double mass) {
+        final Random seedGenerator = new Random();
+        final long seed = seedGenerator.nextLong();
+        final Random random = new Random(seed);
+        System.out.println("Seed " + seed);
+
         final List<Particle> result = new ArrayList<>(particles);
-        final Random random = new Random();
+
         final double R = L/2;
 
         for (int i = 0; i < N; i++) {

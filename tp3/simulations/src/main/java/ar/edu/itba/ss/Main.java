@@ -64,5 +64,9 @@ public class Main {
         if (parameters.getPlots().getMsd().isEnabled()) {
             MSD.run(parameters, particles);
         }
+
+        if (parameters.getPlots().getPressureVsTemperature().isEnabled()){
+            PressureVsTemperature.run(parameters, brownianParticle);
+        }
     }
 }

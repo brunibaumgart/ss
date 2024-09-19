@@ -60,4 +60,28 @@ public class OutputUtils {
             e.printStackTrace();
         }
     }
+
+    public static void printPressureAndTemperatureHeader(final FileWriter writer){
+        try {
+            writer.write("w_mean w_std o_mean o_std t" + "\n");
+            writer.flush();
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void printPressureAndTemperature(final FileWriter writer,
+                                                   final double wallPressureMean,
+                                                   final double wallPressureDeviation,
+                                                   final double obstaclePressureMean,
+                                                   final double obstaclePressureDeviation,
+                                                   final double temperature){
+        try {
+            writer.write(wallPressureMean + " " + wallPressureDeviation + " " + obstaclePressureMean + " "
+                    + obstaclePressureDeviation + " " + temperature + "\n");
+            writer.flush();
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

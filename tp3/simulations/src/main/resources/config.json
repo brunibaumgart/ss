@@ -1,10 +1,10 @@
 {
-  "circular": false,
+  "circular": true,
   "video": {
     "enabled": false
   },
   "l": 0.1,
-  "n": 300,
+  "n": 100,
   "speed": 1,
   "mass_p": 1,
   "rp": 0.001,
@@ -12,7 +12,7 @@
   "time": 1,
   "plots": {
     "pressure_vs_time": {
-      "enabled" : true,
+      "enabled" : false,
       "dt": 0.01
     },
     "collisions_with_obstacle": {
@@ -21,6 +21,10 @@
     "msd": {
       "enabled" : false,
       "mass_b": 3
+    },
+    "pressure_vs_temperature": {
+      "enabled": true,
+      "dt": 0.01
     }
   }
 }
