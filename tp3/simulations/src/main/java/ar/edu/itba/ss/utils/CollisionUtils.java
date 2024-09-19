@@ -87,7 +87,12 @@ public class CollisionUtils {
         }
 
         final double t1 = (-B + Math.sqrt(discriminant)) / (2 * A);
-        //final double t2 = (-B - Math.sqrt(discriminant)) / (2 * A);
+        // t2 will always be negative or smaller than t1 (does not work)
+
+        if (t1 <= 0){
+            return Optional.empty(); // FIXME: weird but works
+        }
+
         return Optional.of(new CircularWallCollisionEvent(t1, particle));
     }
 
