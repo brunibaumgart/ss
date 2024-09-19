@@ -4,8 +4,8 @@
     "enabled": false
   },
   "l": 0.1,
-  "n": 100,
-  "speed": 1,
+  "n": 300,
+  "speed": 3,
   "mass_p": 1,
   "rp": 0.001,
   "rb": 0.005,
@@ -19,7 +19,7 @@
         "enabled" : true
     },
     "msd": {
-      "enabled" : true,
+      "enabled" : false,
       "mass_b": 3
     },
     "pressure_vs_temperature": {

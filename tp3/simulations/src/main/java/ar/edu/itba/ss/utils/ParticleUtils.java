@@ -73,28 +73,35 @@ public class ParticleUtils {
 
         final List<Particle> result = new ArrayList<>(particles);
 
-        final double R = L/2;
+        final double R = L / 2;
 
         for (int i = 0; i < N; i++) {
-            final double angle = random.nextDouble() * 2 * Math.PI;
-
             double theta = random.nextDouble() * 2 * Math.PI;
-            double radius = Math.sqrt(random.nextDouble()) * R;
+            double radius = Math.sqrt(random.nextDouble()) * (R - r); // Adjust radius to account for particle size
 
             double x = radius * Math.cos(theta);
             double y = radius * Math.sin(theta);
 
-            Particle p = new Particle(i, r, new Vector(x, y), Vector.fromPolar(speed, angle), mass);
-            // check particles do not overlap
+            // Adjust for the center of the circle being at (L/2, L/2)
+            x += R;
+            y += R;
+
+            Particle p = new Particle(i, r, new Vector(x, y), Vector.fromPolar(speed, theta), mass);
+
+            // Check particles do not overlap and are within the circular boundary
             while (collidesWithAny(p, result) || collidesWithCircularWall(p, L)) {
                 theta = random.nextDouble() * 2 * Math.PI;
-                radius = Math.sqrt(random.nextDouble());
+                radius = Math.sqrt(random.nextDouble()) * (R - r);
                 x = radius * Math.cos(theta);
                 y = radius * Math.sin(theta);
-                p = new Particle(i, r, new Vector(x, y), Vector.fromPolar(speed, angle), mass);
+
+                // Adjust for the center of the circle being at (L/2, L/2)
+                x += R;
+                y += R;
+
+                p = new Particle(i, r, new Vector(x, y), Vector.fromPolar(speed, theta), mass);
             }
 
-            p = new Particle(i, r, new Vector(x + R, y + R), Vector.fromPolar(speed, angle), mass);
             result.add(p);
         }
 
@@ -113,7 +120,7 @@ public class ParticleUtils {
     }
 
     private static boolean collidesWithCircularWall(final Particle particle, final double L){
-        final double distanceCenter = particle.position().distanceTo(new Vector(0, 0));
+        final double distanceCenter = particle.position().distanceTo(new Vector(L/2, L/2));
         return distanceCenter + particle.radius() >= L/2;
     }
 }
