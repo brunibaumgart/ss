@@ -11,10 +11,10 @@ def load_simulation_parameters(filename):
     with open(filename, 'r') as f:
         return json.load(f)
 
-# Step 2: Load particle data from the combined output file
 def generate_color_for_id(id_):
-    random.seed(id_)  # Ensure color consistency for the same ID
-    return tuple(random.randint(0, 255) for _ in range(3))
+    if id_ == -1:
+        return 0, 255, 0
+    return 255, 0, 0
 
 def load_output_file(filename):
     data = []
@@ -84,8 +84,8 @@ def create_animation_video(sim_params, data, output_video, delta_t):
 def main():
     sim_params = load_simulation_parameters(FilePaths.SIMULATIONS_DIR + 'config.json')
     output_video = FilePaths.OUTPUT_DEFAULT_VIDEO
-    combined_frames_file = FilePaths.SIMULATIONS_DIR + 'video.txt'
-    delta_t = 0.005  # Define the time interval for frames
+    combined_frames_file = FilePaths.SIMULATIONS_DIR + 'obstacle_collisions/temp_9/' + 'video.txt'
+    delta_t = 0.1  # Define the time interval for frames
 
     output_data = load_output_file(combined_frames_file)
     create_animation_video(sim_params, output_data, output_video, delta_t)

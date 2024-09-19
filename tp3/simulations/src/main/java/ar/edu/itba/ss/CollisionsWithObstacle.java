@@ -25,8 +25,8 @@ public class CollisionsWithObstacle {
         final Set<Particle> particlesThatAlreadyCollidedWithObstacle = new HashSet<>();
 
         for (int i = 0; simulationState.timeElapsed() < parameters.getTime(); i++) {
-            OutputUtils.printTime(writer, simulationState.timeElapsed());
-            OutputUtils.printVideoFrameHeader(writer);
+            //OutputUtils.printTime(writer, simulationState.timeElapsed());
+            //OutputUtils.printVideoFrameHeader(writer);
 
             MolecularDynamicsMethod.runIteration(simulationState);
             if (simulationState.lastEvent().containsParticles(List.of(new Particle(ParticleUtils.BROWNIAN_ID)))) {
@@ -39,8 +39,8 @@ public class CollisionsWithObstacle {
                     OutputUtils.printTime(uniqueCollsionsTimeWriter, simulationState.timeElapsed());
             }
 
-            OutputUtils.printVideoFrame(writer, simulationState.particles());
-            OutputUtils.printSeparator(writer);
+            //OutputUtils.printVideoFrame(writer, simulationState.particles());
+            //OutputUtils.printSeparator(writer);
         }
     }
 }

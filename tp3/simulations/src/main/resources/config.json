@@ -9,14 +9,14 @@
   "mass_p": 1,
   "rp": 0.001,
   "rb": 0.005,
-  "time": 1,
+  "time": 3,
   "plots": {
     "pressure_vs_time": {
       "enabled" : false,
       "dt": 0.01
     },
     "collisions_with_obstacle": {
-        "enabled" : false
+        "enabled" : true
     },
     "msd": {
       "enabled" : false,
