@@ -45,7 +45,7 @@ def plot_msd_evolution(times, msd_evolution):
 
     # Labels
     ax.set_xlabel('Tiempo (s)')
-    ax.set_ylabel('Desplazamiento Cuadrático Medio (DCM) ($\\times 10^{-3}$)')
+    ax.set_ylabel('Desplazamiento Cuadrático Medio (DCM) (m2)')
 
     # Format the y-axis to reflect the scaling
     ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, _: f'{y:.1f}'))
@@ -66,7 +66,7 @@ def save_msd_to_csv(times, msd_evolution, output_csv):
 file_path = FilePaths.SIMULATIONS_DIR + "msd_3.txt"
 
 # Set the time interval (Delta T)
-delta_t = 0.002 # Ajusta este valor según tu preferencia
+delta_t = 0.02 # Ajusta este valor según tu preferencia
 
 # Read the positions and times from the file
 times, positions = read_positions(file_path)
