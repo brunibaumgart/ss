@@ -21,8 +21,8 @@ public class MSD {
         final FileWriter msdWriter = new FileWriter(FilePaths.OUTPUT_DIR + "msd.txt");
 
         while (simulationState.timeElapsed() < parameters.getTime()) {
-            OutputUtils.printTime(writer, simulationState.timeElapsed());
-            OutputUtils.printVideoFrameHeader(writer);
+            //OutputUtils.printTime(writer, simulationState.timeElapsed());
+            //OutputUtils.printVideoFrameHeader(writer);
 
             OutputUtils.printTimeAndPosition(
                     msdWriter,
@@ -32,8 +32,8 @@ public class MSD {
 
             MolecularDynamicsMethod.runIteration(simulationState);
 
-            OutputUtils.printVideoFrame(writer, simulationState.particles());
-            OutputUtils.printSeparator(writer);
+            //OutputUtils.printVideoFrame(writer, simulationState.particles());
+            //OutputUtils.printSeparator(writer);
         }
     }
 }

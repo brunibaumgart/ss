@@ -56,9 +56,9 @@ def process_collision_files(temp, n, folder_path, output_file):
 
 # Variables a definir
 temp = 100  # El valor de la temperatura
-n = 3  # El número de archivos (i va de 1 a n)
-folder_path = FilePaths.SIMULATIONS_DIR + f"obstacle_collisions/temp_{temp}/mean_calc"
-output_file = "collision_slopes.csv"  # Archivo CSV donde se guardan los resultados
+n = 5  # El número de archivos (i va de 1 a n)
+folder_path = FilePaths.SIMULATIONS_DIR + f"obstacle_collisions/circle/temp_{temp}/mean_calc"
+output_file = "collision_slopes_circle.csv"  # Archivo CSV donde se guardan los resultados
 
 # Procesar los archivos y calcular las pendientes
 process_collision_files(temp, n, folder_path, output_file)

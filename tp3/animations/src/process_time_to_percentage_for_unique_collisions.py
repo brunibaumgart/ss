@@ -46,11 +46,11 @@ def process_files_and_save_results(file_directory, temp, n_files, total_particle
 
 # Parámetros
 temp = 100  # Cambia esta variable a mano
-n_files = 3  # Cambia esto al número de archivos
+n_files = 5  # Cambia esto al número de archivos
 total_particles = 300  # Cambia esto al número total de partículas
 percentage = 0.50  # 50% de las partículas
-output_file = "unique_collision_times_results.csv"
-file_directory = FilePaths.SIMULATIONS_DIR + f"obstacle_collisions/temp_{temp}/mean_calc"
+output_file = "unique_collision_times_results_circle.csv"
+file_directory = FilePaths.SIMULATIONS_DIR + f"obstacle_collisions/circle/temp_{temp}/mean_calc"
 
 # Procesar los archivos y guardar los resultados en un CSV
 process_files_and_save_results(file_directory, temp, n_files, total_particles, percentage, output_file)

@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Leer el archivo CSV
-csv_file = "unique_collision_times_results.csv"
+csv_file = "unique_collision_times_results_circle.csv"
 data = pd.read_csv(csv_file)
 
 # Agrupar por el valor de temp y calcular promedio y desviación estándar

@@ -1,6 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib.ticker import FuncFormatter
+from matplotlib.ticker import ScalarFormatter
 import numpy as np
 
 def read_and_average_csv(file_pattern, num_files):
@@ -35,10 +35,21 @@ def plot_scatter(df, output_image):
     plt.errorbar(df['time'], df['msd_mean'], yerr=[df['msd_mean'] - lower_error, upper_error - df['msd_mean']],
                  fmt='o', color='blue', ecolor='blue', capsize=3)
 
-    # Etiquetas y formato del gráfico
-    plt.xlabel('Tiempo (s)')
-    plt.ylabel('DCM (m2)')
+    # Etiquetas y formato del gráfico con un tamaño de fuente mayor
+    plt.xlabel('Tiempo (s)', fontsize=16)
+    plt.ylabel(r'$\text{DCM} \ (m^2)$', fontsize=16)  # Usar LaTeX para m^2 y tamaño de fuente más grande
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
     plt.grid(True)
+
+    # Configurar el eje Y para mostrar 10^-3 una sola vez en el formato correcto
+    ax = plt.gca()
+    ax.yaxis.set_major_formatter(ScalarFormatter(useMathText=True))
+    ax.ticklabel_format(style='sci', axis='y', scilimits=(-3, -3))  # Forzar notación científica con 10^-3
+
+    # Establecer el formato del label de escala y tamaño del texto del exponente
+    ax.yaxis.get_offset_text().set_fontsize(16)  # Tamaño del texto del exponente más grande
+    ax.yaxis.get_offset_text().set_text(r'$\times 10^{-3}$')  # Formato de LaTeX para mostrar "x 10^-3"
 
     plt.savefig(output_image)  # Guardar el gráfico como imagen
     plt.show()
@@ -47,8 +58,8 @@ def save_csv(df, output_csv):
     df.to_csv(output_csv, index=False)  # Guardar el DataFrame como archivo CSV
 
 # Definir el patrón de nombre del archivo y el número de archivos
-file_pattern = 'msd_evolution_{}.csv'
-num_files = 3  # Cambia esto al número de archivos que tienes
+file_pattern = '../output/circle/msd_evolution_{}.csv'
+num_files = 10  # Cambia esto al número de archivos que tienes
 output_image = 'average_msd_plot.png'  # Nombre del archivo de imagen
 output_csv = 'average_msd.csv'  # Nombre del archivo CSV
 

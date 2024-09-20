@@ -4,6 +4,7 @@ import ar.edu.itba.ss.constants.FilePaths;
 import ar.edu.itba.ss.methods.MolecularDynamicsMethod;
 import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.models.SimulationState;
+import ar.edu.itba.ss.models.events.CircularWallCollisionEvent;
 import ar.edu.itba.ss.models.events.CollisionEvent;
 import ar.edu.itba.ss.models.events.ParticleCollisionEvent;
 import ar.edu.itba.ss.models.events.WallCollisionEvent;
@@ -44,8 +45,14 @@ public class PressureVsTime {
                 break;
 
             int currentInterval = (int) (simulationState.timeElapsed() / dt) ;
-            if (simulationState.lastEvent().getType() == CollisionEvent.EventType.WALL_COLLISION ) {
+            if (simulationState.lastEvent().getType() == CollisionEvent.EventType.WALL_COLLISION) {
                 final WallCollisionEvent event = (WallCollisionEvent) simulationState.lastEvent();
+                double deltaVx = event.p().speed().x() - event.p().previousSpeed().x();
+                double deltaVy = event.p().speed().y() - event.p().previousSpeed().y();
+                double impulse = event.p().mass() * Math.sqrt(deltaVx * deltaVx + deltaVy * deltaVy);
+                wallPressure.set(currentInterval, wallPressure.get(currentInterval) + impulse);
+            } else if (simulationState.lastEvent().getType() == CollisionEvent.EventType.CIRCULAR_WALL_COLLISION) {
+                final CircularWallCollisionEvent event = (CircularWallCollisionEvent) simulationState.lastEvent();
                 double deltaVx = event.p().speed().x() - event.p().previousSpeed().x();
                 double deltaVy = event.p().speed().y() - event.p().previousSpeed().y();
                 double impulse = event.p().mass() * Math.sqrt(deltaVx * deltaVx + deltaVy * deltaVy);
@@ -54,7 +61,7 @@ public class PressureVsTime {
                 final ParticleCollisionEvent event = (ParticleCollisionEvent) simulationState.lastEvent();
                 Particle p1 = event.getParticles().get(0);
                 Particle p2 = event.getParticles().get(1);
-                // Checkeamos que la colision sea entre la particula browniana (id -1) y otra particula
+                // Checkeamos que la colisión sea entre la partícula browniana (id -1) y otra partícula
                 if (p1.id() == ParticleUtils.BROWNIAN_ID || p2.id() == ParticleUtils.BROWNIAN_ID) {
                     // Calculamos el impulso para la partícula browniana
                     Particle particle = (p1.id() == ParticleUtils.BROWNIAN_ID) ? p2 : p1;
@@ -63,7 +70,8 @@ public class PressureVsTime {
                     double impulse = particle.mass() * Math.sqrt(deltaVx * deltaVx + deltaVy * deltaVy);
                     brownianPressure.set(currentInterval, brownianPressure.get(currentInterval) + impulse);
                 }
-                //OutputUtils.printVideoFrame(writer, boxState.particles());
+
+            //OutputUtils.printVideoFrame(writer, boxState.particles());
             }
         }
 

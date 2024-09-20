@@ -15,7 +15,7 @@ public class VideoAnimation {
     public static void run(final Parameters parameters, final List<Particle> particles) throws IOException {
         SimulationState simulationState = new SimulationState(particles, parameters.getL(), parameters.isCircular());
         final FileWriter writer = new FileWriter(FilePaths.OUTPUT_DIR + "video.txt");
-        for (int i = 0; simulationState.timeElapsed() < parameters.getTime() ; i++) {
+        for (int i = 0; simulationState.timeElapsed() < parameters.getTime() - 19 ; i++) {
             OutputUtils.printTime(writer, simulationState.timeElapsed());
             OutputUtils.printVideoFrameHeader(writer);
 
