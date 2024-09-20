@@ -63,10 +63,11 @@ def save_msd_to_csv(times, msd_evolution, output_csv):
     df.to_csv(output_csv, index=False)
 
 # File path
-file_path = FilePaths.SIMULATIONS_DIR + "msd_3.txt"
+i = 10
+file_path = FilePaths.SIMULATIONS_DIR + f"msd/circle/msd_{i}.txt"
 
 # Set the time interval (Delta T)
-delta_t = 0.02 # Ajusta este valor según tu preferencia
+delta_t = 0.04 # Ajusta este valor según tu preferencia
 
 # Read the positions and times from the file
 times, positions = read_positions(file_path)
@@ -78,5 +79,5 @@ msd_evolution, selected_times = calculate_msd_evolution(times, positions, delta_
 plot_msd_evolution(selected_times, msd_evolution)
 
 # Save the MSD evolution data to a CSV file
-output_csv = 'msd_evolution_3.csv'
+output_csv = f"../output/circle/msd_evolution_{i}.csv"
 save_msd_to_csv(selected_times, msd_evolution, output_csv)

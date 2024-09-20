@@ -91,7 +91,7 @@ def main():
     sim_params = load_simulation_parameters(FilePaths.SIMULATIONS_DIR + 'config.json')
     output_video = FilePaths.OUTPUT_DEFAULT_VIDEO
     combined_frames_file = FilePaths.SIMULATIONS_DIR + 'video.txt'
-    delta_t = 0.005  # Define the time interval for frames
+    delta_t = 0.05  # Define the time interval for frames
 
     output_data = load_output_file(combined_frames_file)
     create_animation_video(sim_params, output_data, output_video, delta_t)

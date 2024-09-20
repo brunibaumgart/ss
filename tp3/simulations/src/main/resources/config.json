@@ -19,7 +19,7 @@
         "enabled" : false
     },
     "msd": {
-      "enabled" : false,
+      "enabled" : true,
       "mass_b": 3
     },
     "pressure_vs_temperature": {
