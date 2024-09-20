@@ -27,6 +27,7 @@ public class PressureVsTemperature {
         aux.add(obstacleParticle);
 
         final List<Double> speeds = new ArrayList<>();
+        speeds.add(1.0);
         speeds.add(3.0);
         speeds.add(6.0);
         speeds.add(10.0);
