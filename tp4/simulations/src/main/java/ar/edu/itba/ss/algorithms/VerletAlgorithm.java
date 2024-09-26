@@ -2,7 +2,6 @@ package ar.edu.itba.ss.algorithms;
 
 import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.models.SimulationState;
-import ar.edu.itba.ss.models.SystemParameters;
 
 import java.util.ArrayList;
 import java.util.List;

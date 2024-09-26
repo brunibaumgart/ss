@@ -29,11 +29,23 @@ public class Particle {
     }
 
     public double acceleration(SystemParameters parameters) {
-        return force(parameters, Optional.empty(), Optional.empty()) / mass;
+        return force(parameters) / mass;
+    }
+
+    public double lastAcceleration(SystemParameters parameters) {
+        return lastForce(parameters) / mass;
+    }
+
+    public double force(final SystemParameters parameters, final double position, final double velocity) {
+        return -parameters.k() * position - parameters.gamma() * velocity;
     }
 
     public double force(final SystemParameters parameters) {
-        return -parameters.k() * position - parameters.gamma() * velocity;
+        return force(parameters, position, velocity);
+    }
+
+    public double lastForce(final SystemParameters parameters) {
+        return force(parameters, lastPosition, lastVelocity);
     }
 
     public double force(final SystemParameters parameters, final Optional<Particle> nextParticle, final Optional<Particle> prevParticle) {

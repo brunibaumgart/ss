@@ -1,5 +1,6 @@
 package ar.edu.itba.ss;
 
+import ar.edu.itba.ss.algorithms.BeemanAlgorithm;
 import ar.edu.itba.ss.algorithms.EulerAlgorithm;
 import ar.edu.itba.ss.algorithms.VerletAlgorithm;
 import ar.edu.itba.ss.constants.FilePaths;
@@ -50,7 +51,7 @@ public class Exercise1 {
         while(state.timeElapsed() < totalTime) {
             OutputUtils.printPositionNoId(writer, state.timeElapsed(), state.particles().get(0));
 
-            VerletAlgorithm.runIteration(state, deltaT);
+            BeemanAlgorithm.runIteration(state, deltaT);
         }
     }
 }
