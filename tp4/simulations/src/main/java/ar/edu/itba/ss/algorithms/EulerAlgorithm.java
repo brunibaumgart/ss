@@ -10,14 +10,13 @@ public class EulerAlgorithm {
     ) {
         return particle.position()
                 + particle.velocity() * deltaT
-                + deltaT*deltaT * particle.force(systemParameters.k(), systemParameters.gamma()) / (2 * particle.mass());
+                + deltaT*deltaT * particle.force(systemParameters) / (2 * particle.mass());
     }
 
     public static double calculateVelocity(final SystemParameters systemParameters,
                                            final double deltaT,
                                            final Particle particle
     ) {
-        return particle.velocity()
-                + deltaT * particle.force(systemParameters.k(), systemParameters.gamma()) / particle.mass();
+        return particle.velocity() + deltaT * particle.force(systemParameters) / particle.mass();
     }
 }
