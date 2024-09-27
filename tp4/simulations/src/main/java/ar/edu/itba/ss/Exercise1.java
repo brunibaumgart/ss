@@ -7,6 +7,8 @@ import ar.edu.itba.ss.constants.FilePaths;
 import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.models.SimulationState;
 import ar.edu.itba.ss.models.SystemParameters;
+import ar.edu.itba.ss.models.parameters.Parameters;
+import ar.edu.itba.ss.models.parameters.SystemOneparameters;
 import ar.edu.itba.ss.utils.OutputUtils;
 
 import java.io.FileWriter;
@@ -15,7 +17,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class Exercise1 {
-    public static void main(String[] args) throws IOException {
+    public static void run(Parameters parameters) throws IOException {
+        SystemOneparameters systemOneParameters = parameters.getPlots().getSystemOne();
         // Set system parameters
         final int k = 10000;
         final int gamma = 100;
@@ -31,7 +34,7 @@ public class Exercise1 {
         final double initialVelocity = (double) (-A * gamma) / (2 * mass);
 
         // Set time step
-        final double deltaT = 0.000001;
+        final double deltaT = systemOneParameters.getDt(); ;
 
         // Set initial state
         final Particle particle = new Particle(1,
@@ -47,7 +50,7 @@ public class Exercise1 {
 
         // Create output file
         // CAMBIAR A MANO
-        final String algorithm = "verlet";
+        final String algorithm = systemOneParameters.getAlgorithm();
         final String outputFile = String.format(Locale.US, FilePaths.OUTPUT_DIR + "ej1/%s_%f.txt", algorithm, deltaT);
         final FileWriter writer = new FileWriter(outputFile);
 
@@ -55,8 +58,14 @@ public class Exercise1 {
         while(state.timeElapsed() < totalTime) {
             OutputUtils.printPositionNoId(writer, state.timeElapsed(), state.particles().get(0));
 
-            // NO TE OLVIDES DE CAMBIAR ESTE SI CAMBIASTE EL ALGORITHM ARRIBA
-            VerletAlgorithm.runIteration(state, deltaT);
+            // Run algorithm
+            if (algorithm.equals("beeman")) {
+                BeemanAlgorithm.runIteration(state, deltaT);
+            } else if (algorithm.equals("verlet")) {
+                VerletAlgorithm.runIteration(state, deltaT);
+            } else if ( algorithm.equals("gear")) {
+                // GearAlgorithm.runIteration(state, deltaT);
+            }
         }
     }
 }
