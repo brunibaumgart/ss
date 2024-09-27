@@ -1,0 +1,20 @@
+{
+  "plots": {
+    "system_one": {
+      "enabled": true,
+      "dt": 0.000001,
+      "algorithm": "verlet"
+    },
+    "frecuency_vs_w": {
+      "enabled": false,
+      "w": 100
+    },
+    "frecuency_vs_k": {
+        "enabled": false,
+        "k": 100
+    },
+    "w0_vs_k": {
+        "enabled": false
+    }
+  }
+}
