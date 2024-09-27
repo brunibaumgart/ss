@@ -31,7 +31,7 @@ public class Exercise1 {
         final double initialVelocity = (double) (-A * gamma) / (2 * mass);
 
         // Set time step
-        final double deltaT = 0.01;
+        final double deltaT = 0.000001;
 
         // Set initial state
         final Particle particle = new Particle(1,
@@ -55,7 +55,8 @@ public class Exercise1 {
         while(state.timeElapsed() < totalTime) {
             OutputUtils.printPositionNoId(writer, state.timeElapsed(), state.particles().get(0));
 
-            BeemanAlgorithm.runIteration(state, deltaT);
+            // NO TE OLVIDES DE CAMBIAR ESTE SI CAMBIASTE EL ALGORITHM ARRIBA
+            VerletAlgorithm.runIteration(state, deltaT);
         }
     }
 }

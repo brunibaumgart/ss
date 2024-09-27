@@ -46,15 +46,18 @@ plt.plot(times_beeman, positions_beeman, label='Beeman')
 plt.plot(times_verlet, positions_verlet, label='Verlet')
 
 # Plot the Analytical Solution curve
-plt.plot(t_values, r_values, label='Analytical Solution', linestyle='--')
+plt.plot(t_values, r_values, label='Solución Analítica', linestyle='--')
 
-# Add labels, title, and legend
-plt.xlabel('Time')
-plt.ylabel('Position')
+# Add labels, title, and legend with increased font size
+plt.xlabel('Tiempo (s)', fontsize=14)
+plt.ylabel('Posición (m)', fontsize=14)
+plt.xticks(fontsize=12)  # Increase x-axis tick font size
+plt.yticks(fontsize=12)  # Increase y-axis tick font size
 
-# Add grid and legend
+# Add grid and legend with larger fonts
 plt.grid(True)
-plt.legend()
+plt.legend(fontsize=12)  # Increase legend font size
 
-# Display the plot
+# Adjust layout and display the plot
+plt.tight_layout()
 plt.show()
