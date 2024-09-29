@@ -3,7 +3,7 @@
     "system_one": {
       "enabled": true,
       "dt": 0.000001,
-      "algorithm": "verlet"
+      "algorithm": "gear"
     },
     "frecuency_vs_w": {
       "enabled": false,

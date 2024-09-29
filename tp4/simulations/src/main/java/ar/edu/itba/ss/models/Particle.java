@@ -3,6 +3,8 @@ package ar.edu.itba.ss.models;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Getter
@@ -23,9 +25,16 @@ public class Particle {
     private final double lastVelocity;
     @EqualsAndHashCode.Exclude
     private final double mass;
+    @EqualsAndHashCode.Exclude
+    private List<Double> lastRs; // Used for Gear Predictor-Corrector Algorithm
 
     public Particle(final int id, final double position, final double velocity, final double mass) {
-        this(id, position, position, velocity, velocity, mass);
+        this(id, position, position, velocity, velocity, mass, new ArrayList<>());
+    }
+
+    public Particle(final int id, final double position, final double lastPosition, final double velocity, final double lastVelocity,
+                    final double mass){
+        this(id, position, lastPosition, velocity, lastVelocity, mass, new ArrayList<>());
     }
 
     public double acceleration(SystemParameters parameters) {
