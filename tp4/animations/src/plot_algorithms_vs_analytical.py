@@ -24,8 +24,9 @@ def analytical_solution(t, A, gamma, m, k):
 
 
 # Read the data for the Beeman and Verlet algorithms
-times_beeman, positions_beeman = read_data(FilePaths.SIMULATIONS_DIR + 'ej1/beeman_0.010000.txt')
-times_verlet, positions_verlet = read_data(FilePaths.SIMULATIONS_DIR + 'ej1/verlet_0.010000.txt')
+times_beeman, positions_beeman = read_data(FilePaths.SIMULATIONS_DIR + 'ej1/beeman_0.001000.txt')
+times_verlet, positions_verlet = read_data(FilePaths.SIMULATIONS_DIR + 'ej1/verlet_0.001000.txt')
+times_gear, positions_gear = read_data(FilePaths.SIMULATIONS_DIR + 'ej1/gear_0.001000.txt')
 
 # Time range for the analytical solution
 t_values = np.linspace(0, max(times_beeman), 500)
@@ -44,6 +45,9 @@ plt.plot(times_beeman, positions_beeman, label='Beeman')
 
 # Plot the Verlet curve
 plt.plot(times_verlet, positions_verlet, label='Verlet')
+
+# Plot the Gear curve
+plt.plot(times_gear, positions_gear, label='Gear')
 
 # Plot the Analytical Solution curve
 plt.plot(t_values, r_values, label='Solución Analítica', linestyle='--')

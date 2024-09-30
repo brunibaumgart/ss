@@ -1,7 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from decimal import Decimal
-
 from pandas.util import capitalize_first_letter
 
 # Read the CSV file into a DataFrame
@@ -16,7 +15,13 @@ plt.figure(figsize=(10, 6))
 # Plotting each algorithm with a different color
 for algorithm in results_df['Algorithm'].unique():
     subset = results_df[results_df['Algorithm'] == algorithm]
-    plt.scatter(subset['Delta T'], subset['MSE'], label=capitalize_first_letter(algorithm), marker='o')
+
+    # Plot the points with larger dots
+    plt.scatter(subset['Delta T'], subset['MSE'], label=capitalize_first_letter(algorithm), marker='o',
+                s=100)  # Increase dot size
+
+    # Plot lines connecting the points
+    plt.plot(subset['Delta T'], subset['MSE'], linestyle='-', linewidth=2)  # Add line between points
 
 # Set x-axis and y-axis to logarithmic scale
 plt.xscale('log')
@@ -35,3 +40,4 @@ plt.legend(title='Algoritmo', fontsize=12, title_fontsize=14)
 # Display the plot with a tighter layout
 plt.tight_layout()
 plt.show()
+

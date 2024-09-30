@@ -55,6 +55,11 @@ files = [
     FilePaths.SIMULATIONS_DIR + '/ej1/verlet_0.000100.txt',
     FilePaths.SIMULATIONS_DIR + '/ej1/verlet_0.001000.txt',
     FilePaths.SIMULATIONS_DIR + '/ej1/verlet_0.010000.txt',
+    FilePaths.SIMULATIONS_DIR + '/ej1/gear_0.000001.txt',
+    FilePaths.SIMULATIONS_DIR + '/ej1/gear_0.000010.txt',
+    FilePaths.SIMULATIONS_DIR + '/ej1/gear_0.000100.txt',
+    FilePaths.SIMULATIONS_DIR + '/ej1/gear_0.001000.txt',
+    FilePaths.SIMULATIONS_DIR + '/ej1/gear_0.010000.txt',
     ]
 
 # Create an empty DataFrame to store results
