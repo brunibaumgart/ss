@@ -3,7 +3,6 @@ package ar.edu.itba.ss;
 import ar.edu.itba.ss.constants.FilePaths;
 import ar.edu.itba.ss.models.parameters.Parameters;
 import ar.edu.itba.ss.utils.ArgumentHandlerUtils;
-import ar.edu.itba.ss.utils.OutputUtils;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,10 +22,10 @@ public class Main {
             Exercise1.run(parameters);
         }
         else {
-            if (parameters.getPlots().getFrecuencyVsK().isEnabled()){
-                //FrecuencyVsK.run(parameters);
+            if (parameters.getPlots().getAmplitudeVsTime().isEnabled()){
+                AmplitudeVsTime.run(parameters);
             }
-            if (parameters.getPlots().getFrecuencyVsK().isEnabled()){
+            if (parameters.getPlots().getAmplitudeVsTime().isEnabled()){
                 //FrecuencyVsK.run(parameters);
             }
             if (parameters.getPlots().getW0VsK().isEnabled()){

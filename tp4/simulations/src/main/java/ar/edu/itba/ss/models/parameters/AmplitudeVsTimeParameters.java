@@ -1,6 +1,5 @@
 package ar.edu.itba.ss.models.parameters;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class FrecuencyVsKParameters {
+public class AmplitudeVsTimeParameters {
     private boolean enabled;
-    private double k;
+    private double w;
 }

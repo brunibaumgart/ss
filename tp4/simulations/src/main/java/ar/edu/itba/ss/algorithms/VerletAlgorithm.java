@@ -15,9 +15,17 @@ public class VerletAlgorithm {
            final Optional<Particle> prevParticle = state.particles().parallelStream().filter(particle -> particle.id() == p.id() - 1).findFirst();
            final Optional<Particle> nextParticle = state.particles().parallelStream().filter(particle -> particle.id() == p.id() + 1).findFirst();
 
-           final double newPosition = 2 * p.position()
-                   - p.lastPosition()
-                   + deltaT*deltaT * p.force(state.systemParameters(), prevParticle, nextParticle) / p.mass();
+           final double newPosition;
+           if(prevParticle.isEmpty() && nextParticle.isEmpty()) { // System 1
+               newPosition = 2 * p.position()
+                       - p.lastPosition()
+                       + deltaT*deltaT * p.force(state.systemParameters()) / p.mass();
+           }
+           else { // System 2
+                newPosition = 2 * p.position()
+                          - p.lastPosition()
+                          + deltaT*deltaT * p.force(state.systemParameters(), prevParticle, nextParticle, state.timeElapsed()) / p.mass();
+           }
 
            final double newVelocity = (newPosition - p.lastPosition()) / (2 * deltaT);
 

@@ -1,17 +1,23 @@
 {
+  "k": 10000,
+  "m": 1,
+  "a": 1,
+  "n": 10,
+  "dt": 0.01,
+  "time": 5,
   "plots": {
     "system_one": {
-      "enabled": true,
-      "dt": 0.000001,
+      "enabled": false,
+      "dt": 0.01,
       "algorithm": "gear"
     },
-    "frecuency_vs_w": {
-      "enabled": false,
+    "amplitude_vs_time": {
+      "enabled": true,
       "w": 100
     },
-    "frecuency_vs_k": {
+    "frecuency_vs_w": {
         "enabled": false,
-        "k": 100
+        "w": 100
     },
     "w0_vs_k": {
         "enabled": false

@@ -12,4 +12,10 @@ import lombok.Setter;
 @Setter
 public class Parameters implements Cloneable{
     private PlotsParameters plots;
+    private double k;
+    private double m;
+    private double A;
+    private int N;
+    private double dt;
+    private double time;
 }

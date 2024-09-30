@@ -11,13 +11,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PlotsParameters {
-
     @JsonProperty("system_one")
     private SystemOneparameters systemOne;
     @JsonProperty("frecuency_vs_w")
     private FrecuencyVsWParameters frecuencyVsW;
-    @JsonProperty("frecuency_vs_k")
-    private FrecuencyVsKParameters frecuencyVsK;
+    @JsonProperty("amplitude_vs_time")
+    private AmplitudeVsTimeParameters amplitudeVsTime;
     @JsonProperty("w0_vs_k")
     private W0VsKParameters w0VsK;
 

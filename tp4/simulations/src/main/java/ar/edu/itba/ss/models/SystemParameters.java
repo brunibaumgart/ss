@@ -11,4 +11,5 @@ public class SystemParameters {
     private final double k;
     private final double gamma;
     private final double A;
+    private final double omega;
 }

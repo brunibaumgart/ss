@@ -26,7 +26,7 @@ public class Exercise1 {
         final int k = 10000;
         final int gamma = 100;
         final int A = 1;
-        final SystemParameters systemParameters = new SystemParameters(k, gamma, A);
+        final SystemParameters systemParameters = new SystemParameters(k, gamma, A, Double.NaN);
 
         final int totalTime = 5;
 
