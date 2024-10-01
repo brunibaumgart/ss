@@ -23,12 +23,12 @@ public class AmplitudeVsTime {
 
         final SystemParameters systemParameters = new SystemParameters(k, Double.NaN, A, omega);
 
-        final double dt = parameters.getDt(); // s
+        final double dt = 1 / (100 * omega); // s
         final double totalTime = parameters.getTime(); // s
 
         // set particle parameters
         final int N = parameters.getN();
-        final double mass = parameters.getM(); // g
+        final double mass = parameters.getM(); // kg
         final List<Particle> particles = ParticleUtils.createParticles(N, mass, 0);
 
         final SimulationState state = new SimulationState(particles, systemParameters);
@@ -37,8 +37,8 @@ public class AmplitudeVsTime {
         final FileWriter amplitudeWriter = new FileWriter(FilePaths.OUTPUT_DIR + "amplitude_vs_time.txt");
 
         while (state.timeElapsed() < totalTime) {
-            OutputUtils.printTime(videoWriter, state.timeElapsed());
-            OutputUtils.printPositions(videoWriter, state.particles());
+            //OutputUtils.printTime(videoWriter, state.timeElapsed());
+            //OutputUtils.printPositions(videoWriter, state.particles());
 
             // Print the maximum amplitud
             state.particles().parallelStream()
@@ -50,7 +50,7 @@ public class AmplitudeVsTime {
 
             VerletAlgorithm.runIteration(state, dt);
 
-            OutputUtils.printSeparator(videoWriter);
+            //OutputUtils.printSeparator(videoWriter);
         }
     }
 }

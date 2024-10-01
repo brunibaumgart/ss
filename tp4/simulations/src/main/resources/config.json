@@ -1,10 +1,9 @@
 {
-  "k": 10000,
-  "m": 1,
-  "a": 1,
+  "k": 100,
+  "m": 0.001,
+  "a": 0.01,
   "n": 10,
-  "dt": 0.01,
-  "time": 5,
+  "time": 2,
   "plots": {
     "system_one": {
       "enabled": false,
@@ -13,7 +12,7 @@
     },
     "amplitude_vs_time": {
       "enabled": true,
-      "w": 100
+      "w": 300
     },
     "frecuency_vs_w": {
         "enabled": false,

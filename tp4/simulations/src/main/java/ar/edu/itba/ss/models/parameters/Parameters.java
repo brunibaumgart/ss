@@ -1,6 +1,5 @@
 package ar.edu.itba.ss.models.parameters;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +15,5 @@ public class Parameters implements Cloneable{
     private double m;
     private double A;
     private int N;
-    private double dt;
     private double time;
 }

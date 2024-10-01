@@ -17,14 +17,17 @@ public class VerletAlgorithm {
 
            final double newPosition;
            if(prevParticle.isEmpty() && nextParticle.isEmpty()) { // System 1
-               newPosition = 2 * p.position()
-                       - p.lastPosition()
-                       + deltaT*deltaT * p.force(state.systemParameters()) / p.mass();
+               throw new IllegalStateException();
            }
            else { // System 2
-                newPosition = 2 * p.position()
-                          - p.lastPosition()
-                          + deltaT*deltaT * p.force(state.systemParameters(), prevParticle, nextParticle, state.timeElapsed()) / p.mass();
+               if(p.id() == (state.particles().size() - 1)) {
+                   newPosition = p.force(state.systemParameters(), nextParticle, prevParticle, state.timeElapsed());
+               }
+               else {
+                   newPosition = 2 * p.position()
+                           - p.lastPosition()
+                           + deltaT*deltaT * p.force(state.systemParameters(), nextParticle, prevParticle, state.timeElapsed()) / p.mass();
+               }
            }
 
            final double newVelocity = (newPosition - p.lastPosition()) / (2 * deltaT);

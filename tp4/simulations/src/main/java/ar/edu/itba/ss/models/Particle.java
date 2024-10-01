@@ -58,11 +58,14 @@ public class Particle {
     }
 
     public double force(final SystemParameters parameters, final Optional<Particle> nextParticle, final Optional<Particle> prevParticle, final double time) {
+        if(prevParticle.isEmpty() && nextParticle.isEmpty())
+            throw new IllegalStateException();
+
         if (prevParticle.isPresent() && nextParticle.isPresent())
             return -parameters.k() * (position - prevParticle.get().position()) - parameters.k() * (position - nextParticle.get().position());
         else if (prevParticle.isEmpty())
-            return -parameters.k() * (position - nextParticle.get().position())- parameters.k() * (position - 0);
+            return -parameters.k() * (position - nextParticle.get().position()) - parameters.k() * (position - 0);
         else // nextParticle.isEmpty()
-            return -parameters.k() * (position - prevParticle.get().position()) + parameters.A() * Math.cos(parameters.omega() * time);
+            return parameters.A() * Math.sin(parameters.omega() * time);
     }
 }
