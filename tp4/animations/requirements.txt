@@ -2,3 +2,5 @@ matplotlib~=3.9
 pandas~=2.2
 numpy<2
 opencv-python~=4.10.0.82
+imageio[ffmpeg]~=2.31  # Para incluir ffmpeg con imageio
+pillow~=9.0  # Para generar animaciones GIF si lo necesitas
