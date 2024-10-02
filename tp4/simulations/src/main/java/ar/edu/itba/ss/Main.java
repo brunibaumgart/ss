@@ -25,11 +25,11 @@ public class Main {
             if (parameters.getPlots().getAmplitudeVsTime().isEnabled()){
                 AmplitudeVsTime.run(parameters);
             }
-            if (parameters.getPlots().getAmplitudeVsTime().isEnabled()){
-                //FrecuencyVsK.run(parameters);
-            }
             if (parameters.getPlots().getW0VsK().isEnabled()){
                 //W0VsK.run(parameters);
+            }
+            if (parameters.getPlots().getAmplitudeVsW().isEnabled()){
+                AmplitudeVsW.run(parameters);
             }
         }
     }

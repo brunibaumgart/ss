@@ -19,5 +19,7 @@ public class PlotsParameters {
     private AmplitudeVsTimeParameters amplitudeVsTime;
     @JsonProperty("w0_vs_k")
     private W0VsKParameters w0VsK;
+    @JsonProperty("amplitude_vs_w")
+    private AmplitudeVsWParameters amplitudeVsW;
 
 }

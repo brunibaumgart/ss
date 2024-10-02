@@ -56,4 +56,22 @@ public class OutputUtils {
             e.printStackTrace();
         }
     }
+
+    public static void printAmplitudeVsWHeader(final FileWriter writer){
+        try {
+            writer.write("a w\n");
+            writer.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void printAmplitudeVsW(final FileWriter writer, final double amplitude, final double w) {
+        try {
+            writer.write(amplitude + " " + w + "\n");
+            writer.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

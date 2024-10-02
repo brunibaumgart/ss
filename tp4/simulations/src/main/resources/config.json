@@ -2,8 +2,8 @@
   "k": 100,
   "m": 0.001,
   "a": 0.01,
-  "n": 10,
-  "time": 2,
+  "n": 100,
+  "time": 5,
   "plots": {
     "system_one": {
       "enabled": false,
@@ -11,7 +11,7 @@
       "algorithm": "gear"
     },
     "amplitude_vs_time": {
-      "enabled": true,
+      "enabled": false,
       "w": 300
     },
     "frecuency_vs_w": {
@@ -20,6 +20,12 @@
     },
     "w0_vs_k": {
         "enabled": false
+    },
+    "amplitude_vs_w": {
+        "enabled": true,
+        "initial_w": 300,
+        "w_step": 5,
+        "steps": 5
     }
   }
 }
