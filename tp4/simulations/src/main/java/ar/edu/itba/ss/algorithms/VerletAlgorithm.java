@@ -12,8 +12,13 @@ public class VerletAlgorithm {
        final List<Particle> updatedParticles = new ArrayList<>();
 
        state.particles().forEach(p -> {
-           final Optional<Particle> prevParticle = state.particles().parallelStream().filter(particle -> particle.id() == p.id() - 1).findFirst();
-           final Optional<Particle> nextParticle = state.particles().parallelStream().filter(particle -> particle.id() == p.id() + 1).findFirst();
+           final Optional<Particle> prevParticle = p.id() == 0
+                   ? Optional.empty()
+                   : Optional.ofNullable(state.particles().get(p.id() - 1));
+
+           final Optional<Particle> nextParticle = p.id() == state.particles().size() - 1
+                   ? Optional.empty()
+                   : Optional.ofNullable(state.particles().get(p.id() + 1));
 
            final double newPosition;
            if(prevParticle.isEmpty() && nextParticle.isEmpty()) { // System 1
