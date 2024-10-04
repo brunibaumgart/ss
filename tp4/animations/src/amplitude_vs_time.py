@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from src.constants import FilePaths
 
 # Replace 'data.txt' with your file name
-filename = FilePaths.SIMULATIONS_DIR + 'amplitude_vs_time.txt'
+filename = FilePaths.SIMULATIONS_DIR + 'ej2/k_100/amplitude_vs_time__k_100__w_225.txt'
 
 # Initialize lists to store time and y_position values
 time = []

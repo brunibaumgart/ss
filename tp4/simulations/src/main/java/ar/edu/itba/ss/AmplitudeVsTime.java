@@ -34,19 +34,22 @@ public class AmplitudeVsTime {
         final SimulationState state = new SimulationState(particles, systemParameters);
 
         final FileWriter videoWriter = new FileWriter(FilePaths.OUTPUT_DIR + "video.txt");
-        final FileWriter amplitudeWriter = new FileWriter(FilePaths.OUTPUT_DIR + "amplitude_vs_time.txt");
+        final String file = FilePaths.OUTPUT_DIR + String.format("amplitude_vs_time__k_%d__w_%d.txt", (int) k, (int) omega);
+        final FileWriter amplitudeWriter = new FileWriter(file);
 
         while (state.timeElapsed() < totalTime) {
             //OutputUtils.printTime(videoWriter, state.timeElapsed());
             //OutputUtils.printPositions(videoWriter, state.particles());
 
             // Print the maximum amplitud
-            state.particles().parallelStream()
-                    .filter(particle -> particle.id() != (N-1) && particle.id() != 0)
-                    .map(Particle::position)
-                    .map(Math::abs)
-                    .max(Comparator.comparingDouble(Double::doubleValue))
-                    .ifPresent(amplitude -> OutputUtils.printPosition(amplitudeWriter, state.timeElapsed(), amplitude));
+            if(state.iteration() % 10== 0) {
+                state.particles().stream()
+                        .filter(particle -> particle.id() != (N-1) && particle.id() != 0)
+                        .map(Particle::position)
+                        .map(Math::abs)
+                        .max(Comparator.comparingDouble(Double::doubleValue))
+                        .ifPresent(amplitude -> OutputUtils.printPosition(amplitudeWriter, state.timeElapsed(), amplitude));
+            }
 
             VerletAlgorithm.runIteration(state, dt);
 

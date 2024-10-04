@@ -14,8 +14,12 @@ with open(filename, 'r') as file:
         amplitudes.append(a)
         ws.append(w)
 
+# Increase font size globally
+plt.rcParams.update({'font.size': 14})  # Adjust 14 to your preferred font size
+
 plt.plot(ws, amplitudes)
-plt.xlabel('W (s)')
-plt.ylabel('Amplitud (m)')
+plt.xlabel(r"$\omega$ (s)", fontsize=16)  # Adjust fontsize if needed
+plt.ylabel('Amplitud (m)', fontsize=16)   # Adjust fontsize if needed
 plt.grid(True)
+plt.tight_layout()
 plt.show()
