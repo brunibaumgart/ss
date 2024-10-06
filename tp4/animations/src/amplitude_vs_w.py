@@ -17,8 +17,9 @@ with open(filename, 'r') as file:
 # Increase font size globally
 plt.rcParams.update({'font.size': 14})  # Adjust 14 to your preferred font size
 
-plt.plot(ws, amplitudes)
-plt.xlabel(r"$\omega$ (s)", fontsize=16)  # Adjust fontsize if needed
+# Plot with points for each value
+plt.plot(ws, amplitudes, '-o')  # '-o' adds points and connects them with a line
+plt.xlabel(r"$\omega$ (rad/s)", fontsize=16)  # Adjust fontsize if needed
 plt.ylabel('Amplitud (m)', fontsize=16)   # Adjust fontsize if needed
 plt.grid(True)
 plt.tight_layout()
