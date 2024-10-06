@@ -46,7 +46,7 @@ public class AmplitudeVsW {
             final SimulationState state = new SimulationState(particles, systemParameters);
 
             while (state.timeElapsed() < totalTime) {
-                state.particles().parallelStream()
+                state.particles().stream()
                         .filter(particle -> particle.id() != (N - 1) && particle.id() != 0)
                         .map(Particle::position)
                         .map(Math::abs)
