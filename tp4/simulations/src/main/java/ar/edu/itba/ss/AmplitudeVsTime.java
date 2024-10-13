@@ -42,7 +42,7 @@ public class AmplitudeVsTime {
             //OutputUtils.printPositions(videoWriter, state.particles());
 
             // Print the maximum amplitud
-            if(state.iteration() % 10== 0) {
+            if(state.iteration() % 500 == 0) {
                 state.particles().stream()
                         .filter(particle -> particle.id() != (N-1) && particle.id() != 0)
                         .map(Particle::position)

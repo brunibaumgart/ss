@@ -1,9 +1,9 @@
 {
-  "k": 100,
+  "k": 10000,
   "m": 0.001,
   "a": 0.01,
   "n": 100,
-  "time": 20,
+  "time": 200,
   "plots": {
     "system_one": {
       "enabled": false,
@@ -12,7 +12,7 @@
     },
     "amplitude_vs_time": {
       "enabled": false,
-      "w": 10
+      "w": 99.2
     },
     "frecuency_vs_w": {
         "enabled": false,
@@ -23,9 +23,9 @@
     },
     "amplitude_vs_w": {
         "enabled": true,
-        "initial_w": 5,
-        "w_step": 0.5,
-        "steps": 20
+        "initial_w": 98,
+        "w_step": 0.1,
+        "steps": 40
     }
   }
 }
