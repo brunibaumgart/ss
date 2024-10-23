@@ -36,7 +36,7 @@ public class Main
         final double desiredVelocityRed = 4; // m/s
         final double desiredVelocityBlue = 3.8; // m/s
 
-        final double deltaT = 0.01;
+        final double deltaT = 0.001;
         final double totalTime = 5;
 
         // 1. Crear corredor de equipo rojo a la derecha de la cancha.
@@ -71,9 +71,11 @@ public class Main
         final SimulationState state = new SimulationState(particles);
 
         while (state.timeElapsed() < totalTime) {
-            OutputUtils.printTime(videoWriter, state.timeElapsed());
-            OutputUtils.printPositions(videoWriter, state.particles());
-            OutputUtils.printSeparator(videoWriter);
+            if(state.iteration() % 100 == 0) {
+                OutputUtils.printTime(videoWriter, state.timeElapsed());
+                OutputUtils.printPositions(videoWriter, state.particles());
+                OutputUtils.printSeparator(videoWriter);
+            }
 
             VerletAlgorithm.runIteration(state, deltaT);
         }
