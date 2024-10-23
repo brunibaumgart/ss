@@ -59,6 +59,6 @@ public class SocialForce implements Force {
     }
 
     private Vector drivingForce(final Particle i) {
-        return i.desiredVelocity().subtract(i.velocity()).multiply(i.mass() / tau); // TODO: Check if this is correct (D31 Teorica 6)
+        return i.desiredVelocityVector().subtract(i.velocity()).multiply(i.mass() / tau); // TODO: Check if this is correct (D31 Teorica 6)
     }
 }

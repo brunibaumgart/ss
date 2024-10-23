@@ -27,5 +27,16 @@ public class Particle {
     @EqualsAndHashCode.Exclude
     private final Vector velocity;
     @EqualsAndHashCode.Exclude
-    private final Vector desiredVelocity;
+    private final double desiredVelocity;
+    @EqualsAndHashCode.Exclude
+    private final Vector target;
+
+    public Vector desiredVelocityVector(){
+        Vector direction = target.subtract(this.position);
+        direction =direction.normalize();
+        return direction.multiply(desiredVelocity);
+    }
+    public boolean collidesWith(final Particle other) {
+        return this.position().distanceTo(other.position()) <= (this.radius + other.radius);
+    }
 }
