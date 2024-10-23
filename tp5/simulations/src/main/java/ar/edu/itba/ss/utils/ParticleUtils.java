@@ -36,7 +36,7 @@ public class ParticleUtils {
             double x = random.nextDouble() * width;
             double y = random.nextDouble() * height;
 
-            final Vector position = new Vector(x, y);
+            Vector position = new Vector(x, y);
 
             Particle p = Particle.builder()
                     .id(i)
@@ -54,6 +54,8 @@ public class ParticleUtils {
             while (collidesWithAny(p, result) || collidesWithWalls(p, height, width)) {
                 x = random.nextDouble() * width;
                 y = random.nextDouble() * height;
+
+                position = new Vector(x,y);
                 p = Particle.builder()
                         .id(i)
                         .mass(mass)
