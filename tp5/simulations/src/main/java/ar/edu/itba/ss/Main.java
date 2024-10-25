@@ -6,7 +6,8 @@ import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.models.SimulationState;
 import ar.edu.itba.ss.models.Vector;
 import ar.edu.itba.ss.models.forces.Force;
-import ar.edu.itba.ss.models.forces.SocialForce;
+import ar.edu.itba.ss.models.forces.SocialForceBlue;
+import ar.edu.itba.ss.models.forces.SocialForceRed;
 import ar.edu.itba.ss.utils.OutputUtils;
 import ar.edu.itba.ss.utils.ParticleUtils;
 
@@ -18,26 +19,26 @@ import java.util.List;
 public class Main
 {
     public static void main( String[] args ) throws IOException {
-        final int Nj = 15;
+        final int Nj = 30;
         final double width = 100; // m
         final double height = 70; // m
         final double mass = 80; // kg
-        final double radius = 0.25; // m
+        final double radius = 0.5; // m
         final Vector position = new Vector(0 + radius, height/2);
 
         final double tauRed = 0.3; // s
         final double tauBlue = 0.5; // s
         final double A = 2000; // N
         final double B = 0.08; // m
-        final double kn = 120000; // kg/s
-        final Force forceRed = new SocialForce(tauRed, A, B, kn);
-        final Force forceBlue = new SocialForce(tauBlue, A, B, kn);
+        final double kn = 120000; // kg/s^2
+        final Force forceRed = new SocialForceRed(tauRed, A, B, kn);
+        final Force forceBlue = new SocialForceBlue(tauBlue, A, B, kn);
 
         final double desiredVelocityRed = 4; // m/s
         final double desiredVelocityBlue = 3.8; // m/s
 
         final double deltaT = 0.001;
-        final double totalTime = 5;
+        final double totalTime = 20;
 
         // 1. Crear corredor de equipo rojo a la derecha de la cancha.
         final Particle red = Particle.builder()
