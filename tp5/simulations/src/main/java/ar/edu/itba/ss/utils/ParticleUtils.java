@@ -38,17 +38,21 @@ public class ParticleUtils {
 
             Vector position = new Vector(x, y);
 
-            Particle p = Particle.builder()
+            final Particle.ParticleBuilder particleBuilder = Particle.builder()
                     .id(i)
                     .mass(mass)
-                    .lastPosition(position)
-                    .position(position)
                     .force(force)
                     .radius(radius)
                     .velocity(new Vector(0,0))
                     .desiredVelocity(desiredVelocity)
-                    .target(target)
+                    .target(target);
+
+            Particle p = particleBuilder
+                    .lastPosition(position)
+                    .position(position)
                     .build();
+
+
 
             // check particles do not overlap
             while (collidesWithAny(p, result) || collidesWithWalls(p, height, width)) {
@@ -56,16 +60,9 @@ public class ParticleUtils {
                 y = random.nextDouble() * height;
 
                 position = new Vector(x,y);
-                p = Particle.builder()
-                        .id(i)
-                        .mass(mass)
+                p = particleBuilder
                         .lastPosition(position)
                         .position(position)
-                        .force(force)
-                        .radius(radius)
-                        .velocity(new Vector(0,0))
-                        .desiredVelocity(desiredVelocity)
-                        .target(target)
                         .build();
             }
 
