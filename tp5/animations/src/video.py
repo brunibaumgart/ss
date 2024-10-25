@@ -9,7 +9,6 @@ output_folder = '../output'
 if not os.path.exists(output_folder):
     os.makedirs(output_folder)
 
-
 # Función para leer el archivo y organizar los datos por tiempos
 def leer_datos(archivo):
     tiempos = []
@@ -45,23 +44,18 @@ def leer_datos(archivo):
 
     return tiempos, posiciones
 
-
 # Función para actualizar la animación en cada cuadro
-def actualizar_cuadro(num, tiempos, posiciones, scatter_red, scatter_blue):
+def actualizar_cuadro(num, tiempos, posiciones, scatter_red, scatter_blue, x_max):
     posiciones_actuales = posiciones[num]
 
     # Separar las posiciones del jugador rojo y de los jugadores azules
-    rojas = [(pos[1], pos[2]) for pos in posiciones_actuales if pos[0] == -1]
-    azules = [(pos[1], pos[2]) for pos in posiciones_actuales if pos[0] != -1]
+    rojas = [(x_max - pos[1], pos[2]) for pos in posiciones_actuales if pos[0] == -1]  # Invertir X
+    azules = [(x_max - pos[1], pos[2]) for pos in posiciones_actuales if pos[0] != -1]  # Invertir X
 
     # Actualizar las posiciones de las partículas
     if rojas:
         scatter_red.set_offsets(rojas)
     scatter_blue.set_offsets(azules)
-
-    # Título con el tiempo actual
-    plt.title(f"Tiempo: {tiempos[num]:.2f}s")
-
 
 # Leer los datos desde el archivo
 file_path = FilePaths.SIMULATIONS_DIR + 'video.txt'  # Path to your file
@@ -72,6 +66,8 @@ fig, ax = plt.subplots()
 ax.set_facecolor('#02F900')  # Fondo verde claro y brillante
 ax.set_xlim(0, 100)
 ax.set_ylim(0, 80)
+ax.set_xlabel('Posición (m)')  # Leyenda en el eje X
+ax.set_ylabel('Posición (m)')  # Leyenda en el eje Y
 
 # Ajuste del radio visual de las partículas
 radio_visual = 0.7  # Aumentar el radio visual en metros
@@ -79,16 +75,16 @@ escala = 100 / ax.get_window_extent().width  # Escala visual de la gráfica
 tamaño_partícula = (radio_visual / escala) ** 2  # Ajuste del área
 
 # Inicializar los puntos de los jugadores rojo y azul con el nuevo tamaño visual
-scatter_red = ax.scatter([], [], color='#FF2500', s=tamaño_partícula, label='Jugador Rojo')  # Rojo brillante
-scatter_blue = ax.scatter([], [], color='#0533FF', s=tamaño_partícula, label='Jugadores Azules')  # Azul brillante
+scatter_red = ax.scatter([], [], color='#FF2500', s=tamaño_partícula)  # Rojo brillante
+scatter_blue = ax.scatter([], [], color='#0533FF', s=tamaño_partícula)  # Azul brillante
 
-# Leyenda
-ax.legend()
+# Obtener el valor máximo de x para invertir las posiciones correctamente
+x_max = 100  # Valor máximo del eje X
 
 # Crear la animación
 ani = animation.FuncAnimation(
     fig, actualizar_cuadro, frames=len(tiempos),
-    fargs=(tiempos, posiciones, scatter_red, scatter_blue),
+    fargs=(tiempos, posiciones, scatter_red, scatter_blue, x_max),
     interval=100, repeat=False
 )
 
