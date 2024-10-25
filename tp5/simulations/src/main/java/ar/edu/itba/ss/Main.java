@@ -6,7 +6,8 @@ import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.models.SimulationState;
 import ar.edu.itba.ss.models.Vector;
 import ar.edu.itba.ss.models.forces.Force;
-import ar.edu.itba.ss.models.forces.SocialForce;
+import ar.edu.itba.ss.models.forces.SocialForceBlue;
+import ar.edu.itba.ss.models.forces.SocialForceRed;
 import ar.edu.itba.ss.models.parameters.Parameters;
 import ar.edu.itba.ss.utils.ArgumentHandlerUtils;
 import ar.edu.itba.ss.utils.OutputUtils;
@@ -27,11 +28,11 @@ public class Main
 
         final Vector position = new Vector(0 + parameters.getRadius(), parameters.getHeight()/2);
 
-        final Force forceRed = new SocialForce(parameters.getTauRed(), parameters.getA(), parameters.getA(), parameters.getKn());
-        final Force forceBlue = new SocialForce(parameters.getTauBlue(), parameters.getA(), parameters.getB(), parameters.getKn());
+        final Force forceRed = new SocialForceRed(parameters.getTauRed(), parameters.getA(), parameters.getA(), parameters.getKn());
+        final Force forceBlue = new SocialForceBlue(parameters.getTauBlue(), parameters.getA(), parameters.getB(), parameters.getKn());
 
         final double deltaT = 0.001;
-        final double totalTime = 5;
+        final double totalTime = 20;
 
         // 1. Crear corredor de equipo rojo a la derecha de la cancha.
         final Particle red = Particle.builder()
