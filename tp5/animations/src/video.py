@@ -65,7 +65,7 @@ tiempos, posiciones = leer_datos(file_path)
 fig, ax = plt.subplots()
 ax.set_facecolor('#02F900')  # Fondo verde claro y brillante
 ax.set_xlim(0, 100)
-ax.set_ylim(0, 80)
+ax.set_ylim(0, 70)
 ax.set_xlabel('Posición (m)')  # Leyenda en el eje X
 ax.set_ylabel('Posición (m)')  # Leyenda en el eje Y
 
