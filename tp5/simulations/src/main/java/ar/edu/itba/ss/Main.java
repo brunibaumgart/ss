@@ -7,6 +7,8 @@ import ar.edu.itba.ss.models.SimulationState;
 import ar.edu.itba.ss.models.Vector;
 import ar.edu.itba.ss.models.forces.Force;
 import ar.edu.itba.ss.models.forces.SocialForce;
+import ar.edu.itba.ss.models.parameters.Parameters;
+import ar.edu.itba.ss.utils.ArgumentHandlerUtils;
 import ar.edu.itba.ss.utils.OutputUtils;
 import ar.edu.itba.ss.utils.ParticleUtils;
 
@@ -17,24 +19,16 @@ import java.util.List;
 
 public class Main
 {
+    private static final String CONFIG_FILE = "config.json";
+
     public static void main( String[] args ) throws IOException {
-        final int Nj = 15;
-        final double width = 100; // m
-        final double height = 70; // m
-        final double mass = 80; // kg
-        final double radius = 0.25; // m
-        final Vector position = new Vector(0 + radius, height/2);
+        final Parameters parameters = ArgumentHandlerUtils.getParameters(CONFIG_FILE);
+        //final FileWriter parametersWriter = new FileWriter(FilePaths.PARAMETERS_FILE);
 
-        final double tauRed = 0.3; // s
-        final double tauBlue = 0.5; // s
-        final double A = 2000; // N
-        final double B = 0.08; // m
-        final double kn = 120000; // kg/s
-        final Force forceRed = new SocialForce(tauRed, A, B, kn);
-        final Force forceBlue = new SocialForce(tauBlue, A, B, kn);
+        final Vector position = new Vector(0 + parameters.getRadius(), parameters.getHeight()/2);
 
-        final double desiredVelocityRed = 4; // m/s
-        final double desiredVelocityBlue = 3.8; // m/s
+        final Force forceRed = new SocialForce(parameters.getTauRed(), parameters.getA(), parameters.getA(), parameters.getKn());
+        final Force forceBlue = new SocialForce(parameters.getTauBlue(), parameters.getA(), parameters.getB(), parameters.getKn());
 
         final double deltaT = 0.001;
         final double totalTime = 5;
@@ -42,27 +36,27 @@ public class Main
         // 1. Crear corredor de equipo rojo a la derecha de la cancha.
         final Particle red = Particle.builder()
                 .id(-1)
-                .mass(mass)
+                .mass(parameters.getMass())
                 .lastPosition(position)
                 .position(position)
                 .force(forceRed)
-                .radius(radius)
+                .radius(parameters.getRadius())
                 .velocity(new Vector(0,0))
-                .desiredVelocity(desiredVelocityRed)
-                .target(new Vector(width, height/2))
+                .desiredVelocity(parameters.getDesiredVelocityRed())
+                .target(new Vector(parameters.getWidth(), parameters.getHeight()/2))
                 .build();
         // 2. Crear Nj jugadores del equipo azul distribuidos aleatoriamente
         final List<Particle> aux = new ArrayList<>();
         aux.add(red);
         final List<Particle> particles = ParticleUtils.createMovingParticles(
                 aux,
-                Nj,
-                height,
-                width,
-                mass,
+                parameters.getNj(),
+                parameters.getHeight(),
+                parameters.getWidth(),
+                parameters.getMass(),
                 forceBlue,
-                radius,
-                desiredVelocityBlue,
+                parameters.getRadius(),
+                parameters.getDesiredVelocityBlue(),
                 red.position()
         );
 
