@@ -63,7 +63,7 @@ public class Main
 
         // 3. VerletAlgorithm.runIteration
         final FileWriter videoWriter = new FileWriter(FilePaths.OUTPUT_DIR + "video.txt");
-        final SimulationState state = new SimulationState(particles);
+        final SimulationState state = new SimulationState(particles, parameters.getWidth());
 
         while (state.timeElapsed() < totalTime) {
             if(state.iteration() % 100 == 0) {

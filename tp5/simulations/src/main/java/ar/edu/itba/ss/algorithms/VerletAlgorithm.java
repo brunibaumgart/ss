@@ -31,7 +31,7 @@ public class VerletAlgorithm {
 
             final Particle updatedParticle;
             if (p.id() == -1 ){
-                updatedParticle = updatedParticleBuilder.target(new Vector(100, p.position().y())).build(); // TODO
+                updatedParticle = updatedParticleBuilder.target(new Vector(state.width(), p.position().y())).build();
             }
             else {
                 @SuppressWarnings("OptionalGetWithoutIsPresent")
