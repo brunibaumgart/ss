@@ -13,7 +13,7 @@ public class SimulationState {
     private List<Particle> particles;
     private double timeElapsed = 0.0;
     private int iteration = 0;
-    private double width;
+    private final double width;
 
     public SimulationState(final List<Particle> particles, final double width) {
         this.particles = particles;

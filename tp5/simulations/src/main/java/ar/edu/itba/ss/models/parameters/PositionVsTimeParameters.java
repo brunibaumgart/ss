@@ -12,8 +12,11 @@ import lombok.Setter;
 @Setter
 public class PositionVsTimeParameters
 {
+    private boolean enabled;
     @JsonProperty("delta_t")
     private double deltaT; // s
     @JsonProperty("total_time")
     private double totalTime; // s
+    @JsonProperty("seed")
+    private long seed;
 }

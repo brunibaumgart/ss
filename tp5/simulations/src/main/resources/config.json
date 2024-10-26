@@ -3,7 +3,7 @@
   "width": 100,
   "height": 70,
   "mass": 80,
-  "radius": 0.25,
+  "radius": 0.7,
   "kn": 120000,
   "a": 2000,
   "b": 0.08,
@@ -13,8 +13,10 @@
   "desired_velocity_blue": 3.8,
   "plots": {
     "position_vs_time": {
+      "enabled": true,
       "delta_t": 0.001,
-      "total_time": 5
+      "total_time": 40,
+      "seed":
     }
   }
 }

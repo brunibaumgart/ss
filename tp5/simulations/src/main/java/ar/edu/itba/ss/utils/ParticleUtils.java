@@ -15,6 +15,7 @@ public class ParticleUtils {
     }
 
     public static List<Particle> createMovingParticles(
+            final long seed,
             final List<Particle> particles,
             final int Nj,
             final double height,
@@ -25,8 +26,6 @@ public class ParticleUtils {
             final double desiredVelocity,
             final Vector target
     ) {
-        final Random seedGenerator = new Random();
-        final long seed = seedGenerator.nextLong();
         final Random random = new Random(seed);
         System.out.println("Seed " + seed);
 
@@ -70,6 +69,22 @@ public class ParticleUtils {
         }
 
         return result;
+    }
+
+    public static List<Particle> createMovingParticles(
+            final List<Particle> particles,
+            final int Nj,
+            final double height,
+            final double width,
+            final double mass,
+            final Force force,
+            final double radius,
+            final double desiredVelocity,
+            final Vector target
+    ) {
+        final Random seedGenerator = new Random();
+
+        return createMovingParticles(seedGenerator.nextLong(), particles, Nj, height, width, mass, force, radius, desiredVelocity, target);
     }
     private static boolean collidesWithAny(final Particle particle, final List<Particle> particles) {
         return particles.stream().anyMatch(particle::collidesWith);

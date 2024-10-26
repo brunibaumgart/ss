@@ -17,7 +17,7 @@ public class VerletAlgorithm {
                     .subtract(p.lastPosition())
                     .add(p.force().apply(p, state.particles()).multiply(deltaT * deltaT));
 
-            final Vector newVelocity =  newPosition.subtract(p.lastPosition()).divide(2 * deltaT);
+            final Vector newVelocity = newPosition.subtract(p.lastPosition()).divide(2 * deltaT);
 
             final Particle.ParticleBuilder updatedParticleBuilder = Particle.builder()
                     .id(p.id())
@@ -30,12 +30,10 @@ public class VerletAlgorithm {
                     .desiredVelocity(p.desiredVelocity());
 
             final Particle updatedParticle;
-            if (p.id() == -1 ){
+            if (p.id() == -1) {
                 updatedParticle = updatedParticleBuilder.target(new Vector(state.width(), p.position().y())).build();
-            }
-            else {
-                @SuppressWarnings("OptionalGetWithoutIsPresent")
-                final Particle red = state.particles().stream().filter(aux->aux.id() == -1).findFirst().get();
+            } else {
+                @SuppressWarnings("OptionalGetWithoutIsPresent") final Particle red = state.particles().stream().filter(aux -> aux.id() == -1).findFirst().get();
                 updatedParticle = updatedParticleBuilder.target(red.position()).build();
             }
 
