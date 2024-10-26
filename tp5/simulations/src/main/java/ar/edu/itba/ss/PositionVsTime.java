@@ -15,8 +15,6 @@ public class PositionVsTime {
         final double totalTime = parameters.getPlots().getPositionVsTime().getTotalTime();
 
         final FileWriter videoWriter = new FileWriter(FilePaths.OUTPUT_DIR + "video.txt");
-        final FileWriter tryWriter = new FileWriter(FilePaths.OUTPUT_DIR + "try.txt");
-
         while (state.timeElapsed() < totalTime) {
             if(state.iteration() % 100 == 0) {
                 OutputUtils.printTime(videoWriter, state.timeElapsed());
@@ -28,13 +26,12 @@ public class PositionVsTime {
 
             @SuppressWarnings("OptionalGetWithoutIsPresent")
             final Particle redParticle = state.particles().stream().filter(p -> p.id() == -1).findFirst().get();
-            if(redParticle.position().x() == 0) { // Red player reached the end of the field
+            if(Double.compare(redParticle.position().x() + redParticle.radius(), parameters.getWidth()) == 0) { // Red player reached the end of the field
                 break;
             }
             else if(state.particles().stream().filter(p -> !p.equals(redParticle)).anyMatch(p -> p.collidesWith(redParticle))) {
                 break;
             }
         }
-
     }
 }

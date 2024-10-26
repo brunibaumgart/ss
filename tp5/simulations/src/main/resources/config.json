@@ -13,10 +13,15 @@
   "desired_velocity_blue": 3.8,
   "plots": {
     "position_vs_time": {
+      "enabled": false,
+      "delta_t": 0.001,
+      "total_time": 100,
+      "seed": 1114958430157915171
+    },
+    "max_distance": {
       "enabled": true,
       "delta_t": 0.001,
-      "total_time": 40,
-      "seed":
+      "runs": 1000
     }
   }
 }

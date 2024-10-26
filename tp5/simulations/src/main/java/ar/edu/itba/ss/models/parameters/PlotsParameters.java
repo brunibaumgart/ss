@@ -13,4 +13,6 @@ import lombok.Setter;
 public class PlotsParameters {
     @JsonProperty("position_vs_time")
     private PositionVsTimeParameters positionVsTime;
+    @JsonProperty("max_distance")
+    private MaxDistanceParameters maxDistance;
 }

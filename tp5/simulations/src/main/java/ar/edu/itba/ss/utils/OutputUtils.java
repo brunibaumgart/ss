@@ -41,4 +41,22 @@ public class OutputUtils {
             e.printStackTrace();
         }
     }
+
+    public static void printDistance(final FileWriter writer, final double distance) {
+        try {
+            writer.write(distance + "\n");
+            writer.flush();
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void printSeed(final FileWriter writer, final long seed) {
+        try {
+            writer.write(seed + "\n");
+            writer.flush();
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -60,5 +60,8 @@ public class Main
             PositionVsTime.run(state, parameters);
         }
 
+        if(parameters.getPlots().getMaxDistance().isEnabled()) {
+            MaxDistance.run(parameters);
+        }
     }
 }

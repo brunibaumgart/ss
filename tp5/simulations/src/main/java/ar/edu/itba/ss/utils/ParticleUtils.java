@@ -27,7 +27,7 @@ public class ParticleUtils {
             final Vector target
     ) {
         final Random random = new Random(seed);
-        System.out.println("Seed " + seed);
+        //System.out.println("Seed " + seed);
 
         final List<Particle> result = new ArrayList<>(particles);
 
