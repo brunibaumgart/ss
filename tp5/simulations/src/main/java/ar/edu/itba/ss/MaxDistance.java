@@ -70,7 +70,7 @@ public class MaxDistance {
 
                 // Check if red player reached the end of the field
                 final Particle redPlayer = state.particles().get(0);
-                if((int) redPlayer.position().x() <= (int) state.width()) { // Red player reached the end of the field
+                if((int) redPlayer.position().x() >= (int) state.width()) { // Red player reached the end of the field
                     break;
                 }
                 else if(state.particles().stream().filter(p -> !p.equals(redPlayer)).anyMatch(p -> p.collidesWith(redPlayer))) {
@@ -81,7 +81,7 @@ public class MaxDistance {
             // Print distance of red player
             final Particle r = state.particles().get(0);
             OutputUtils.printDistance(positionWriter, r.position().x());
-            if((int) r.position().x() <= (int) state.width()) { // Red player reached the end of the field
+            if((int) r.position().x() >= (int) state.width()) { // Red player reached the end of the field
                 OutputUtils.printSeed(seedWriter, seed);
             }
         }
