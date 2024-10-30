@@ -1,5 +1,5 @@
 {
-  "nj": 49,
+  "nj": 15,
   "width": 100,
   "height": 70,
   "mass": 80,
@@ -13,13 +13,13 @@
   "desired_velocity_blue": 3.8,
   "plots": {
     "position_vs_time": {
-      "enabled": false,
+      "enabled": true,
       "delta_t": 0.001,
-      "total_time": 100,
+      "total_time": 25,
       "seed": 1114958430157915171
     },
     "max_distance": {
-      "enabled": true,
+      "enabled": false,
       "delta_t": 0.001,
       "runs": 1000
     }

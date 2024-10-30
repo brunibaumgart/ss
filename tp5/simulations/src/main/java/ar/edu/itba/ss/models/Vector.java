@@ -58,4 +58,8 @@ public class Vector {
         }
         return new Vector(x / magnitude, y / magnitude);
     }
+
+    public Vector rotate(double alpha) {
+        return new Vector(x * Math.cos(alpha) - y * Math.sin(alpha), x * Math.sin(alpha) + y * Math.cos(alpha));
+    }
 }

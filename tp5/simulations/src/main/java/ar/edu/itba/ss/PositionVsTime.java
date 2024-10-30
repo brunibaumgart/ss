@@ -26,12 +26,15 @@ public class PositionVsTime {
 
             @SuppressWarnings("OptionalGetWithoutIsPresent")
             final Particle redParticle = state.particles().stream().filter(p -> p.id() == -1).findFirst().get();
+            /*
             if(Double.compare(redParticle.position().x() + redParticle.radius(), parameters.getWidth()) == 0) { // Red player reached the end of the field
                 break;
             }
             else if(state.particles().stream().filter(p -> !p.equals(redParticle)).anyMatch(p -> p.collidesWith(redParticle))) {
                 break;
             }
+
+             */
         }
     }
 }
