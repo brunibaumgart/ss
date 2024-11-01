@@ -14,13 +14,23 @@
   "delta_t": 0.001,
   "plots": {
     "position_vs_time": {
-      "enabled": true,
+      "enabled": false,
       "total_time": 34,
       "seed": 8051716323087181957
     },
     "max_distance": {
       "enabled": false,
       "runs": 1000
+    },
+    "max_distance_heatmap": {
+      "enabled": true,
+      "runs_per_iteration": 1000,
+      "a_min": 2,
+      "a_max": 8,
+      "a_steps": 3,
+      "b_min": 0.3,
+      "b_max": 3.9,
+      "b_steps": 12
     }
   }
 }

@@ -10,9 +10,25 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class PlotsParameters {
+public class PlotsParameters implements Cloneable {
     @JsonProperty("position_vs_time")
     private PositionVsTimeParameters positionVsTime;
     @JsonProperty("max_distance")
     private MaxDistanceParameters maxDistance;
+    @JsonProperty("max_distance_heatmap")
+    private MaxDistanceHeatmapParameters maxDistanceHeatmap;
+
+    @Override
+    public PlotsParameters clone() {
+        try {
+            PlotsParameters clone = (PlotsParameters) super.clone();
+            clone.setPositionVsTime(positionVsTime.clone());
+            clone.setMaxDistance(maxDistance.clone());
+            clone.setMaxDistanceHeatmap(maxDistanceHeatmap.clone());
+
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }

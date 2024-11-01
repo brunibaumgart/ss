@@ -9,7 +9,20 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MaxDistanceParameters {
+public class MaxDistanceParameters implements Cloneable {
     private boolean enabled;
     private int runs;
+
+    @Override
+    public MaxDistanceParameters clone() {
+        try {
+            MaxDistanceParameters clone = (MaxDistanceParameters) super.clone();
+            clone.setEnabled(enabled);
+            clone.setRuns(runs);
+
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }

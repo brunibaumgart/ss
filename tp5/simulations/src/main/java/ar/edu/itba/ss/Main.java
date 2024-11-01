@@ -16,5 +16,9 @@ public class Main {
         if(parameters.getPlots().getMaxDistance().isEnabled()) {
             MaxDistance.run(parameters);
         }
+
+        if(parameters.getPlots().getMaxDistanceHeatmap().isEnabled()) {
+            MaxDistanceHeatmap.run(parameters);
+        }
     }
 }

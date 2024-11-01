@@ -10,10 +10,24 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class PositionVsTimeParameters {
+public class PositionVsTimeParameters implements Cloneable {
     private boolean enabled;
     @JsonProperty("total_time")
     private double totalTime; // s
     @JsonProperty("seed")
     private long seed;
+
+    @Override
+    public PositionVsTimeParameters clone() {
+        try {
+            final PositionVsTimeParameters clone = (PositionVsTimeParameters) super.clone();
+            clone.setEnabled(enabled);
+            clone.setTotalTime(totalTime);
+            clone.setSeed(seed);
+
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }

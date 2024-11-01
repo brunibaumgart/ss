@@ -41,4 +41,29 @@ public class Parameters implements Cloneable{
     private double deltaT; // s
 
     private PlotsParameters plots;
+
+    @Override
+    public Parameters clone() {
+        try {
+            Parameters clone = (Parameters) super.clone();
+            clone.setNj(nj);
+            clone.setWidth(width);
+            clone.setHeight(height);
+            clone.setMass(mass);
+            clone.setRadius(radius);
+            clone.setKn(kn);
+            clone.setA(a);
+            clone.setB(b);
+            clone.setTauRed(tauRed);
+            clone.setTauBlue(tauBlue);
+            clone.setDesiredVelocityRed(desiredVelocityRed);
+            clone.setDesiredVelocityBlue(desiredVelocityBlue);
+            clone.setDeltaT(deltaT);
+            clone.setPlots(plots.clone());
+
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }
