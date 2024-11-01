@@ -23,7 +23,7 @@ public class Parameters implements Cloneable{
     // granular force
     private double kn; // kg/s
 
-    // social force
+    // avoidance force
     private double a; // N
     private double b; // m
 
@@ -36,6 +36,9 @@ public class Parameters implements Cloneable{
     private double desiredVelocityRed; // m/s
     @JsonProperty("desired_velocity_blue")
     private double desiredVelocityBlue; // m/s
+
+    @JsonProperty("delta_t")
+    private double deltaT; // s
 
     private PlotsParameters plots;
 }

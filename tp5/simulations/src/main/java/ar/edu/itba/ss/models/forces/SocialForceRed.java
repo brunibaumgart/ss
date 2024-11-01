@@ -1,6 +1,5 @@
 package ar.edu.itba.ss.models.forces;
 
-import ar.edu.itba.ss.models.Pair;
 import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.models.Vector;
 import lombok.AllArgsConstructor;
@@ -16,14 +15,14 @@ import java.util.stream.Collectors;
 @Accessors(fluent = true)
 public class SocialForceRed implements Force {
     private final double tau;
-    private final double A;
-    private final double B;
+    private final double Ap;
+    private final double Bp;
     private final double kn;
     private final static int MAX_CLOSEST_PARTICLES = 3;
 
     @Override
     public Vector apply(final Particle particle, final List<Particle> otherParticles) {
-        return avoidanceForce(particle, otherParticles);
+        return granularForce(particle, otherParticles).add(avoidanceForce(particle, otherParticles));
     }
 
     private Vector granularForce(final Particle i, final List<Particle> particles) {
@@ -46,8 +45,6 @@ public class SocialForceRed implements Force {
     }
 
     private Vector avoidanceForce(final Particle i, final List<Particle> particles) {
-        final double Ap = 4;
-        final double Bp = 2.1;
         final List<Particle> closestParticles = getClosestParticles(i, particles);
         if (closestParticles.isEmpty()) return drivingForce(i);
 
@@ -63,7 +60,7 @@ public class SocialForceRed implements Force {
             final double cos = eit.dot(rij) / (eit.magnitude() * rij.magnitude());
             final Vector njc = eij.multiply(Ap * Math.exp(-rij.magnitude() / Bp) * cos);
 
-            sumNjc = sumNjc.add(new Vector(-njc.x(), -njc.y()));
+            sumNjc = sumNjc.subtract(njc);
         }
 
         // TODO: check walls

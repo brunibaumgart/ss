@@ -70,7 +70,7 @@ ax.set_xlabel('Posición (m)')  # Leyenda en el eje X
 ax.set_ylabel('Posición (m)')  # Leyenda en el eje Y
 
 # Ajuste del radio visual de las partículas
-radio_visual = 0.7  # Aumentar el radio visual en metros
+radio_visual = 0.32  # Aumentar el radio visual en metros
 escala = 100 / ax.get_window_extent().width  # Escala visual de la gráfica
 tamaño_partícula = (radio_visual / escala) ** 2  # Ajuste del área
 

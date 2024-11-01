@@ -4,7 +4,6 @@ import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.models.Vector;
 import ar.edu.itba.ss.models.forces.Force;
 
-import javax.sound.midi.Soundbank;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -86,6 +85,7 @@ public class ParticleUtils {
 
         return createMovingParticles(seedGenerator.nextLong(), particles, Nj, height, width, mass, force, radius, desiredVelocity, target);
     }
+
     private static boolean collidesWithAny(final Particle particle, final List<Particle> particles) {
         return particles.stream().anyMatch(particle::collidesWith);
     }
