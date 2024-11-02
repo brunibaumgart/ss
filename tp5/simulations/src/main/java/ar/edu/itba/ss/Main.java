@@ -20,5 +20,9 @@ public class Main {
         if(parameters.getPlots().getMaxDistanceHeatmap().isEnabled()) {
             MaxDistanceHeatmap.run(parameters);
         }
+
+        if (parameters.getPlots().getFractionTriesVsNj().isEnabled()){
+            FractionTriesVsNj.run(parameters);
+        }
     }
 }

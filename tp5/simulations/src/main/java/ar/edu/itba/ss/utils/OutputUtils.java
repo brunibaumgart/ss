@@ -59,4 +59,13 @@ public class OutputUtils {
             e.printStackTrace();
         }
     }
+
+    public static void printNjVsTries(final FileWriter writer, final int nj, final int tries){
+        try {
+            writer.write(tries + " " + nj + "\n");
+            writer.flush();
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -19,7 +19,7 @@
       "seed": 8088290098613005381
     },
     "max_distance": {
-      "enabled": true,
+      "enabled": false,
       "runs": 1000
     },
     "max_distance_heatmap": {
@@ -31,6 +31,14 @@
       "b_min": 0.3,
       "b_max": 3.9,
       "b_steps": 12
+    },
+    "fraction_tries_vs_nj": {
+      "enabled": true,
+      "nj_initial": 15,
+      "nj_step": 10,
+      "nj_total_steps": 5,
+      "attempts": 1000,
+      "runs": 10
     }
   }
 }

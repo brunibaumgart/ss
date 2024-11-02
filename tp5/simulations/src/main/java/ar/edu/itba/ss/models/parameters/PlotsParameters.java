@@ -17,6 +17,8 @@ public class PlotsParameters implements Cloneable {
     private MaxDistanceParameters maxDistance;
     @JsonProperty("max_distance_heatmap")
     private MaxDistanceHeatmapParameters maxDistanceHeatmap;
+    @JsonProperty("fraction_tries_vs_nj")
+    private FractionTriesVsNjParameters fractionTriesVsNj;
 
     @Override
     public PlotsParameters clone() {
@@ -25,6 +27,7 @@ public class PlotsParameters implements Cloneable {
             clone.setPositionVsTime(positionVsTime.clone());
             clone.setMaxDistance(maxDistance.clone());
             clone.setMaxDistanceHeatmap(maxDistanceHeatmap.clone());
+            clone.setFractionTriesVsNj(fractionTriesVsNj.clone());
 
             return clone;
         } catch (CloneNotSupportedException e) {
