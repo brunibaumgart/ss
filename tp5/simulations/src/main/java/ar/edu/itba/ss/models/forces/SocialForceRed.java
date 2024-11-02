@@ -41,6 +41,22 @@ public class SocialForceRed implements Force {
             result = result.add(eij.multiply(-1 * kn * epsilon));
         }
 
+        for (Wall wall : walls) {
+            final Vector closestPoint = wall.closestPoint(i.position());
+            final Particle virtualParticle = Particle.builder()
+                    .position(closestPoint)
+                    .radius(i.radius())
+                    .build();
+
+            Vector rij = i.position().subtract(virtualParticle.position());
+            final double epsilon = rij.magnitude() - (i.radius() + virtualParticle.radius());
+            final Vector eij = rij.normalize();
+
+            if (epsilon > 0) continue;
+
+            result = result.add(eij.multiply(-1 * kn * epsilon));
+        }
+
         return result;
     }
 
@@ -68,10 +84,10 @@ public class SocialForceRed implements Force {
             final Vector closestPoint = wall.closestPoint(i.position());
             final Particle virtualParticle = Particle.builder()
                     .position(closestPoint)
+                    .radius(i.radius())
                     .build();
 
-            Vector rij = closestPoint.subtract(i.position());
-            rij = new Vector(rij.x() + i.radius(), rij.y() + i.radius());
+            final Vector rij = virtualParticle.position().subtract(i.position());
             final Vector eij = rij.normalize();
 
             final double cos = eit.dot(rij) / (eit.magnitude() * rij.magnitude());
