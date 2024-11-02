@@ -18,10 +18,12 @@ public class MaxDistance {
         final double deltaT = parameters.getDeltaT();
 
         // Create output files
+        final FileWriter lastPositionWriter = new FileWriter(FilePaths.OUTPUT_DIR + "last_position.txt");
         final FileWriter positionWriter = new FileWriter(FilePaths.OUTPUT_DIR + "max_positions.txt");
         final FileWriter seedWriter = new FileWriter(FilePaths.OUTPUT_DIR + "try_seed.txt");
         final FileWriter allSeedWriter = new FileWriter(FilePaths.OUTPUT_DIR + "all_seeds.txt");
         for(int run = 0; run < runs; run++) {
+            double maxDistance = 0;
             final Random random = new Random();
             final long seed = random.nextLong();
             final SimulationState state = SimulationUtils.createState(parameters, seed);
@@ -33,6 +35,10 @@ public class MaxDistance {
 
                 // Check if red player reached the end of the field
                 final Particle redPlayer = state.particles().get(0);
+                if(maxDistance < redPlayer.position().x()) {
+                    maxDistance = redPlayer.position().x();
+                }
+
                 if((int) (redPlayer.position().x()) >= (int) state.width()) { // Red player reached the end of the field
                     break;
                 }
@@ -43,7 +49,8 @@ public class MaxDistance {
 
             // Print distance of red player
             final Particle r = state.particles().get(0);
-            OutputUtils.printDistance(positionWriter, r.position().x());
+            OutputUtils.printDistance(lastPositionWriter, r.position().x());
+            OutputUtils.printDistance(positionWriter, maxDistance);
             OutputUtils.printSeed(allSeedWriter, seed);
             if((int) r.position().x() >= (int) state.width()) { // Red player reached the end of the field
                 OutputUtils.printSeed(seedWriter, seed);

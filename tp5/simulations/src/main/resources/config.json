@@ -1,5 +1,5 @@
 {
-  "nj": 32,
+  "nj": 15,
   "width": 100,
   "height": 70,
   "mass": 80,
@@ -16,10 +16,10 @@
     "position_vs_time": {
       "enabled": false,
       "total_time": 34,
-      "seed": 8088290098613005381
+      "seed": 9175209996836532839
     },
     "max_distance": {
-      "enabled": false,
+      "enabled": true,
       "runs": 1000
     },
     "max_distance_heatmap": {
@@ -33,7 +33,7 @@
       "b_steps": 12
     },
     "fraction_tries_vs_nj": {
-      "enabled": true,
+      "enabled": false,
       "nj_initial": 15,
       "nj_step": 10,
       "nj_total_steps": 5,

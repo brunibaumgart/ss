@@ -67,6 +67,7 @@ public class MaxDistanceHeatmap {
         final String positionFileName = String.format("%smax_distance_heatmap/max_position_%.2f_%.2f.txt", FilePaths.OUTPUT_DIR, A, B);
         final FileWriter positionWriter = new FileWriter(positionFileName);
         for(int run = 0; run < parameters.getPlots().getMaxDistanceHeatmap().getRunsPerIteration(); run++) {
+            double maxDistance = 0;
             final Random random = new Random();
             final long seed = random.nextLong();
             final SimulationState state = SimulationUtils.createState(parameters, seed);
@@ -78,6 +79,10 @@ public class MaxDistanceHeatmap {
 
                 // Check if red player reached the end of the field
                 final Particle redPlayer = state.particles().get(0);
+                if(maxDistance < redPlayer.position().x()) {
+                    maxDistance = redPlayer.position().x();
+                }
+
                 if((int) (redPlayer.position().x()) >= (int) state.width()) { // Red player reached the end of the field
                     break;
                 }
@@ -86,9 +91,8 @@ public class MaxDistanceHeatmap {
                 }
             }
 
-            // Print distance of red player
-            final Particle r = state.particles().get(0);
-            OutputUtils.printDistance(positionWriter, r.position().x());
+            // Print max distance of red player
+            OutputUtils.printDistance(positionWriter, maxDistance);
         }
     }
 }
