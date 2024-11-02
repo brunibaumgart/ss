@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.experimental.Accessors;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @Getter
@@ -20,7 +19,6 @@ public class SocialForceRed implements Force {
     private final double Bp;
     private final double kn;
     private final List<Wall> walls;
-    private final static int MAX_CLOSEST_PARTICLES = 3;
 
     @Override
     public Vector apply(final Particle particle, final List<Particle> otherParticles) {
@@ -101,6 +99,6 @@ public class SocialForceRed implements Force {
             closestParticles.add(j);
         }
 
-        return closestParticles.stream().limit(MAX_CLOSEST_PARTICLES).collect(Collectors.toList());
+        return new ArrayList<>(closestParticles);
     }
 }
