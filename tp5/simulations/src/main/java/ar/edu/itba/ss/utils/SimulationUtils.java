@@ -3,6 +3,7 @@ package ar.edu.itba.ss.utils;
 import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.models.SimulationState;
 import ar.edu.itba.ss.models.Vector;
+import ar.edu.itba.ss.models.Wall;
 import ar.edu.itba.ss.models.forces.Force;
 import ar.edu.itba.ss.models.forces.SocialForceBlue;
 import ar.edu.itba.ss.models.forces.SocialForceRed;
@@ -27,7 +28,16 @@ public class SimulationUtils {
     public static SimulationState createState(final Parameters parameters, final long seed) {
         final Vector position = new Vector(0 + parameters.getRadius(), parameters.getHeight()/2);
 
-        final Force forceRed = new SocialForceRed(parameters.getTauRed(), parameters.getA(), parameters.getB(), parameters.getKn());
+
+        final double width = parameters.getWidth();
+        final double height = parameters.getHeight();
+        final List<Wall> walls = List.of(
+                new Wall(Wall.Side.DOWN, new Vector(0, 0), new Vector(width, 0)),
+                new Wall(Wall.Side.LEFT, new Vector(0, 0), new Vector(0, height)),
+                new Wall(Wall.Side.UP, new Vector(width, height), new Vector(0, height))
+        );
+
+        final Force forceRed = new SocialForceRed(parameters.getTauRed(), parameters.getA(), parameters.getB(), parameters.getKn(), walls);
         final Force forceBlue = new SocialForceBlue(parameters.getTauBlue(), parameters.getA(), parameters.getB(), parameters.getKn());
 
         // Create red player at the beginning of the field
@@ -57,6 +67,6 @@ public class SimulationUtils {
                 red.position()
         );
 
-        return new SimulationState(particles, parameters.getWidth());
+        return new SimulationState(particles, width, height, walls);
     }
 }

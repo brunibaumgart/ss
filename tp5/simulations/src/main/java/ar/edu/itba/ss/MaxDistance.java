@@ -20,6 +20,7 @@ public class MaxDistance {
         // Create output files
         final FileWriter positionWriter = new FileWriter(FilePaths.OUTPUT_DIR + "max_positions.txt");
         final FileWriter seedWriter = new FileWriter(FilePaths.OUTPUT_DIR + "try_seed.txt");
+        final FileWriter allSeedWriter = new FileWriter(FilePaths.OUTPUT_DIR + "all_seeds.txt");
         for(int run = 0; run < runs; run++) {
             final Random random = new Random();
             final long seed = random.nextLong();
@@ -43,6 +44,7 @@ public class MaxDistance {
             // Print distance of red player
             final Particle r = state.particles().get(0);
             OutputUtils.printDistance(positionWriter, r.position().x());
+            OutputUtils.printSeed(allSeedWriter, seed);
             if((int) r.position().x() >= (int) state.width()) { // Red player reached the end of the field
                 OutputUtils.printSeed(seedWriter, seed);
             }

@@ -2,6 +2,7 @@ package ar.edu.itba.ss.models.forces;
 
 import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.models.Vector;
+import ar.edu.itba.ss.models.Wall;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.Accessors;
@@ -18,6 +19,7 @@ public class SocialForceRed implements Force {
     private final double Ap;
     private final double Bp;
     private final double kn;
+    private final List<Wall> walls;
     private final static int MAX_CLOSEST_PARTICLES = 3;
 
     @Override
@@ -63,9 +65,24 @@ public class SocialForceRed implements Force {
             sumNjc = sumNjc.subtract(njc);
         }
 
-        // TODO: check walls
+        Vector sumNjw = Vector.fromPolar(0, 0);
+        for (Wall wall : walls) {
+            final Vector closestPoint = wall.closestPoint(i.position());
+            final Particle virtualParticle = Particle.builder()
+                    .position(closestPoint)
+                    .build();
 
-        final Vector ea = sumNjc.add(eit.normalize()).normalize();
+            Vector rij = closestPoint.subtract(i.position());
+            rij = new Vector(rij.x() + i.radius(), rij.y() + i.radius());
+            final Vector eij = rij.normalize();
+
+            final double cos = eit.dot(rij) / (eit.magnitude() * rij.magnitude());
+            final Vector njw = eij.multiply(Ap * Math.exp(-rij.magnitude() / Bp) * cos);
+
+            sumNjw = sumNjw.add(njw);
+        }
+
+        final Vector ea = sumNjc.add(sumNjw).add(eit.normalize()).normalize();
 
         return ea.multiply(i.desiredVelocity()).subtract(i.velocity()).multiply(i.mass() / tau);
     }

@@ -31,7 +31,7 @@ public class ParticleUtils {
         final List<Particle> result = new ArrayList<>(particles);
 
         for (int i = 0; i < Nj; i++) {
-            double x = random.nextDouble() * width;
+            double x = random.nextDouble() * (width - 10) + 10;
             double y = random.nextDouble() * height;
 
             Vector position = new Vector(x, y);
@@ -41,7 +41,7 @@ public class ParticleUtils {
                     .mass(mass)
                     .force(force)
                     .radius(radius)
-                    .velocity(new Vector(0,0))
+                    .velocity(new Vector(0, 0))
                     .desiredVelocity(desiredVelocity)
                     .target(target);
 
@@ -50,14 +50,12 @@ public class ParticleUtils {
                     .position(position)
                     .build();
 
-
-
             // check particles do not overlap
             while (collidesWithAny(p, result) || collidesWithWalls(p, height, width)) {
                 x = random.nextDouble() * width;
                 y = random.nextDouble() * height;
 
-                position = new Vector(x,y);
+                position = new Vector(x, y);
                 p = particleBuilder
                         .lastPosition(position)
                         .position(position)

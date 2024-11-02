@@ -1,5 +1,5 @@
 {
-  "nj": 15,
+  "nj": 32,
   "width": 100,
   "height": 70,
   "mass": 80,
@@ -14,16 +14,16 @@
   "delta_t": 0.001,
   "plots": {
     "position_vs_time": {
-      "enabled": false,
+      "enabled": true,
       "total_time": 34,
-      "seed": 8051716323087181957
+      "seed": 8088290098613005381
     },
     "max_distance": {
       "enabled": false,
       "runs": 1000
     },
     "max_distance_heatmap": {
-      "enabled": true,
+      "enabled": false,
       "runs_per_iteration": 1000,
       "a_min": 2,
       "a_max": 8,
