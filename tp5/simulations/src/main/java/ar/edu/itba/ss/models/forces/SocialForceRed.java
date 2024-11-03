@@ -49,7 +49,7 @@ public class SocialForceRed implements Force {
                     .build();
 
             Vector rij = i.position().subtract(virtualParticle.position());
-            final double epsilon = rij.magnitude() - (i.radius() + virtualParticle.radius());
+            final double epsilon = rij.magnitude() - i.radius();
             final Vector eij = rij.normalize();
 
             if (epsilon > 0) continue;

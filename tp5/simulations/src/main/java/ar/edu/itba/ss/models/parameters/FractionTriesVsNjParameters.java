@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class FractionTriesVsNjParameters {
+public class FractionTriesVsNjParameters implements Cloneable {
     private boolean enabled;
     @JsonProperty("nj_initial")
     private int njInitial;
