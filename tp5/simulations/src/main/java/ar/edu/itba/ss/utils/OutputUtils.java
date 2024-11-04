@@ -60,9 +60,9 @@ public class OutputUtils {
         }
     }
 
-    public static void printNjVsTries(final FileWriter writer, final int nj, final int tries){
+    public static void printNjVsTries(final FileWriter writer, final int nj, final double fraction){
         try {
-            writer.write(tries + " " + nj + "\n");
+            writer.write(nj + " " + fraction + "\n");
             writer.flush();
         } catch (final Exception e) {
             e.printStackTrace();

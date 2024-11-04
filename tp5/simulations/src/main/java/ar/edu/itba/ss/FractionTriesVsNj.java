@@ -28,30 +28,28 @@ public class FractionTriesVsNj {
 
         for (int nj= njInitial; nj < njTotal; nj += njStep){
             parameters.setNj(nj);
-            for (int run = 0; run < runs; run++){
-                int tries = 0;
-                for (int attempt = 0; attempt < attempts; attempt++) {
-                    final Random random = new Random();
-                    final long seed = random.nextLong();
-                    final SimulationState state = SimulationUtils.createState(parameters, seed);
+            int tries = 0;
+            for (int attempt = 0; attempt < attempts; attempt++) {
+                final Random random = new Random();
+                final long seed = random.nextLong();
+                final SimulationState state = SimulationUtils.createState(parameters, seed);
 
-                    // Run simulation until red player reaches the end of the field, or collides with another player
-                    while (true) {
-                        // Run simulation
-                        VerletAlgorithm.runIteration(state, deltaT);
+                // Run simulation until red player reaches the end of the field, or collides with another player
+                while (true) {
+                    // Run simulation
+                    VerletAlgorithm.runIteration(state, deltaT);
 
-                        // Check if red player reached the end of the field
-                        final Particle redPlayer = state.particles().get(0);
-                        if ((int) (redPlayer.position().x()) >= (int) state.width()) {// Red player reached the end of the field
-                            tries++;
-                            break;
-                        } else if (state.particles().stream().filter(p -> !p.equals(redPlayer)).anyMatch(p -> p.collidesWith(redPlayer))) {
-                            break;
-                        }
+                    // Check if red player reached the end of the field
+                    final Particle redPlayer = state.particles().get(0);
+                    if ((int) (redPlayer.position().x()) >= (int) state.width()) {// Red player reached the end of the field
+                        tries++;
+                        break;
+                    } else if (state.particles().stream().filter(p -> !p.equals(redPlayer)).anyMatch(p -> p.collidesWith(redPlayer))) {
+                        break;
                     }
                 }
-                OutputUtils.printNjVsTries(writer, tries, nj);
             }
+            OutputUtils.printNjVsTries(writer, nj, (double) tries /attempts);
         }
     }
 }

@@ -5,8 +5,8 @@
   "mass": 80,
   "radius": 0.32,
   "kn": 120000,
-  "a": 8,
-  "b": 2.1,
+  "a":2,
+  "b":8,
   "tau_red": 0.3,
   "tau_blue": 0.5,
   "desired_velocity_red": 4,
@@ -14,7 +14,7 @@
   "delta_t": 0.001,
   "plots": {
     "position_vs_time": {
-      "enabled": true,
+      "enabled": false,
       "total_time": 34,
       "seed": 3392395948589448058
     },
@@ -33,9 +33,9 @@
       "b_steps": 12
     },
     "fraction_tries_vs_nj": {
-      "enabled": false,
+      "enabled": true,
       "nj_initial": 15,
-      "nj_step": 10,
+      "nj_step": 15,
       "nj_total_steps": 5,
       "attempts": 1000,
       "runs": 10
