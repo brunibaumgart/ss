@@ -68,4 +68,14 @@ public class OutputUtils {
             e.printStackTrace();
         }
     }
+
+    public static void printMaxDistanceVsNj(final FileWriter writer, final int nj, final double meanDistance,
+                                            final double stdDistance){
+        try {
+            writer.write(nj + " " + meanDistance + " " + stdDistance + "\n");
+            writer.flush();
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
