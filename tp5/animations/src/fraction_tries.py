@@ -18,8 +18,8 @@ plt.xlim(0, 101)
 plt.xticks(nj_values, fontsize=12)
 plt.yticks(fontsize=12)
 
-plt.xlabel(r"$N_j$", fontsize=14)
-plt.ylabel(r"$\varphi_t$", fontsize=16)
+plt.xlabel(r"$N_j$", fontsize=16)
+plt.ylabel(r"$\varphi_t$", fontsize=18)
 
 plt.subplots_adjust(bottom=0.15)
 
