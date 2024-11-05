@@ -6,7 +6,7 @@
   "radius": 0.32,
   "kn": 120000,
   "a":2,
-  "b":8,
+  "b":8.1,
   "tau_red": 0.3,
   "tau_blue": 0.5,
   "desired_velocity_red": 4,

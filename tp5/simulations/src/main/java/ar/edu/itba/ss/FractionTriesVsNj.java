@@ -18,11 +18,16 @@ public class FractionTriesVsNj {
         final double deltaT = parameters.getDeltaT();
 
         final List<Integer> njs = new ArrayList<>(); // Hardcoded njs because of the fast decrease in tries
-        njs.add(15);
-        njs.add(20);
-        njs.add(30);
-        njs.add(45);
-        njs.add(100);
+        njs.add(1);
+        njs.add(6);
+        njs.add(11);
+        njs.add(16);
+        njs.add(21);
+        njs.add(26);
+        njs.add(31);
+        njs.add(36);
+        njs.add(41);
+        njs.add(46);
 
         //final int njInitial = parameters.getPlots().getFractionTriesVsNj().getNjInitial();
         //final int njStep = parameters.getPlots().getFractionTriesVsNj().getNjStep();
@@ -57,8 +62,9 @@ public class FractionTriesVsNj {
                     if( maxDistance < redPlayer.position().x()) {
                         maxDistance = redPlayer.position().x();
                     }
-                    if ((int) (redPlayer.position().x()) >= (int) state.width()) {// Red player reached the end of the field
+                    if (redPlayer.position().x() >= state.width()) {// Red player reached the end of the field
                         tries++;
+                        maxDistance = state.width();
                         break;
                     } else if (state.particles().stream().filter(p -> !p.equals(redPlayer)).anyMatch(p -> p.collidesWith(redPlayer))) {
                         break;
