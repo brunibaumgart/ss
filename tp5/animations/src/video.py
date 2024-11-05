@@ -63,7 +63,7 @@ tiempos, posiciones = leer_datos(file_path)
 
 # Configuración de la figura y los ejes
 fig, ax = plt.subplots()
-ax.set_facecolor('#02F900')  # Fondo verde claro y brillante
+ax.set_facecolor('#87E911')  # Fondo verde claro y brillante
 ax.set_xlim(0, 100)
 ax.set_ylim(0, 70)
 ax.set_xlabel('Posición (m)')  # Leyenda en el eje X
@@ -75,8 +75,8 @@ escala = 100 / ax.get_window_extent().width  # Escala visual de la gráfica
 tamaño_partícula = (radio_visual / escala) ** 2  # Ajuste del área
 
 # Inicializar los puntos de los jugadores rojo y azul con el nuevo tamaño visual
-scatter_red = ax.scatter([], [], color='#FF2500', s=tamaño_partícula)  # Rojo brillante
-scatter_blue = ax.scatter([], [], color='#0533FF', s=tamaño_partícula)  # Azul brillante
+scatter_red = ax.scatter([], [], color='#E11845', s=tamaño_partícula)  # Rojo brillante
+scatter_blue = ax.scatter([], [], color='#0057E9', s=tamaño_partícula)  # Azul brillante
 
 # Obtener el valor máximo de x para invertir las posiciones correctamente
 x_max = 100  # Valor máximo del eje X
