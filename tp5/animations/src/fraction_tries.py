@@ -14,7 +14,7 @@ with open(file_path, 'r') as file:
 
 plt.plot(nj_values, fraction_values, marker='o', linestyle='-', color='b')
 
-plt.xlim(0, 101)
+plt.xlim(0, nj_values[-1] + 1)
 plt.xticks(nj_values, fontsize=12)
 plt.yticks(fontsize=12)
 
