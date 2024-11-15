@@ -1,0 +1,5 @@
+NOTA: 8
+
+D4 " e_i_^{target} " debería ser "e_a^i" que se define en la proxima diapo
+
+D5 "e_a^i" (o... "e_a"...) deberia ser un versor, Asi como está escrito , no tiene norma 1.

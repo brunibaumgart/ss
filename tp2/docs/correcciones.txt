@@ -1,0 +1,34 @@
+#6
+· un poco de pseudocodigo ayuda a entender la logica del programa
+
+#8
+· r=0 ? que es este parametro? no esta definido en el modelo
+· BIEN por usar figuras para ilustrar el sistema particular
+
+#9
+· el intervalo de eta no se limita a 3 valores
+· igual no queda claro que es cada llave. por que hay una llave donde varian 2 parametros a la vez?
+
+#13
+· recuerden que los links solo tienen que estar en el documento que se envia. no en la presentacion en vivo
+en #14 esta mal escrito eta, en #15 esta bien
+
+#15
+· el color de las barras de error que sean igual que los puntos correspondientes
+
+#20
+· no se entiende que se estudio en esta parte. de #22 a #23 se varian dos parametros en el mismo estudio
+
+#23
+· unificar simbolos: rho o ρ, eta o η, etc
+
+#25
+· bien por las conclusiones
+· aca se pueden redactar oraciones cortas de un renglon para cada conclusion
+
+INFORME
+· esta muy bueno el informe. aplican las mismas correcciones de la presentacion donde corresponda
+· las citas tienen que aparecer en orden. la primer que aparece en la intro es la [2]
+· describir con un poco mas de detalle la implementacion
+· 5.1 a que le llaman tiempo de variacion de eta?
+· las curvas de las figuras 5 y 6 se pueden presentar en una misma figura

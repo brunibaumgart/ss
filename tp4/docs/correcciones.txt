@@ -1,0 +1,14 @@
+NOTA: 9
+
+#2
+· cual es el error en cada caso?
+
+#11
+· bien la presentacion del sistema
+· omega tiene unidades de rad/s
+
+#12
+· w0 / yM(w0) >= yM(w), para todo w
+
+#23
+· la segunda conclusion no se basa en ningun resultado mostrado. por ejemplo, Amplitud vs k

@@ -1,0 +1,30 @@
+NOTA:6
+
+D4
+· condicion de choque con las paredes?
+
+D10. IMPORTANTE.
+·La duracion de las simulaciones no es ni una variable ni un parametro de estudio.
+El tiempo de duracion de las simulaciones debe ser el adecuado para llegar a un estado estacionario a partir del cual si se extienden las simulaciones los resultados son los mismos.
+
+Ver D15 de Teórica0. Si no se entiende consultar.
+D12
+· No escribir la formulas generales de promedio o desvio standar
+· Que es "Q"? De todas formas, el metodo que usamos para ajustar funciones es el de la Teorica 0. Asi que esta formula no va.
+
+D11
+· Como en este paradigma (EDMD) el evento es instantaneo, dt=0, por lo tanto su ecuacion no está definida. No pudieron calcular asi la presion.
+·Recuerden que en 2 dimensiones es 4Dt
+
+D14 y siguientes
+· qué es el dt ? Conceptualmente no es correcto fijar un dt en EDMD. Mejor seria especificar cada cuantos eventos se genera un frame. 
+D18, 20, 21, etc. Leyendas van adentro de la figura
+D19 y en general : No repetir en el nombre del eje y, la informacion que ya está en el subtitulo de la diapositiva. En este caso el eje y deberia ser Nro. Colisiones
+D19 en adelante , La informacion que va al costado de la Figura deberia ser consistente. Se van mostrando de forma random..x ej. "N=300" en este caso, ¿por que esa info no estaba en las anterioroes si tambien era N=300? O en algun caso dice "5 realizaciones" y en otros no dice nada al respecto. 
+
+D24 y D25 IMPORTANTE: Faltó especificar Cómo elijen los tiempos para calcular el DCM?
+
+D26
+· No tiene sentido explorar D<0 no tiene sentido fisico
+· Recuerden que la pendiente es m=4D , No es directamente D.
+
